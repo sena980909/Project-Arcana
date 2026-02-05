@@ -1,0 +1,157 @@
+{
+  "chapter": "ch2_crumbling_citadel",
+
+  "items": {
+    "crown_shard": {
+      "id": "item_ch2_001",
+      "name": "깨진 왕관 조각",
+      "name_en": "Shattered Crown Shard",
+      "type": "key_item",
+      "icon": "item_crown_shard",
+
+      "flavor_text": {
+        "short": "왕의 권위가 산산조각 난 증거.",
+        "full": "순금으로 만들어진 왕관의 파편. 한때는 대륙에서 가장 찬란하게 빛났을 것이다.\n\n지금은 피와 녹이 뒤섞여 그 광채를 잃었다.\n\n조각 안쪽에 글귀가 새겨져 있다.\n\n'영원한 사랑을 맹세하며 - E'\n\n이 왕관은 왕비가 왕에게 준 선물이었던 모양이다. 왕은 죽는 순간까지 이것을 쓰고 있었다.\n\n...아니, '쓰고 있었다'가 아니라 '박혀 있었다'가 맞겠지."
+      },
+
+      "lore_connection": "발두르가 정신이 나간 후 왕관을 머리에 박아버렸다는 것을 암시. 왕비 엘레노어의 이니셜 'E' 확인.",
+
+      "gameplay_hint": "Chapter 5에서 왕비의 환영을 소환하는 열쇠로 사용 가능"
+    },
+
+    "pendant_reunited": {
+      "id": "item_ch2_002",
+      "name": "재결합한 펜던트",
+      "name_en": "Reunited Pendant",
+      "type": "key_item",
+      "icon": "item_pendant_whole",
+      "upgraded_from": "pendant_broken",
+
+      "flavor_text": {
+        "short": "두 조각이 마침내 하나가 되었다.",
+        "full": "두 개의 나뭇잎이 맞닿아 완전한 하나를 이룬다.\n\n뒷면의 글귀가 이제야 완성되어 읽을 수 있다.\n\n'기다릴게. 언제까지나. 네가 돌아올 때까지.'\n\n재의 상인과 이그드라. 수호자와 정령. 그들의 약속은 지켜지지 못했다.\n\n하지만 이 펜던트만큼은... 다시 하나가 되었다.\n\n손에 쥐면 희미한 온기가 느껴진다. 두 사람의 사랑이 아직 남아있는 것처럼."
+      },
+
+      "lore_connection": "Ch1 펜던트 복선 완전 회수. 재의 상인의 속죄가 완료됨을 상징.",
+
+      "passive_effect": {
+        "name": "잊혀지지 않은 약속",
+        "description": "전투 중 치명타를 입어도 HP 1로 한 번 버틸 수 있다. (챕터당 1회)"
+      }
+    },
+
+    "arcana_citadel": {
+      "id": "item_ch2_003",
+      "name": "무너진 성채의 아르카나",
+      "name_en": "Arcana of the Crumbling Citadel",
+      "type": "arcana",
+      "icon": "arcana_citadel",
+      "rarity": "legendary",
+
+      "flavor_text": {
+        "short": "사랑과 광기의 경계가 녹아있다.",
+        "full": "발두르 왕의 사랑, 집착, 그리고 광기가 응축된 결정체.\n\n손에 쥐면 심장이 미친 듯이 뛴다.\n\n희미하게 여인의 웃음소리가 들린다. 그리고 남자의 울부짖음.\n\n이것이 '사랑'의 끝이라면... 사랑이란 얼마나 잔인한 것인가.\n\n가슴의 문양이 다시 반응한다. 퍼즐 조각이 맞춰지는 감각.\n\n...이상하다. 왜 이렇게 익숙한 느낌이 드는 걸까.\n\n마치 이 감정을 전에도 느껴본 것처럼."
+      },
+
+      "lore_connection": "주인공도 과거에 '누군가를 지키려다 파멸한' 경험이 있음을 암시",
+
+      "passive_effect": {
+        "name": "광기의 힘",
+        "description": "하트가 1개일 때 공격력 20% 증가. 단, 받는 피해도 10% 증가."
+      }
+    },
+
+    "knight_medallion": {
+      "id": "item_ch2_004",
+      "name": "눈먼 기사의 메달",
+      "name_en": "Blind Knight's Medallion",
+      "type": "accessory",
+      "icon": "item_medallion",
+      "obtain": "눈먼 기사와의 모든 대화 완료 후 획득",
+
+      "flavor_text": {
+        "short": "충성의 증표. 이제는 멍에.",
+        "full": "왕국 근위기사단의 메달. 뒷면에 '영원한 충성'이라는 문구가 새겨져 있다.\n\n눈먼 기사가 건네주며 말했다.\n\n\"더 이상 필요 없는 것이야. 충성이라는 건... 때로는 눈을 멀게 하거든.\"\n\n\"네가 가져가. 그리고 기억해. 진짜 충성은 맹목이 아니야.\"\n\n\"지키려는 자가 잘못된 길을 갈 때, 막아서는 것. 그게 진짜 충성이야.\"\n\n메달에는 눈물 자국처럼 보이는 얼룩이 있다."
+      },
+
+      "lore_connection": "눈먼 기사의 후회와 깨달음. 주인공에게 향후 선택에 대한 복선.",
+
+      "passive_effect": {
+        "name": "참된 충성",
+        "description": "아군 NPC 근처에서 방어력 10% 증가"
+      }
+    }
+  },
+
+  "common_drops": {
+    "rusted_iron": {
+      "id": "item_common_ch2_001",
+      "name": "녹슨 철 조각",
+      "name_en": "Rusted Iron Scrap",
+      "type": "material",
+      "icon": "item_iron_rusted",
+
+      "flavor_text": {
+        "short": "한때는 검이었거나, 갑옷이었거나.",
+        "full": "성채 곳곳에 굴러다니는 금속 조각.\n\n기사의 검이었을까. 병사의 갑옷이었을까. 아니면 농기구였을까.\n\n왕국이 멸망할 때, 이것들의 주인은 어떻게 되었을까.\n\n...그 대답은 아마 이 녹에 묻혀 사라졌을 것이다."
+      },
+
+      "sell_price": 8,
+      "crafting_use": "무기 강화 재료",
+      "drop_from": ["망자 병사", "성채 전역"]
+    },
+
+    "faded_royal_banner": {
+      "id": "item_common_ch2_002",
+      "name": "바랜 왕가의 깃발",
+      "name_en": "Faded Royal Banner",
+      "type": "material",
+      "icon": "item_banner_faded",
+
+      "flavor_text": {
+        "short": "왕국의 영광은 천 조각이 되었다.",
+        "full": "붉은색과 금색... 이었을 것이다. 지금은 그저 누렇게 바랜 천.\n\n문장을 자세히 보면 두 마리의 새가 서로 마주보고 있다.\n\n'함께라면 영원히' - 왕국의 표어였다고 한다.\n\n아이러니하게도, 이 왕국은 '함께'이기를 포기한 순간 멸망했다."
+      },
+
+      "sell_price": 15,
+      "crafting_use": "방어구 강화 재료",
+      "drop_from": ["깃발 잔해", "왕좌의 방"]
+    },
+
+    "corrupted_tear": {
+      "id": "item_common_ch2_003",
+      "name": "검은 눈물 결정",
+      "name_en": "Black Tear Crystal",
+      "type": "currency",
+      "icon": "item_tear_black",
+
+      "flavor_text": {
+        "short": "슬픔이 결정화된 것. 어둡고 차갑다.",
+        "full": "발두르의 눈에서 흘러내리던 검은 눈물과 같은 빛깔.\n\n만지면 손끝이 시리다. 슬픔이 그대로 전해지는 것 같다.\n\n이 성채에서 죽어간 모든 이들의 슬픔이 이 안에 담겨있다.\n\n\"왜 우리가 죽어야 해?\"\n\"왕이 우리를 버렸어.\"\n\"아니, 왕은 우리를 사랑했어. 단지...\"\n\"...잘못된 방식으로.\"\n\n들리지 않는 목소리가 속삭인다."
+      },
+
+      "use": "상점 화폐 / 스킬 강화 재료",
+      "drop_from": ["보스 발두르", "특수 적"]
+    }
+  },
+
+  "secret_item": {
+    "queen_portrait_fragment": {
+      "id": "item_secret_ch2_001",
+      "name": "왕비의 초상화 조각",
+      "name_en": "Queen's Portrait Fragment",
+      "type": "secret",
+      "icon": "item_portrait_piece",
+      "obtain_condition": "보스전 중 초상화 파괴 시 (히든)",
+
+      "flavor_text": {
+        "short": "아름다운 얼굴의 일부. 미소 짓고 있다.",
+        "full": "초상화에서 떨어져 나온 조각. 왕비의 입가 부분이다.\n\n그녀는 웃고 있다. 진심으로 행복해 보이는 미소.\n\n이 미소를 지키기 위해 왕은 모든 것을 버렸다.\n\n그리고 이 미소마저 잃어버렸다.\n\n...조각을 가만히 보고 있으니, 이상한 기분이 든다.\n\n이 미소가... 누군가를 닮았다.\n\n기억나지 않는 누군가를."
+      },
+
+      "lore_connection": "주인공의 잃어버린 기억 속 '누군가'와 왕비가 연결될 가능성 암시",
+
+      "special_note": "7개의 초상화 조각을 모으면 엔딩 분기에 영향"
+    }
+  }
+}

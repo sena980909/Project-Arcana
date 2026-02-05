@@ -1,0 +1,194 @@
+{
+  "chapter": "ch3_silent_cathedral",
+
+  "items": {
+    "memory_fragment_1": {
+      "id": "item_ch3_001",
+      "name": "기억의 단편",
+      "name_en": "Memory Fragment",
+      "type": "key_item",
+      "icon": "item_memory_fragment",
+      "obtained": "고해실에서 자동 획득",
+
+      "flavor_text": {
+        "short": "네 목소리가 들린다. '나는 죽였습니다.'",
+        "full": "고해실에서 얻은 기억의 조각. 손에 쥐면 차갑다.\n\n네 목소리가 메아리친다.\n\n'나는... 죽였습니다.'\n'사랑하는 사람을...'\n'지키려고 했는데...'\n'결국 내 손으로...'\n\n완전하지 않은 기억. 그래서 더 무섭다.\n\n진실의 윤곽만 보이고, 얼굴은 보이지 않는다.\n\n정말로 알고 싶은가? 네가 무엇을 했는지?"
+      },
+
+      "lore_connection": "주인공 과거의 첫 번째 단서. Ch4에서 더 많은 조각이 모임",
+
+      "gameplay_hint": "보스 처치 후 완전한 기억으로 업그레이드됨"
+    },
+
+    "arcana_cathedral": {
+      "id": "item_ch3_002",
+      "name": "침묵의 성당의 아르카나",
+      "name_en": "Arcana of the Silent Cathedral",
+      "type": "arcana",
+      "icon": "arcana_cathedral",
+      "rarity": "legendary",
+
+      "flavor_text": {
+        "short": "침묵 속에서도 진실은 울린다.",
+        "full": "마더 실렌시아의 신앙, 절망, 그리고 깨달음이 응축된 결정체.\n\n손에 쥐면 모든 소리가 멀어진다.\n\n하지만 그 침묵 속에서... 무언가가 들린다.\n\n심장 소리.\n\n네 심장 소리.\n\n그리고 다른 누군가의 심장 소리.\n\n'신은 침묵하지 않았어. 우리가 듣지 않았을 뿐.'\n\n이 결정체는 그 진실을 품고 있다."
+      },
+
+      "lore_connection": "세 번째 아르카나. '세 개의 심장 = 세 개의 죄' 복선",
+
+      "passive_effect": {
+        "name": "침묵의 귀",
+        "description": "적의 공격 전조를 시각적으로 더 명확하게 표시. Phase 3 패턴 무음 페널티 감소."
+      }
+    },
+
+    "nun_rosary_beads": {
+      "id": "item_ch3_003",
+      "name": "봉인된 묵주",
+      "name_en": "Sealed Rosary",
+      "type": "accessory",
+      "icon": "item_rosary_sealed",
+      "obtained": "말 없는 수녀 모든 대화 완료 후",
+
+      "flavor_text": {
+        "short": "입술을 꿰맨 실과 같은 재질이다.",
+        "full": "말 없는 수녀가 마지막으로 건넨 묵주.\n\n묵주알 사이사이에 실이 감겨있다. 그녀의 입술을 꿰맨 것과 같은 실.\n\n'진실을 말하려 했어요. 그래서 이렇게 됐죠.'\n\n그녀는 말할 수 없지만, 이 묵주는 말한다.\n\n침묵은 때로 가장 큰 목소리라고.\n\n그리고 진실은 입을 막아도 결국 새어 나온다고."
+      },
+
+      "lore_connection": "말 없는 수녀의 희생과 용기",
+
+      "passive_effect": {
+        "name": "침묵의 저항",
+        "description": "침묵 상태이상 지속시간 50% 감소"
+      }
+    },
+
+    "priest_rosary": {
+      "id": "item_ch3_004",
+      "name": "배교자의 묵주",
+      "name_en": "Apostate's Rosary",
+      "type": "accessory",
+      "icon": "item_rosary_broken",
+      "obtained": "보스 처치 후 사제에게 돌아가면 획득",
+
+      "flavor_text": {
+        "short": "반은 끊어졌지만, 아직 손에서 놓지 못했다.",
+        "full": "배교한 사제가 평생 쥐고 있던 묵주. 줄이 반쯤 끊어져 있다.\n\n'버리려고 했어. 수십 번. 수백 번.'\n'근데 손에서 안 떨어지더라고.'\n\n신을 버렸다고 생각했지만, 마음 한구석에선 아직 믿고 있었던 것일까.\n\n아니면 그저... 버릴 용기가 없었던 것일까.\n\n'가져가. 네가 가지고 있으면... 의미가 있을 것 같아.'\n\n묵주알 하나하나에 닳은 손자국이 남아있다."
+      },
+
+      "lore_connection": "신앙을 잃은 자의 갈등. 배교가 반드시 불신앙을 의미하지 않음",
+
+      "passive_effect": {
+        "name": "흔들리는 신앙",
+        "description": "HP가 30% 이하일 때 회복 아이템 효과 20% 증가"
+      }
+    },
+
+    "golden_mask_fragment": {
+      "id": "item_ch3_005",
+      "name": "황금 가면 조각",
+      "name_en": "Golden Mask Fragment",
+      "type": "key_item",
+      "icon": "item_mask_gold",
+      "obtained": "보스 처치 시 자동 획득",
+
+      "flavor_text": {
+        "short": "뜨겁다. 아직도 그녀의 눈물이 묻어있는 것 같다.",
+        "full": "마더 실렌시아의 얼굴을 덮었던 가면의 조각.\n\n안쪽에 눈물 자국이 새겨져 있다. 수년간의 눈물이 금속을 부식시켰다.\n\n그녀는 웃으며 축복을 내렸지만, 가면 안에서는 울고 있었다.\n\n'신이 대답하지 않는다'는 사실을.\n\n아니, '신의 대답을 들을 수 없다'는 자신의 무력함을.\n\n가면은 차가운 금속이지만, 손에 쥐면 이상하게 따뜻하다.\n\n...아직 그녀의 체온이 남아있는 것일까."
+      },
+
+      "lore_connection": "실렌시아의 내면. '거짓 신'이 되기 전 고통받던 성녀",
+
+      "special_use": "Ch7에서 '진실의 제단'에 바치면 히든 보스 등장"
+    }
+  },
+
+  "common_drops": {
+    "silent_bell": {
+      "id": "item_common_ch3_001",
+      "name": "소리 없는 종",
+      "name_en": "Silent Bell",
+      "type": "material",
+      "icon": "item_bell_silent",
+
+      "flavor_text": {
+        "short": "흔들어도 소리가 나지 않는다.",
+        "full": "성당 곳곳에 흩어진 작은 종.\n\n분명 흔들면 소리가 나야 하는데... 아무 소리도 나지 않는다.\n\n혀(clapper)는 멀쩡한데. 종도 금이 가지 않았는데.\n\n이 성당의 저주가 소리마저 삼켜버린 것이다.\n\n'침묵'이 물리적 형태를 가진다면, 이런 모습일 것이다."
+      },
+
+      "sell_price": 10,
+      "crafting_use": "침묵 저항 장비 재료",
+      "drop_from": ["성당 전역", "망자 신자"]
+    },
+
+    "dried_holy_water": {
+      "id": "item_common_ch3_002",
+      "name": "마른 성수병",
+      "name_en": "Dried Holy Water Vial",
+      "type": "material",
+      "icon": "item_vial_empty",
+
+      "flavor_text": {
+        "short": "물은 증발했지만, 병에는 아직 무언가 남아있다.",
+        "full": "한때 성수가 담겨있던 유리병.\n\n물은 오래전에 말랐지만, 병 안쪽에 하얀 결정이 남아있다.\n\n...신앙의 잔재일까.\n\n아니면 그저 미네랄 침전물일까.\n\n그 답을 알 수 있는 사람은 더 이상 이 성당에 없다."
+      },
+
+      "sell_price": 8,
+      "crafting_use": "정화 물약 재료",
+      "drop_from": ["예배당", "지하 묘지"]
+    },
+
+    "confession_slip": {
+      "id": "item_common_ch3_003",
+      "name": "고백문 조각",
+      "name_en": "Confession Slip Fragment",
+      "type": "lore_item",
+      "icon": "item_paper_torn",
+
+      "flavor_text": {
+        "short": "누군가의 죄가 적혀있었던 종이.",
+        "full": "고해실에서 발견된 낡은 종이 조각.\n\n대부분 읽을 수 없지만, 몇 단어가 보인다.\n\n'...용서해주세요...'\n'...다시는 안 그럴게요...'\n'...제발...'\n\n수많은 사람들이 이 성당에서 죄를 고백했다.\n\n신은 그들을 용서했을까?\n\n...애초에 듣고는 있었을까?"
+      },
+
+      "sell_price": 3,
+      "note": "판매 불가. 10개 모으면 히든 대화 해금",
+      "drop_from": ["고해실", "예배당"]
+    },
+
+    "broken_wing_feather": {
+      "id": "item_common_ch3_004",
+      "name": "부러진 날개깃",
+      "name_en": "Broken Wing Feather",
+      "type": "material",
+      "icon": "item_feather_broken",
+
+      "flavor_text": {
+        "short": "천사의 날개였을까. 아니면 악마의.",
+        "full": "성소에서 떨어진 거대한 깃털.\n\n흰색이지만, 끝이 검게 타들어가 있다.\n\n마더 실렌시아의 등에서 자라난 날개의 일부.\n\n천사가 되고 싶었지만, 신이 되려 했다.\n\n신이 되려 했지만, 결국 괴물이 되었다.\n\n이 깃털은 그 비극의 증거."
+      },
+
+      "sell_price": 20,
+      "crafting_use": "고급 장비 재료",
+      "drop_from": ["보스 마더 실렌시아"]
+    }
+  },
+
+  "secret_item": {
+    "silencias_diary": {
+      "id": "item_secret_ch3_001",
+      "name": "실렌시아의 일기",
+      "name_en": "Silencia's Diary",
+      "type": "secret",
+      "icon": "item_diary_gold",
+      "obtain_condition": "Phase 3에서 제단 뒤 숨겨진 공간 발견 (히든)",
+
+      "flavor_text": {
+        "short": "그녀가 신이 되기 전의 기록.",
+        "full": "금박 장식이 된 작은 일기장. 마더 실렌시아의 사적인 기록.\n\n[1년 전]\n'오늘도 열두 명을 치유했다. 신의 은총에 감사드린다.'\n\n[6개월 전]\n'전염병이 퍼지고 있다. 기도하고 또 기도한다.'\n\n[3개월 전]\n'왜... 왜 대답해주지 않으시는 겁니까...'\n\n[1개월 전]\n'신은 없다. 아니, 있어도 듣지 않는다.'\n'그렇다면 내가...'\n\n[마지막 페이지]\n'미안해. 모두에게. 특히 나 자신에게.'\n'하지만 이렇게밖에... 할 수 없었어.'\n\n마지막 글자들이 눈물에 번져있다."
+      },
+
+      "lore_connection": "실렌시아 타락의 전 과정. 악인이 아닌 피해자였음을 증명",
+
+      "special_note": "이 아이템 소지 시 엔딩 분기에 영향"
+    }
+  }
+}

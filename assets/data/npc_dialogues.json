@@ -1,0 +1,2300 @@
+{
+  "version": "1.0.0",
+  "description": "Project Arcana - NPC Dialogue Configuration",
+
+  "dialogue_system": {
+    "text_speed": {
+      "slow": 30,
+      "normal": 50,
+      "fast": 80
+    },
+    "auto_advance_delay": 2.0,
+    "choice_timeout": 0,
+    "portrait_positions": ["left", "right", "center"]
+  },
+
+  "emotion_types": [
+    "neutral", "happy", "sad", "angry", "surprised",
+    "fearful", "mysterious", "melancholic", "desperate"
+  ],
+
+
+  "npcs": {
+
+    "npc_hub_blacksmith": {
+      "id": "npc_hub_blacksmith",
+      "name": "대장장이 볼칸",
+      "name_en": "Volkan the Blacksmith",
+      "location": "hub",
+      "role": "BLACKSMITH",
+      "portrait": "portrait_volkan.png",
+
+      "description": "거점의 대장장이. 무뚝뚝하지만 실력은 확실하다.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "...또 하나 왔군.",
+              "voice": null
+            },
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "기억 없이 깨어난 자들. 이 망할 세상에 넌 몇 번째인지.",
+              "voice": null
+            },
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "뭐, 상관없어. 무기가 필요하면 말해. 재료와 돈만 있으면 만들어 주지.",
+              "voice": null
+            }
+          ],
+          "unlock_after": ["shop", "craft"]
+        },
+
+        "greeting_default": {
+          "id": "greeting_default",
+          "trigger": "interaction",
+          "condition": "has_met",
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "왔나. 뭐가 필요해?",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "장비를 보고 싶어.", "action": "open_shop" },
+            { "text": "제작을 부탁할게.", "action": "open_craft" },
+            { "text": "강화를 하고 싶어.", "action": "open_upgrade" },
+            { "text": "이야기를 듣고 싶어.", "action": "talk" },
+            { "text": "아무것도 아니야.", "action": "exit" }
+          ]
+        },
+
+        "talk_1": {
+          "id": "talk_1",
+          "trigger": "talk",
+          "condition": "chapter < 3",
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "나도 한때는 바깥을 돌아다녔지. 지금은 이 망치질이 전부야.",
+              "voice": null
+            },
+            {
+              "speaker": "볼칸",
+              "emotion": "melancholic",
+              "text": "...기억이란 게 뭔지 모르겠어. 없으면 없는 대로 사는 거지.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_2": {
+          "id": "talk_2",
+          "trigger": "talk",
+          "condition": "chapter >= 3",
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "surprised",
+              "text": "카이저를 쓰러뜨렸다고? ...대단하군.",
+              "voice": null
+            },
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "그 녀석 무기로 뭔가 만들 수 있을지도 몰라. 재료 가져와 봐.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_hearts": {
+          "id": "talk_hearts",
+          "trigger": "talk",
+          "condition": "hearts >= 1",
+          "priority": 10,
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "surprised",
+              "text": "그 빛나는 건... 심장인가?",
+              "voice": null
+            },
+            {
+              "speaker": "볼칸",
+              "emotion": "mysterious",
+              "text": "옛날 이야기에서 들은 적 있어. 세 개의 심장을 모으면...",
+              "voice": null
+            },
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "...아니, 됐어. 그냥 뜬소문이겠지.",
+              "voice": null
+            }
+          ]
+        },
+
+        "insufficient_gold": {
+          "id": "insufficient_gold",
+          "trigger": "shop_fail",
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "angry",
+              "text": "돈이 부족해. 공짜로 해줄 순 없어.",
+              "voice": null
+            }
+          ]
+        },
+
+        "craft_success": {
+          "id": "craft_success",
+          "trigger": "craft_complete",
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "됐어. 잘 써.",
+              "voice": null
+            }
+          ]
+        },
+
+        "upgrade_success": {
+          "id": "upgrade_success",
+          "trigger": "upgrade_complete",
+          "lines": [
+            {
+              "speaker": "볼칸",
+              "emotion": "neutral",
+              "text": "더 단단해졌어. 이 정도면 웬만한 건 베겠지.",
+              "voice": null
+            }
+          ]
+        }
+      },
+
+      "shop_inventory": ["wp_iron_blade", "wp_rusty_sword", "ar_leather_armor"],
+      "craft_recipes": ["wp_forest_fang", "wp_crystal_edge", "ar_forest_garb", "ar_crystal_mail"],
+
+      "assets": {
+        "sprite": "npc_volkan.png",
+        "portrait": "portrait_volkan.png"
+      }
+    },
+
+
+    "npc_hub_merchant": {
+      "id": "npc_hub_merchant",
+      "name": "떠돌이 상인 마르코",
+      "name_en": "Marco the Wanderer",
+      "location": "hub",
+      "role": "MERCHANT",
+      "portrait": "portrait_marco.png",
+
+      "description": "세상 어디서든 물건을 구해오는 떠돌이 상인.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "happy",
+              "text": "어이, 새로운 얼굴이네! 반가워, 친구!",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "happy",
+              "text": "난 마르코. 이 세상 구석구석을 돌아다니며 장사하는 사람이지.",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "neutral",
+              "text": "필요한 거 있으면 말해. 없는 건 없다고... 뭐, 대부분은 있어!",
+              "voice": null
+            }
+          ],
+          "unlock_after": ["shop"]
+        },
+
+        "greeting_default": {
+          "id": "greeting_default",
+          "trigger": "interaction",
+          "condition": "has_met",
+          "random_greetings": [
+            "오, 단골손님! 오늘은 뭘 찾아?",
+            "어서 와! 좋은 물건 들어왔어!",
+            "친구! 오늘도 살아 돌아왔구만!"
+          ],
+          "choices": [
+            { "text": "물건을 보여줘.", "action": "open_shop" },
+            { "text": "뭔가 새로운 소식 있어?", "action": "talk" },
+            { "text": "나중에 올게.", "action": "exit" }
+          ]
+        },
+
+        "talk_ch1": {
+          "id": "talk_ch1",
+          "trigger": "talk",
+          "condition": "current_chapter == 1",
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "neutral",
+              "text": "숲에 간다고? 조심해. 요즘 그쪽이 많이 험해졌거든.",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "fearful",
+              "text": "뭔가... 타락한 기운이 퍼지고 있어. 원래 수호자가 있었는데, 그것도 이상해졌다더라.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ch2": {
+          "id": "talk_ch2",
+          "trigger": "talk",
+          "condition": "current_chapter == 2",
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "fearful",
+              "text": "심연의 동굴? 미쳤어? 거긴 빛도 안 들어!",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "neutral",
+              "text": "등불 꼭 챙겨가. 없으면 내가 팔지. 비싸긴 한데 목숨값이라 생각해.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ch3": {
+          "id": "talk_ch3",
+          "trigger": "talk",
+          "condition": "current_chapter == 3",
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "surprised",
+              "text": "붉은 요새라... 거기 왕이 있다는 소문 들었어?",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "mysterious",
+              "text": "천 년 동안 죽지 않고 싸움만 해온 왕. 카이저라고 부르더라.",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "neutral",
+              "text": "...설마 그 녀석이랑 싸울 생각은 아니겠지?",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ch4": {
+          "id": "talk_ch4",
+          "trigger": "talk",
+          "condition": "current_chapter == 4",
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "sad",
+              "text": "피의 정원... 그곳에 대한 이야기는 슬퍼서 말하기 싫어.",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "melancholic",
+              "text": "사랑하는 사람을 죽여야 했던 누군가의 이야기. 그 핏빛 장미들은 그 슬픔에서 피었다더라.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ch5": {
+          "id": "talk_ch5",
+          "trigger": "talk",
+          "condition": "current_chapter == 5",
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "fearful",
+              "text": "기억의 심연? 그곳은... 나도 모르겠어.",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "mysterious",
+              "text": "다녀온 사람이 없거든. 아니, 다녀와도 기억을 못 하는 건가?",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "neutral",
+              "text": "...농담이야. 아마도.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ending_hint": {
+          "id": "talk_ending_hint",
+          "trigger": "talk",
+          "condition": "chapter >= 4 AND NOT has_promise_ring",
+          "priority": 5,
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "mysterious",
+              "text": "참, 피의 정원에서 이상한 걸 봤다는 사람이 있어.",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "neutral",
+              "text": "정원 끝자락, 가장 아름다운 장미가 핀 곳에... 뭔가 반짝이는 게 있었다나.",
+              "voice": null
+            },
+            {
+              "speaker": "마르코",
+              "emotion": "neutral",
+              "text": "관심 있으면 찾아봐.",
+              "voice": null
+            }
+          ]
+        },
+
+        "purchase_success": {
+          "id": "purchase_success",
+          "trigger": "shop_success",
+          "random_lines": [
+            "좋은 선택이야! 잘 써!",
+            "맘에 들 거야, 보장해!",
+            "또 필요하면 언제든 와!"
+          ]
+        },
+
+        "insufficient_gold": {
+          "id": "insufficient_gold",
+          "trigger": "shop_fail",
+          "lines": [
+            {
+              "speaker": "마르코",
+              "emotion": "sad",
+              "text": "미안, 친구. 외상은 안 돼. 다음에 돈 벌어서 와!",
+              "voice": null
+            }
+          ]
+        }
+      },
+
+      "shop_inventory": "hub_shop",
+
+      "assets": {
+        "sprite": "npc_marco.png",
+        "portrait": "portrait_marco.png"
+      }
+    },
+
+
+    "npc_hub_sage": {
+      "id": "npc_hub_sage",
+      "name": "기록자 엘리아스",
+      "name_en": "Elias the Chronicler",
+      "location": "hub",
+      "role": "LORE_GIVER",
+      "portrait": "portrait_elias.png",
+
+      "description": "세상의 기록을 모으는 늙은 현자. 아르카나에 대해 알고 있다.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "호오... 또 하나의 잃어버린 영혼이로군.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "나는 엘리아스. 이 세상의 기록을 모으는 자다.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "네가 찾는 것... '아르카나'라고 불리는 것에 대해 알고 싶다면, 나를 찾아오거라.",
+              "voice": null
+            }
+          ],
+          "unlock_after": ["talk"]
+        },
+
+        "greeting_default": {
+          "id": "greeting_default",
+          "trigger": "interaction",
+          "condition": "has_met",
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "다시 왔구나. 무엇이 알고 싶은가?",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "아르카나에 대해 알려줘.", "action": "talk_arcana" },
+            { "text": "세 개의 심장이 뭐야?", "action": "talk_hearts", "condition": "hearts >= 1" },
+            { "text": "이 세계는 뭐야?", "action": "talk_world" },
+            { "text": "나는 누구야?", "action": "talk_identity", "condition": "chapter >= 3" },
+            { "text": "됐어.", "action": "exit" }
+          ]
+        },
+
+        "talk_arcana": {
+          "id": "talk_arcana",
+          "trigger": "talk_arcana",
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "'아르카나'... 이 세계의 진실을 담은 비밀.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "각 영역의 지배자를 쓰러뜨리면 조각을 얻을 수 있다.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "모든 조각을 모으면... 네가 잃어버린 것을 되찾을 수 있을지도.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_hearts": {
+          "id": "talk_hearts",
+          "trigger": "talk_hearts",
+          "condition": "hearts >= 1",
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "surprised",
+              "text": "오... 심장을 얻었구나.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "세 개의 심장. 과거, 현재, 미래를 상징하는 인간성의 조각.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "기억의 심장은 과거를, 수용의 심장은 현재를, 의지의 심장은 미래를 담고 있다.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "셋을 모두 모으면... 완전한 인간이 될 수 있다고 전해진다.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_hearts_complete": {
+          "id": "talk_hearts_complete",
+          "trigger": "talk_hearts",
+          "condition": "hearts == 3",
+          "priority": 10,
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "surprised",
+              "text": "세... 세 개의 심장을 모두?!",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "이제 네겐 선택이 주어질 것이다.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "망각의 옥좌로 가거라. 그곳에서... 모든 것이 끝나거나, 시작될 것이다.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_world": {
+          "id": "talk_world",
+          "trigger": "talk_world",
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "melancholic",
+              "text": "이 세계는... 잊혀진 것들이 모이는 곳.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "사람들도, 장소도, 기억도. 모두 어딘가에서 잊혀져 이곳으로 흘러왔다.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "그래서인지... 이곳의 모든 것에는 결핍이 있다. 무언가를 잃어버린 슬픔이.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_identity": {
+          "id": "talk_identity",
+          "trigger": "talk_identity",
+          "condition": "chapter >= 3 AND NOT knows_name",
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "네가 누구냐고?",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "mysterious",
+              "text": "그건 내가 대답해 줄 수 없는 질문이다.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "하지만... 네 안에 답이 있을 것이다. 더 깊이, 더 깊이 들어가 보거라.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_identity_known": {
+          "id": "talk_identity_known",
+          "trigger": "talk_identity",
+          "condition": "knows_name",
+          "lines": [
+            {
+              "speaker": "엘리아스",
+              "emotion": "surprised",
+              "text": "아리온... 그래, 그것이 네 이름이었구나.",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "melancholic",
+              "text": "이제 기억하는가? 네가 왜 여기 있는지?",
+              "voice": null
+            },
+            {
+              "speaker": "엘리아스",
+              "emotion": "neutral",
+              "text": "...더 이상 내가 해줄 말은 없다. 나머지는 네가 찾아야 할 것이다.",
+              "voice": null
+            }
+          ]
+        }
+      },
+
+      "assets": {
+        "sprite": "npc_elias.png",
+        "portrait": "portrait_elias.png"
+      }
+    },
+
+
+    "npc_ch1_ash_merchant": {
+      "id": "npc_ch1_ash_merchant",
+      "name": "재의 상인",
+      "name_en": "Ash Merchant",
+      "location": "chapter_1",
+      "role": "MERCHANT",
+      "portrait": "portrait_ash_merchant.png",
+
+      "description": "숲에서 만난 신비로운 상인. 얼굴은 후드에 가려져 있다.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "재의 상인",
+              "emotion": "mysterious",
+              "text": "...여행자여.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "이 숲을 헤매는 건가? 위험한 곳이지.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "필요한 게 있다면 거래하지. 난... 재를 모으는 자니까.",
+              "voice": null
+            }
+          ],
+          "unlock_after": ["shop", "quest"]
+        },
+
+        "greeting_default": {
+          "id": "greeting_default",
+          "trigger": "interaction",
+          "condition": "has_met",
+          "lines": [
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "또 왔군. 무엇이 필요한가?",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "물건을 보여줘.", "action": "open_shop" },
+            { "text": "이 숲에 대해 알려줘.", "action": "talk_forest" },
+            { "text": "부탁할 게 있어?", "action": "check_quest" },
+            { "text": "됐어.", "action": "exit" }
+          ]
+        },
+
+        "talk_forest": {
+          "id": "talk_forest",
+          "trigger": "talk_forest",
+          "lines": [
+            {
+              "speaker": "재의 상인",
+              "emotion": "melancholic",
+              "text": "이 숲은... 한때 아름다웠지.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "이그드라라는 수호자가 있었어. 지금은 타락해 버렸지만.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "mysterious",
+              "text": "무언가... 아니, 누군가가 이 숲을 오염시켰어. 오래전에.",
+              "voice": null
+            }
+          ]
+        },
+
+        "quest_offer": {
+          "id": "quest_offer",
+          "trigger": "check_quest",
+          "condition": "NOT quest_side_01_complete",
+          "lines": [
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "부탁? ...하나 있지.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "숲에 돌아다니는 오염된 짐승들... 그것들의 핵을 모아다 줄 수 있겠나?",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "10개만 있으면 돼. 대가는 확실히 주지.",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "알았어, 해볼게.", "action": "accept_quest", "quest_id": "q_side_01" },
+            { "text": "지금은 안 돼.", "action": "decline_quest" }
+          ]
+        },
+
+        "quest_progress": {
+          "id": "quest_progress",
+          "trigger": "check_quest",
+          "condition": "quest_side_01_active AND quest_side_01_progress < 10",
+          "lines": [
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "아직 부족해. {quest_side_01_progress}/10개.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "슬라임이나 오염된 짐승들에게서 얻을 수 있어.",
+              "voice": null
+            }
+          ]
+        },
+
+        "quest_complete": {
+          "id": "quest_complete",
+          "trigger": "check_quest",
+          "condition": "quest_side_01_active AND quest_side_01_progress >= 10",
+          "lines": [
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "...다 모았군.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "고마워. 약속대로 보상이다.",
+              "voice": null
+            },
+            {
+              "speaker": "재의 상인",
+              "emotion": "mysterious",
+              "text": "이 핵들로... 나는 한 가지 의식을 행할 거야. 이 숲을 위한.",
+              "voice": null
+            }
+          ],
+          "rewards": {
+            "gold": 200,
+            "items": ["cs_elixir_strength", "cs_potion_hp_large"],
+            "exp": 100
+          },
+          "complete_quest": "q_side_01"
+        },
+
+        "quest_done": {
+          "id": "quest_done",
+          "trigger": "check_quest",
+          "condition": "quest_side_01_complete",
+          "lines": [
+            {
+              "speaker": "재의 상인",
+              "emotion": "neutral",
+              "text": "더 이상 부탁할 건 없어. 하지만 거래는 언제든 환영이야.",
+              "voice": null
+            }
+          ]
+        }
+      },
+
+      "shop_inventory": "chapter_1_shop",
+
+      "assets": {
+        "sprite": "npc_ash_merchant.png",
+        "portrait": "portrait_ash_merchant.png"
+      }
+    },
+
+
+    "npc_ch2_explorer": {
+      "id": "npc_ch2_explorer",
+      "name": "부상당한 탐험가",
+      "name_en": "Injured Explorer",
+      "location": "chapter_2",
+      "role": "ESCORT_QUEST",
+      "portrait": "portrait_explorer.png",
+
+      "description": "동굴에서 발견한 부상당한 탐험가. 도움이 필요하다.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "탐험가",
+              "emotion": "desperate",
+              "text": "으... 누구야...?",
+              "voice": null
+            },
+            {
+              "speaker": "탐험가",
+              "emotion": "desperate",
+              "text": "도... 도와줘... 여기서 나가야 해...",
+              "voice": null
+            },
+            {
+              "speaker": "탐험가",
+              "emotion": "fearful",
+              "text": "거미들이... 너무 많아... 혼자서는 못 가...",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "내가 데려다줄게.", "action": "accept_quest", "quest_id": "q_side_02" },
+            { "text": "미안해, 지금은 안 돼.", "action": "decline_quest" }
+          ]
+        },
+
+        "escort_start": {
+          "id": "escort_start",
+          "trigger": "escort_begin",
+          "lines": [
+            {
+              "speaker": "탐험가",
+              "emotion": "surprised",
+              "text": "정말...? 고마워...!",
+              "voice": null
+            },
+            {
+              "speaker": "탐험가",
+              "emotion": "fearful",
+              "text": "입구까지만... 부탁해... 걸을 순 있어...",
+              "voice": null
+            }
+          ]
+        },
+
+        "escort_combat": {
+          "id": "escort_combat",
+          "trigger": "escort_enemy_nearby",
+          "random_lines": [
+            "저... 저기! 적이다!",
+            "조심해...!",
+            "으... 빨리...!"
+          ]
+        },
+
+        "escort_damage": {
+          "id": "escort_damage",
+          "trigger": "escort_take_damage",
+          "lines": [
+            {
+              "speaker": "탐험가",
+              "emotion": "desperate",
+              "text": "으아악...!",
+              "voice": null
+            }
+          ]
+        },
+
+        "escort_success": {
+          "id": "escort_success",
+          "trigger": "escort_complete",
+          "lines": [
+            {
+              "speaker": "탐험가",
+              "emotion": "happy",
+              "text": "휴... 드디어 밖이다...",
+              "voice": null
+            },
+            {
+              "speaker": "탐험가",
+              "emotion": "happy",
+              "text": "정말 고마워. 네 덕분에 살았어.",
+              "voice": null
+            },
+            {
+              "speaker": "탐험가",
+              "emotion": "neutral",
+              "text": "이거... 받아줘. 내가 가진 거 중 제일 귀한 거야.",
+              "voice": null
+            }
+          ],
+          "rewards": {
+            "gold": 300,
+            "items": ["ki_lantern", "cs_potion_hp_large", "cs_potion_hp_large"],
+            "exp": 150
+          },
+          "complete_quest": "q_side_02"
+        },
+
+        "escort_failed": {
+          "id": "escort_failed",
+          "trigger": "escort_npc_died",
+          "lines": [
+            {
+              "speaker": "탐험가",
+              "emotion": "desperate",
+              "text": "안... 돼......",
+              "voice": null
+            }
+          ],
+          "fail_quest": "q_side_02"
+        },
+
+        "declined": {
+          "id": "declined",
+          "trigger": "interaction",
+          "condition": "quest_side_02_declined",
+          "lines": [
+            {
+              "speaker": "탐험가",
+              "emotion": "sad",
+              "text": "...알았어. 어떻게든... 해볼게...",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "잠깐, 역시 도와줄게.", "action": "accept_quest", "quest_id": "q_side_02" },
+            { "text": "(떠난다)", "action": "exit" }
+          ]
+        }
+      },
+
+      "escort_settings": {
+        "hp": 50,
+        "speed": 60,
+        "follow_distance": 80,
+        "destination": "chapter_2_entrance"
+      },
+
+      "assets": {
+        "sprite": "npc_explorer.png",
+        "portrait": "portrait_explorer.png"
+      }
+    },
+
+
+    "npc_ch3_fallen_soldier": {
+      "id": "npc_ch3_fallen_soldier",
+      "name": "잊혀진 병사",
+      "name_en": "Forgotten Soldier",
+      "location": "chapter_3",
+      "role": "QUEST_GIVER",
+      "portrait": "portrait_fallen_soldier.png",
+
+      "description": "요새의 폐허에서 만난 유령 같은 병사. 뭔가를 찾고 있다.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "...넌 누구지?",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "neutral",
+              "text": "적은... 아니구나. 이 요새에서 살아있는 자를 보다니.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "난... 뭘 하고 있었지? 뭔가... 중요한 게 있었는데...",
+              "voice": null
+            }
+          ],
+          "unlock_after": ["talk"]
+        },
+
+        "greeting_default": {
+          "id": "greeting_default",
+          "trigger": "interaction",
+          "condition": "has_met",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "neutral",
+              "text": "...다시 왔구나.",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "무슨 일이 있었어?", "action": "talk_past" },
+            { "text": "도와줄 수 있을까?", "action": "check_quest" },
+            { "text": "이만 갈게.", "action": "exit" }
+          ]
+        },
+
+        "talk_past": {
+          "id": "talk_past",
+          "trigger": "talk_past",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "난... 이 요새의 병사였어. 카이저 왕을 섬겼지.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "sad",
+              "text": "근데... 언제부터인지 모르겠어. 전쟁이 끝나지 않아.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "죽어도 일어나고, 싸우고, 또 죽고... 영원히.",
+              "voice": null
+            }
+          ]
+        },
+
+        "quest_offer": {
+          "id": "quest_offer",
+          "trigger": "check_quest",
+          "condition": "NOT quest_side_03_complete",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "neutral",
+              "text": "도움...? 그래, 하나 있어.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "내 목걸이... 어딘가에 떨어뜨렸어. 가족 사진이 들어있는...",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "sad",
+              "text": "그게 없으면... 난 내가 누군지조차 잊을 것 같아.",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "찾아볼게.", "action": "accept_quest", "quest_id": "q_side_03" },
+            { "text": "미안해.", "action": "decline_quest" }
+          ],
+          "hint": "요새 어딘가에서 찾을 수 있을 것이다."
+        },
+
+        "quest_progress": {
+          "id": "quest_progress",
+          "trigger": "check_quest",
+          "condition": "quest_side_03_active AND NOT has_soldier_pendant",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "목걸이... 아직 못 찾았어?",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "neutral",
+              "text": "요새 어딘가에 있을 거야... 아마도.",
+              "voice": null
+            }
+          ]
+        },
+
+        "quest_item_found": {
+          "id": "quest_item_found",
+          "trigger": "check_quest",
+          "condition": "has_soldier_pendant",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "surprised",
+              "text": "...! 이건...!",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "sad",
+              "text": "맞아... 이거야. 내 가족...",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "아내와 아이... 이름이... 기억나지 않지만, 얼굴은 알겠어.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "neutral",
+              "text": "고마워. 이걸로... 조금은 버틸 수 있을 것 같아.",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "기념비에 바쳐줄까?", "action": "offer_memorial" },
+            { "text": "가지고 있어.", "action": "keep_pendant" }
+          ]
+        },
+
+        "memorial_choice": {
+          "id": "memorial_choice",
+          "trigger": "offer_memorial",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "surprised",
+              "text": "기념비...? 그래, 이 요새 어딘가에 있었지.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "거기에 바치면... 나도 쉴 수 있을지 몰라.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "neutral",
+              "text": "부탁해. 날 위해서.",
+              "voice": null
+            }
+          ],
+          "update_quest": "q_side_03_memorial"
+        },
+
+        "quest_complete_memorial": {
+          "id": "quest_complete_memorial",
+          "trigger": "memorial_complete",
+          "lines": [
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "happy",
+              "text": "...고마워.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "melancholic",
+              "text": "이제... 쉴 수 있을 것 같아. 오랜만에...",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "neutral",
+              "text": "이건 가져가. 내가 줄 수 있는 전부야.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 병사",
+              "emotion": "happy",
+              "text": "...안녕.",
+              "voice": null
+            }
+          ],
+          "rewards": {
+            "gold": 500,
+            "items": ["ac_health_pendant", "cs_phoenix_feather"],
+            "exp": 250
+          },
+          "complete_quest": "q_side_03",
+          "npc_disappears": true
+        }
+      },
+
+      "assets": {
+        "sprite": "npc_fallen_soldier.png",
+        "portrait": "portrait_fallen_soldier.png"
+      }
+    },
+
+
+    "npc_ch4_gardener": {
+      "id": "npc_ch4_gardener",
+      "name": "정원사의 망령",
+      "name_en": "Gardener's Ghost",
+      "location": "chapter_4",
+      "role": "LORE_GIVER",
+      "portrait": "portrait_gardener.png",
+
+      "description": "피의 정원에서 만난 유령. 이 정원의 비밀을 알고 있다.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "정원사",
+              "emotion": "melancholic",
+              "text": "...또 왔구나. 이 정원을 찾는 자가.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "neutral",
+              "text": "나는 이 정원을 돌보던 자. 지금은 그저 잔영일 뿐이지만.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "sad",
+              "text": "이 장미들... 아름답지만, 슬픈 이야기가 담겨 있어.",
+              "voice": null
+            }
+          ]
+        },
+
+        "greeting_default": {
+          "id": "greeting_default",
+          "trigger": "interaction",
+          "condition": "has_met",
+          "lines": [
+            {
+              "speaker": "정원사",
+              "emotion": "neutral",
+              "text": "다시 왔구나.",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "이 정원에 대해 알려줘.", "action": "talk_garden" },
+            { "text": "리리아나가 누구야?", "action": "talk_liliana", "condition": "knows_liliana_name" },
+            { "text": "반지를 찾고 있어.", "action": "talk_ring", "condition": "chapter >= 4 AND NOT has_promise_ring" },
+            { "text": "이만 갈게.", "action": "exit" }
+          ]
+        },
+
+        "talk_garden": {
+          "id": "talk_garden",
+          "trigger": "talk_garden",
+          "lines": [
+            {
+              "speaker": "정원사",
+              "emotion": "melancholic",
+              "text": "이 정원은... 한 남자의 죄책감에서 태어났어.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "sad",
+              "text": "사랑하는 여인을 자신의 손으로 죽여야 했던 남자.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "neutral",
+              "text": "그녀의 피가 땅에 스며들어... 이 붉은 장미들이 피어났지.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "melancholic",
+              "text": "아름다우면서도 저주받은 곳. 그것이 피의 정원이야.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_liliana": {
+          "id": "talk_liliana",
+          "trigger": "talk_liliana",
+          "condition": "knows_liliana_name",
+          "lines": [
+            {
+              "speaker": "정원사",
+              "emotion": "surprised",
+              "text": "그 이름을 어디서...?",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "melancholic",
+              "text": "리리아나... 이 정원의 주인이었던 여인.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "sad",
+              "text": "저주에 걸려 고통받았고, 사랑하는 사람의 손에 해방을 얻었지.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "mysterious",
+              "text": "하지만 그녀의 영혼은 아직 이곳에 있어. 분노와 슬픔... 그리고 용서 사이에서.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ring": {
+          "id": "talk_ring",
+          "trigger": "talk_ring",
+          "condition": "NOT has_promise_ring",
+          "lines": [
+            {
+              "speaker": "정원사",
+              "emotion": "surprised",
+              "text": "반지? 무슨 반지를 말하는 거지?",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "mysterious",
+              "text": "...아, 그건가. '약속의 반지'.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "neutral",
+              "text": "정원의 가장 끝, 가장 아름다운 장미가 피는 곳에 있을 거야.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "mysterious",
+              "text": "그걸 찾는다는 건... 넌 뭔가를 기억하고 있는 거구나.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_after_boss": {
+          "id": "talk_after_boss",
+          "trigger": "interaction",
+          "condition": "boss_liliana_defeated",
+          "priority": 10,
+          "lines": [
+            {
+              "speaker": "정원사",
+              "emotion": "melancholic",
+              "text": "그녀와 만났구나.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "neutral",
+              "text": "용서... 받았나? 아니면 쓰러뜨렸나?",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "melancholic",
+              "text": "어느 쪽이든... 그녀에게는 해방이었을 거야.",
+              "voice": null
+            },
+            {
+              "speaker": "정원사",
+              "emotion": "neutral",
+              "text": "이제 가거라. 네가 찾는 답은... 더 깊은 곳에 있어.",
+              "voice": null
+            }
+          ]
+        }
+      },
+
+      "assets": {
+        "sprite": "npc_gardener.png",
+        "portrait": "portrait_gardener.png"
+      }
+    },
+
+
+    "npc_ch6_forgotten_sage": {
+      "id": "npc_ch6_forgotten_sage",
+      "name": "잊혀진 현자",
+      "name_en": "Forgotten Sage",
+      "location": "chapter_6",
+      "role": "FINAL_LORE",
+      "portrait": "portrait_forgotten_sage.png",
+
+      "description": "망각의 옥좌에서 만난 현자. 이름조차 잊어버린 자.",
+
+      "dialogues": {
+        "first_meeting": {
+          "id": "first_meeting",
+          "trigger": "first_interaction",
+          "lines": [
+            {
+              "speaker": "???",
+              "emotion": "neutral",
+              "text": "...누구지?",
+              "voice": null
+            },
+            {
+              "speaker": "???",
+              "emotion": "melancholic",
+              "text": "아, 또 하나의 여행자인가. 이곳까지 오다니.",
+              "voice": null
+            },
+            {
+              "speaker": "???",
+              "emotion": "neutral",
+              "text": "내 이름은... 뭐였더라? 기억이 안 나.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "나도 한때는 이름이 있었지. 업적도. 하지만... 대가를 치렀거든.",
+              "voice": null
+            }
+          ]
+        },
+
+        "greeting_default": {
+          "id": "greeting_default",
+          "trigger": "interaction",
+          "condition": "has_met",
+          "lines": [
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "다시... 왔구나. 뭘 알고 싶은가?",
+              "voice": null
+            }
+          ],
+          "choices": [
+            { "text": "망각의 화신에 대해 알려줘.", "action": "talk_boss" },
+            { "text": "어떻게 하면 그를 쓰러뜨릴 수 있어?", "action": "talk_strategy" },
+            { "text": "당신은 누구였어?", "action": "talk_past" },
+            { "text": "엔딩에 대해 알고 싶어.", "action": "talk_ending", "condition": "hearts >= 2" },
+            { "text": "이만 갈게.", "action": "exit" }
+          ]
+        },
+
+        "talk_boss": {
+          "id": "talk_boss",
+          "trigger": "talk_boss",
+          "lines": [
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "망각의 화신... 이 세계의 끝에 앉아 있는 자.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "모든 것을 잊게 만드는 힘을 가졌지. 기억, 이름, 존재 자체까지도.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "하지만... 악의는 없어. 그저 자비라고 믿는 거지. 망각이.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_strategy": {
+          "id": "talk_strategy",
+          "trigger": "talk_strategy",
+          "lines": [
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "쓰러뜨리려면... 세 개의 심장이 필요해.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "mysterious",
+              "text": "기억, 수용, 의지. 세 개의 심장이 공명할 때, 망각에 맞설 수 있어.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "그가 네 기억을 지우려 할 때... 심장을 써. 버틸 수 있을 거야.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_past": {
+          "id": "talk_past",
+          "trigger": "talk_past",
+          "lines": [
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "나? ...누구였더라.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "sad",
+              "text": "한때 영웅이었던 것 같아. 사람들이 내 이름을 불렀지.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "그리고... 누군가를 구하려 했어. 이곳까지 와서.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "sad",
+              "text": "결국 대가를 치렀지. 내 존재를 바쳐서... 그 사람을 구했어.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "이제 그 사람도 나를 기억 못 해. 아무도.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ending": {
+          "id": "talk_ending",
+          "trigger": "talk_ending",
+          "condition": "hearts >= 2",
+          "lines": [
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "mysterious",
+              "text": "엔딩... 두 가지 길이 있어.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "하나는 나처럼. 네 존재를 바쳐 누군가를 구하는 것.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "mysterious",
+              "text": "또 하나는... '윤회의 실'을 끊는 것.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "약속의 반지와 최초의 기억이 있다면... 다른 선택을 할 수 있어.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "영원을 포기하고, 이번 생만을 함께하는 것. 그것도... 하나의 답이지.",
+              "voice": null
+            }
+          ]
+        },
+
+        "talk_ending_items": {
+          "id": "talk_ending_items",
+          "trigger": "talk_ending",
+          "condition": "has_promise_ring AND has_first_memory_crystal",
+          "priority": 10,
+          "lines": [
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "surprised",
+              "text": "...그 반지와 결정을.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "mysterious",
+              "text": "둘 다 가지고 있구나. 그렇다면...",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "너에게는 선택지가 있어. 화신과 마지막 대화를 할 때 쓸 수 있을 거야.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "어떤 선택을 하든... 후회하지 않길.",
+              "voice": null
+            }
+          ]
+        },
+
+        "before_final_boss": {
+          "id": "before_final_boss",
+          "trigger": "approaching_boss_room",
+          "lines": [
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "가는구나.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "melancholic",
+              "text": "기억해. 망각은 끝이 아니야. 때론... 자비일 수도 있어.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "neutral",
+              "text": "하지만 네가 기억하기로 선택한다면... 그것도 하나의 답이야.",
+              "voice": null
+            },
+            {
+              "speaker": "잊혀진 현자",
+              "emotion": "mysterious",
+              "text": "행운을 빌어, 아리온.",
+              "voice": null
+            }
+          ]
+        }
+      },
+
+      "assets": {
+        "sprite": "npc_forgotten_sage.png",
+        "portrait": "portrait_forgotten_sage.png"
+      }
+    }
+  },
+
+
+  "story_dialogues": {
+
+    "chapter_1_intro": {
+      "id": "chapter_1_intro",
+      "trigger": "chapter_start",
+      "chapter": 1,
+      "lines": [
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "눈을 떴다.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "어디인지 모르겠다. 누구인지도.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "mysterious",
+          "text": "다만... 무언가를 찾아야 한다는 것만은 확실했다.",
+          "voice": null
+        },
+        {
+          "speaker": "???",
+          "emotion": "mysterious",
+          "text": "'아르카나'를 찾아라.",
+          "voice": null
+        },
+        {
+          "speaker": "???",
+          "emotion": "mysterious",
+          "text": "그것이 네가 잃어버린 것을 되찾는 유일한 방법이다.",
+          "voice": null
+        }
+      ]
+    },
+
+    "chapter_1_boss_intro": {
+      "id": "chapter_1_boss_intro",
+      "trigger": "boss_encounter",
+      "boss": "b_yggdra",
+      "lines": [
+        {
+          "speaker": "이그드라",
+          "emotion": "angry",
+          "text": "...침입자.",
+          "voice": null
+        },
+        {
+          "speaker": "이그드라",
+          "emotion": "melancholic",
+          "text": "이 숲에서... 나가라...",
+          "voice": null
+        },
+        {
+          "speaker": "이그드라",
+          "emotion": "angry",
+          "text": "아니면... 영원히 잊혀져라!",
+          "voice": null
+        }
+      ]
+    },
+
+    "chapter_1_boss_defeat": {
+      "id": "chapter_1_boss_defeat",
+      "trigger": "boss_defeat",
+      "boss": "b_yggdra",
+      "lines": [
+        {
+          "speaker": "이그드라",
+          "emotion": "melancholic",
+          "text": "마침내... 안식을...",
+          "voice": null
+        },
+        {
+          "speaker": "이그드라",
+          "emotion": "neutral",
+          "text": "이것을... 가져가라... 아르카나의... 조각...",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "mysterious",
+          "text": "빛나는 조각이 손에 들어왔다. 무언가... 기억이 스쳐 지나간다.",
+          "voice": null
+        }
+      ],
+      "reward_item": "sp_arcana_fragment_1"
+    },
+
+    "chapter_4_boss_intro": {
+      "id": "chapter_4_boss_intro",
+      "trigger": "boss_encounter",
+      "boss": "b_liliana_illusion",
+      "lines": [
+        {
+          "speaker": "???",
+          "emotion": "sad",
+          "text": "...왔구나.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "angry",
+          "text": "왜... 날 죽였어...?",
+          "voice": null
+        },
+        {
+          "speaker": "주인공",
+          "emotion": "surprised",
+          "text": "(이 여자는... 누구지? 왜 이렇게 익숙한 거야?)",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "sad",
+          "text": "기억해? 우리의 약속을...",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "angry",
+          "text": "기억해...!",
+          "voice": null
+        }
+      ]
+    },
+
+    "chapter_4_boss_phase2": {
+      "id": "chapter_4_boss_phase2",
+      "trigger": "boss_phase",
+      "boss": "b_liliana_illusion",
+      "phase": 2,
+      "lines": [
+        {
+          "speaker": "리리아나",
+          "emotion": "sad",
+          "text": "그래도... 널 미워할 수 없어...",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "melancholic",
+          "text": "난... 널 사랑했으니까...",
+          "voice": null
+        }
+      ]
+    },
+
+    "chapter_4_boss_forgiveness": {
+      "id": "chapter_4_boss_forgiveness",
+      "trigger": "boss_special",
+      "boss": "b_liliana_illusion",
+      "condition": "stopped_attacking_at_10%",
+      "lines": [
+        {
+          "speaker": "리리아나",
+          "emotion": "surprised",
+          "text": "...왜 멈추는 거야?",
+          "voice": null
+        },
+        {
+          "speaker": "주인공",
+          "emotion": "melancholic",
+          "text": "...",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "sad",
+          "text": "...그래.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "melancholic",
+          "text": "용서해. 내가 널 이런 길로 이끌어서.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "neutral",
+          "text": "이건... 네가 가져. 첫 번째 심장.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "melancholic",
+          "text": "과거를 기억하는 심장이야. 네게 필요할 거야.",
+          "voice": null
+        }
+      ],
+      "reward_item": "sp_first_heart"
+    },
+
+    "chapter_5_boss_integration": {
+      "id": "chapter_5_boss_integration",
+      "trigger": "boss_special",
+      "boss": "b_shadow_self",
+      "condition": "approached_boss",
+      "lines": [
+        {
+          "speaker": "그림자 자아",
+          "emotion": "surprised",
+          "text": "...드디어 날 받아들이는 거야?",
+          "voice": null
+        },
+        {
+          "speaker": "주인공",
+          "emotion": "neutral",
+          "text": "...",
+          "voice": null
+        },
+        {
+          "speaker": "그림자 자아",
+          "emotion": "neutral",
+          "text": "우리는... 하나야.",
+          "voice": null
+        },
+        {
+          "speaker": "그림자 자아",
+          "emotion": "melancholic",
+          "text": "네 이름은... 아리온.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "surprised",
+          "text": "아리온... 그래, 그게 내 이름이었어.",
+          "voice": null
+        },
+        {
+          "speaker": "그림자 자아",
+          "emotion": "neutral",
+          "text": "기억해. 넌 누군가를 사랑했어.",
+          "voice": null
+        },
+        {
+          "speaker": "그림자 자아",
+          "emotion": "sad",
+          "text": "그리고... 그 사람을 죽였어.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "sad",
+          "text": "리리아나...",
+          "voice": null
+        },
+        {
+          "speaker": "그림자 자아",
+          "emotion": "neutral",
+          "text": "이제 받아들여. 네 안의 모든 것을.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "mysterious",
+          "text": "두 번째 심장이 깨어났다. 자신을 수용하는 심장.",
+          "voice": null
+        }
+      ],
+      "reward_item": "sp_second_heart",
+      "unlock": "knows_name"
+    },
+
+    "chapter_6_final_choice_normal": {
+      "id": "chapter_6_final_choice_normal",
+      "trigger": "boss_phase",
+      "boss": "b_avatar_of_oblivion",
+      "phase": 4,
+      "condition": "NOT has_promise_ring OR NOT has_first_memory_crystal",
+      "lines": [
+        {
+          "speaker": "망각의 화신",
+          "emotion": "neutral",
+          "text": "인정한다... 네 의지를.",
+          "voice": null
+        },
+        {
+          "speaker": "망각의 화신",
+          "emotion": "neutral",
+          "text": "하지만 대가는 치러야 한다.",
+          "voice": null
+        },
+        {
+          "speaker": "망각의 화신",
+          "emotion": "mysterious",
+          "text": "그녀를 구하려면... 네 존재를 바쳐야 해.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "...알겠어.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "어떤 대가라도. 내가 잊혀져도, 사라져도.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "sad",
+          "text": "그녀만 살 수 있다면.",
+          "voice": null
+        }
+      ],
+      "choice": "normal_ending"
+    },
+
+    "chapter_6_final_choice_true": {
+      "id": "chapter_6_final_choice_true",
+      "trigger": "boss_phase",
+      "boss": "b_avatar_of_oblivion",
+      "phase": 4,
+      "condition": "has_promise_ring AND has_first_memory_crystal",
+      "lines": [
+        {
+          "speaker": "망각의 화신",
+          "emotion": "neutral",
+          "text": "인정한다... 네 의지를.",
+          "voice": null
+        },
+        {
+          "speaker": "망각의 화신",
+          "emotion": "surprised",
+          "text": "...그것은?",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "약속의 반지와 최초의 기억.",
+          "voice": null
+        },
+        {
+          "speaker": "망각의 화신",
+          "emotion": "mysterious",
+          "text": "그렇다면... 또 다른 선택이 있다.",
+          "voice": null
+        },
+        {
+          "speaker": "망각의 화신",
+          "emotion": "neutral",
+          "text": "'윤회의 실'을 끊을 수 있어.",
+          "voice": null
+        },
+        {
+          "speaker": "망각의 화신",
+          "emotion": "neutral",
+          "text": "다음 생도, 그 다음 생도 포기하는 대신... 이번 생을 함께할 수 있지.",
+          "voice": null
+        }
+      ],
+      "choices": [
+        { "text": "내 존재를 바친다. (노말 엔딩)", "action": "normal_ending" },
+        { "text": "윤회의 실을 끊는다. (트루 엔딩)", "action": "true_ending" }
+      ]
+    },
+
+    "ending_normal": {
+      "id": "ending_normal",
+      "trigger": "ending",
+      "type": "normal",
+      "lines": [
+        {
+          "speaker": "나레이터",
+          "emotion": "melancholic",
+          "text": "아리온은 세 개의 심장을 바쳤다.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "봉인이 풀리고, 리리아나가 깨어났다.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "surprised",
+          "text": "...여기가 어디지?",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "neutral",
+          "text": "누가... 날 깨운 거야?",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "melancholic",
+          "text": "그녀는 기억하지 못했다. 자신을 구한 자를.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "sad",
+          "text": "아리온이라는 이름도, 그와의 사랑도, 모든 것을.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "melancholic",
+          "text": "하지만 가끔... 이유 없이 눈물이 흘렀다.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "sad",
+          "text": "(왜... 이렇게 그리운 걸까. 뭘 잊어버린 걸까.)",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "melancholic",
+          "text": "잊혀진 영웅의 이야기는 이렇게 끝났다.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "mysterious",
+          "text": "아무도 기억하지 못하는, 그러나 가장 위대한 사랑의 이야기.",
+          "voice": null
+        }
+      ]
+    },
+
+    "ending_true": {
+      "id": "ending_true",
+      "trigger": "ending",
+      "type": "true",
+      "lines": [
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "리리아나.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "surprised",
+          "text": "아리온...?",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "윤회의 실이 보여. 우리를 이어온 것.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "이걸 끊으면... 다음 생은 없어.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "sad",
+          "text": "그럼 우리... 다시는 못 만나?",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "다음 생에서는. 하지만 이번 생에서는 함께할 수 있어.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "melancholic",
+          "text": "...이번 생만으로 충분해.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "neutral",
+          "text": "다음 생에서 널 못 만나도... 지금 네가 있으니까.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "neutral",
+          "text": "그래... 같이 끊자.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "두 사람은 함께 윤회의 실을 끊었다.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "영원을 포기하고, 유한한 지금을 선택했다.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "happy",
+          "text": "이번 생을 영원처럼 살자.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "happy",
+          "text": "응.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온 & 리리아나",
+          "emotion": "happy",
+          "text": "충분해.",
+          "voice": null
+        }
+      ]
+    },
+
+    "post_credits_normal": {
+      "id": "post_credits_normal",
+      "trigger": "post_credits",
+      "type": "normal",
+      "lines": [
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "시간이 흘렀다.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "melancholic",
+          "text": "(오늘도... 이 그리움은 뭘까.)",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "sad",
+          "text": "(누군가를 잊어버린 것 같아. 정말 소중한 누군가를.)",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "mysterious",
+          "text": "그리고 어느 날, 그녀는 꿈을 꾸었다.",
+          "voice": null
+        },
+        {
+          "speaker": "???",
+          "emotion": "neutral",
+          "text": "다음 생에서는... 행복하길.",
+          "voice": null
+        }
+      ]
+    },
+
+    "post_credits_true": {
+      "id": "post_credits_true",
+      "trigger": "post_credits",
+      "type": "true",
+      "lines": [
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "두 사람은 함께 걸었다.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "영원하지 않은, 그래서 더 소중한 오늘을.",
+          "voice": null
+        },
+        {
+          "speaker": "리리아나",
+          "emotion": "happy",
+          "text": "아리온, 이쪽으로 와봐. 예쁜 꽃이 피었어.",
+          "voice": null
+        },
+        {
+          "speaker": "아리온",
+          "emotion": "happy",
+          "text": "응, 가고 있어.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "neutral",
+          "text": "그들에게 다음 생은 없었다.",
+          "voice": null
+        },
+        {
+          "speaker": "나레이터",
+          "emotion": "happy",
+          "text": "하지만 이번 생만으로도... 충분했다.",
+          "voice": null
+        }
+      ]
+    }
+  }
+}

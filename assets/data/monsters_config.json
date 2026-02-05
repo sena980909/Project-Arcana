@@ -1,0 +1,3592 @@
+{
+  "version": "1.0.0",
+  "description": "Project Arcana - Monster & Boss Configuration (Chapter 1-3)",
+
+  "design_philosophy": {
+    "readable_tells": "모든 공격은 최소 0.3초 이상의 선딜레이(텔레그래프)가 있어야 함",
+    "monster_roles": {
+      "CHASER": "빠른 이동, 끈질긴 추적",
+      "RANGED": "원거리 공격, 느린 이동, 도주 우선",
+      "TANK": "느리지만 높은 체력, 경로 차단",
+      "SPECIAL": "고유 패턴 보유 (자폭, 소환 등)"
+    },
+    "boss_phases": "HP 50% 이하 시 광폭화(Enraged) - 패턴 가속 or 신규 스킬"
+  },
+
+  "difficulty_scaling": {
+    "chapter_1": { "hp_mult": 1.0, "damage_mult": 1.0, "speed_mult": 1.0 },
+    "chapter_2": { "hp_mult": 1.3, "damage_mult": 1.2, "speed_mult": 1.1 },
+    "chapter_3": { "hp_mult": 1.6, "damage_mult": 1.4, "speed_mult": 1.15 },
+    "chapter_4": { "hp_mult": 2.0, "damage_mult": 1.6, "speed_mult": 1.2 },
+    "chapter_5": { "hp_mult": 2.5, "damage_mult": 1.8, "speed_mult": 1.25 },
+    "chapter_6": { "hp_mult": 3.0, "damage_mult": 2.0, "speed_mult": 1.3 }
+  },
+
+
+  "monsters": {
+
+    "m_slime_corrupted": {
+      "id": "m_slime_corrupted",
+      "name": "오염된 슬라임",
+      "name_en": "Corrupted Slime",
+      "chapter": 1,
+      "type": "MELEE",
+      "role": "CHASER",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 30,
+        "speed": 85,
+        "damage": 8,
+        "defense": 0,
+        "exp": 12,
+        "gold_drop": [5, 15]
+      },
+
+      "behavior": {
+        "aggro_range": 150,
+        "deaggro_range": 300,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "CHASE_AND_JUMP",
+        "decision_tree": [
+          { "condition": "distance > 150", "action": "IDLE_WANDER", "priority": 1 },
+          { "condition": "distance <= 150 AND distance > 50", "action": "CHASE", "priority": 2 },
+          { "condition": "distance <= 50", "action": "ATTACK_JUMP", "priority": 3 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "jump_slam",
+          "name": "점프 내려찍기",
+          "type": "MELEE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.0,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "slime_squish_down",
+            "audio": "sfx_slime_charge"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 40,
+            "offset_y": 0
+          },
+          "effects": []
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_slime_core", "chance": 0.3 },
+        { "item_id": "potion_hp_small", "chance": 0.1 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_slime_corrupted.png",
+        "frame_size": [32, 32],
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 4, "loop": true },
+          "move": { "frames": [4, 5, 6, 7], "fps": 8, "loop": true },
+          "attack_telegraph": { "frames": [8, 9], "fps": 4, "loop": false },
+          "attack": { "frames": [10, 11, 12], "fps": 12, "loop": false },
+          "hurt": { "frames": [13], "fps": 1, "loop": false },
+          "death": { "frames": [14, 15, 16, 17], "fps": 8, "loop": false }
+        }
+      }
+    },
+
+
+    "m_mushroom_spore": {
+      "id": "m_mushroom_spore",
+      "name": "포자 버섯",
+      "name_en": "Spore Mushroom",
+      "chapter": 1,
+      "type": "RANGED",
+      "role": "RANGED",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 20,
+        "speed": 0,
+        "damage": 6,
+        "defense": 2,
+        "exp": 10,
+        "gold_drop": [3, 10]
+      },
+
+      "behavior": {
+        "aggro_range": 200,
+        "deaggro_range": 250,
+        "preferred_distance": 150,
+        "flee_hp_threshold": 0,
+        "stationary": true,
+
+        "ai_pattern": "STATIONARY_TURRET",
+        "decision_tree": [
+          { "condition": "distance > 200", "action": "IDLE", "priority": 1 },
+          { "condition": "distance <= 200", "action": "ATTACK_RANGED", "priority": 2 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "poison_dart",
+          "name": "독침 발사",
+          "type": "PROJECTILE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.5,
+          "telegraph": {
+            "duration": 0.6,
+            "visual": "mushroom_swell",
+            "audio": "sfx_mushroom_inhale"
+          },
+          "projectile": {
+            "speed": 180,
+            "sprite": "projectile_poison_dart.png",
+            "hitbox_radius": 8,
+            "lifetime": 3.0,
+            "piercing": false
+          },
+          "effects": [
+            {
+              "type": "POISON",
+              "damage_per_tick": 2,
+              "tick_interval": 1.0,
+              "duration": 3.0
+            }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_spore_sac", "chance": 0.25 },
+        { "item_id": "antidote", "chance": 0.15 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_mushroom_spore.png",
+        "frame_size": [32, 48],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 2, "loop": true },
+          "attack_telegraph": { "frames": [2, 3, 4], "fps": 5, "loop": false },
+          "attack": { "frames": [5, 6], "fps": 8, "loop": false },
+          "hurt": { "frames": [7], "fps": 1, "loop": false },
+          "death": { "frames": [8, 9, 10, 11], "fps": 6, "loop": false }
+        }
+      }
+    },
+
+
+    "m_wolf_forest": {
+      "id": "m_wolf_forest",
+      "name": "숲 늑대",
+      "name_en": "Forest Wolf",
+      "chapter": 1,
+      "type": "MELEE",
+      "role": "CHASER",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 25,
+        "speed": 130,
+        "damage": 10,
+        "defense": 1,
+        "exp": 15,
+        "gold_drop": [8, 18]
+      },
+
+      "behavior": {
+        "aggro_range": 180,
+        "deaggro_range": 350,
+        "preferred_distance": 60,
+        "flee_hp_threshold": 0.15,
+
+        "ai_pattern": "HIT_AND_RUN",
+        "decision_tree": [
+          { "condition": "distance > 180", "action": "PATROL", "priority": 1 },
+          { "condition": "distance <= 180 AND distance > 60", "action": "CIRCLE_STRAFE", "priority": 2 },
+          { "condition": "distance <= 60 AND attack_ready", "action": "ATTACK_LUNGE", "priority": 3 },
+          { "condition": "just_attacked", "action": "RETREAT", "duration": 1.5, "priority": 4 },
+          { "condition": "hp_percent <= 15", "action": "FLEE", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "lunge_bite",
+          "name": "돌진 물기",
+          "type": "MELEE_DASH",
+          "damage_multiplier": 1.2,
+          "cooldown": 3.0,
+          "telegraph": {
+            "duration": 0.4,
+            "visual": "wolf_crouch",
+            "audio": "sfx_wolf_growl"
+          },
+          "dash": {
+            "distance": 80,
+            "speed": 400,
+            "invincible_during": false
+          },
+          "hitbox": {
+            "type": "RECTANGLE",
+            "width": 50,
+            "height": 30
+          },
+          "effects": [
+            {
+              "type": "BLEED",
+              "damage_per_tick": 1,
+              "tick_interval": 0.5,
+              "duration": 2.0,
+              "chance": 0.3
+            }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_wolf_fang", "chance": 0.35 },
+        { "item_id": "material_wolf_pelt", "chance": 0.2 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_wolf_forest.png",
+        "frame_size": [48, 32],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 3, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 10, "loop": true },
+          "attack_telegraph": { "frames": [6, 7], "fps": 5, "loop": false },
+          "attack": { "frames": [8, 9, 10], "fps": 15, "loop": false },
+          "retreat": { "frames": [11, 12], "fps": 8, "loop": true },
+          "hurt": { "frames": [13], "fps": 1, "loop": false },
+          "death": { "frames": [14, 15, 16, 17], "fps": 8, "loop": false }
+        }
+      }
+    },
+
+
+    "m_bat_cave": {
+      "id": "m_bat_cave",
+      "name": "동굴 박쥐",
+      "name_en": "Cave Bat",
+      "chapter": 2,
+      "type": "MELEE",
+      "role": "CHASER",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 18,
+        "speed": 140,
+        "damage": 7,
+        "defense": 0,
+        "exp": 12,
+        "gold_drop": [4, 12]
+      },
+
+      "special_properties": {
+        "flying": true,
+        "ignores_terrain": true,
+        "spawn_from_ceiling": true
+      },
+
+      "behavior": {
+        "aggro_range": 120,
+        "deaggro_range": 200,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "DIVE_BOMBER",
+        "decision_tree": [
+          { "condition": "not_aggro", "action": "HANG_CEILING", "priority": 1 },
+          { "condition": "distance <= 120 AND hanging", "action": "WAKE_UP", "priority": 2 },
+          { "condition": "awake AND distance > 30", "action": "SWOOP_APPROACH", "priority": 3 },
+          { "condition": "distance <= 30", "action": "ATTACK_DIVE", "priority": 4 },
+          { "condition": "just_attacked", "action": "ASCEND", "duration": 1.0, "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "dive_attack",
+          "name": "급강하 공격",
+          "type": "MELEE_DIVE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.0,
+          "telegraph": {
+            "duration": 0.35,
+            "visual": "bat_screech_pose",
+            "audio": "sfx_bat_screech"
+          },
+          "dive": {
+            "angle": 45,
+            "speed": 300
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 25
+          },
+          "effects": []
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_bat_wing", "chance": 0.3 },
+        { "item_id": "material_echo_stone", "chance": 0.1 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_bat_cave.png",
+        "frame_size": [32, 32],
+        "animations": {
+          "hang": { "frames": [0], "fps": 1, "loop": true },
+          "wake": { "frames": [1, 2], "fps": 6, "loop": false },
+          "fly": { "frames": [3, 4, 5, 6], "fps": 12, "loop": true },
+          "attack_telegraph": { "frames": [7], "fps": 3, "loop": false },
+          "attack": { "frames": [8, 9], "fps": 15, "loop": false },
+          "hurt": { "frames": [10], "fps": 1, "loop": false },
+          "death": { "frames": [11, 12, 13], "fps": 8, "loop": false }
+        }
+      }
+    },
+
+
+    "m_skeleton_archer": {
+      "id": "m_skeleton_archer",
+      "name": "스켈레톤 궁수",
+      "name_en": "Skeleton Archer",
+      "chapter": 2,
+      "type": "RANGED",
+      "role": "RANGED",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 28,
+        "speed": 60,
+        "damage": 12,
+        "defense": 1,
+        "exp": 18,
+        "gold_drop": [10, 20]
+      },
+
+      "behavior": {
+        "aggro_range": 250,
+        "deaggro_range": 300,
+        "preferred_distance": 180,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "KITING_ARCHER",
+        "decision_tree": [
+          { "condition": "distance > 250", "action": "IDLE_PATROL", "priority": 1 },
+          { "condition": "distance <= 250 AND distance >= 150", "action": "ATTACK_RANGED", "priority": 2 },
+          { "condition": "distance < 150 AND distance > 80", "action": "BACKPEDAL", "priority": 3 },
+          { "condition": "distance <= 80", "action": "MELEE_BASH", "priority": 4 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "bone_arrow",
+          "name": "뼈 화살",
+          "type": "PROJECTILE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.2,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "skeleton_draw_bow",
+            "audio": "sfx_bow_draw"
+          },
+          "projectile": {
+            "speed": 280,
+            "sprite": "projectile_bone_arrow.png",
+            "hitbox_radius": 6,
+            "lifetime": 2.5,
+            "piercing": false
+          },
+          "effects": []
+        },
+        {
+          "id": "bow_bash",
+          "name": "활 강타",
+          "type": "MELEE",
+          "damage_multiplier": 0.5,
+          "cooldown": 1.5,
+          "telegraph": {
+            "duration": 0.3,
+            "visual": "skeleton_bash_windup",
+            "audio": "sfx_bone_rattle"
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 40,
+            "angle": 90
+          },
+          "effects": [
+            { "type": "KNOCKBACK", "force": 80 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_bone_fragment", "chance": 0.4 },
+        { "item_id": "arrow_bundle", "chance": 0.2 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_skeleton_archer.png",
+        "frame_size": [32, 48],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 2, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 6, "loop": true },
+          "attack_telegraph": { "frames": [6, 7, 8], "fps": 6, "loop": false },
+          "attack": { "frames": [9, 10], "fps": 10, "loop": false },
+          "melee_telegraph": { "frames": [11], "fps": 3, "loop": false },
+          "melee": { "frames": [12, 13], "fps": 10, "loop": false },
+          "hurt": { "frames": [14], "fps": 1, "loop": false },
+          "death": { "frames": [15, 16, 17, 18], "fps": 8, "loop": false }
+        }
+      }
+    },
+
+
+    "m_golem_crystal": {
+      "id": "m_golem_crystal",
+      "name": "수정 골렘",
+      "name_en": "Crystal Golem",
+      "chapter": 2,
+      "type": "MELEE",
+      "role": "TANK",
+      "tier": "ELITE",
+
+      "stats": {
+        "hp": 120,
+        "speed": 40,
+        "damage": 25,
+        "defense": 8,
+        "exp": 50,
+        "gold_drop": [30, 60]
+      },
+
+      "special_properties": {
+        "knockback_resist": 0.8,
+        "stagger_threshold": 50,
+        "weak_point": "back_crystal"
+      },
+
+      "behavior": {
+        "aggro_range": 100,
+        "deaggro_range": 180,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "SLOW_BULLDOZER",
+        "decision_tree": [
+          { "condition": "distance > 100", "action": "IDLE_GUARD", "priority": 1 },
+          { "condition": "distance <= 100 AND distance > 50", "action": "SLOW_ADVANCE", "priority": 2 },
+          { "condition": "distance <= 50 AND attack_ready", "action": "ATTACK_SLAM", "priority": 3 },
+          { "condition": "hp_percent <= 30", "action": "ATTACK_RAGE_SLAM", "priority": 4 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "crystal_slam",
+          "name": "수정 내려찍기",
+          "type": "MELEE",
+          "damage_multiplier": 1.0,
+          "cooldown": 3.5,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "golem_raise_arms",
+            "audio": "sfx_golem_groan",
+            "ground_indicator": {
+              "type": "CIRCLE",
+              "radius": 60,
+              "color": "0x88FF4444"
+            }
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 60
+          },
+          "effects": [
+            { "type": "STUN", "duration": 0.5 },
+            { "type": "KNOCKBACK", "force": 120 }
+          ],
+          "screen_shake": { "intensity": 5, "duration": 0.3 }
+        },
+        {
+          "id": "crystal_sweep",
+          "name": "수정 휘두르기",
+          "type": "MELEE",
+          "damage_multiplier": 0.7,
+          "cooldown": 2.5,
+          "telegraph": {
+            "duration": 0.6,
+            "visual": "golem_wind_up",
+            "audio": "sfx_crystal_hum"
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 70,
+            "angle": 180
+          },
+          "effects": [
+            { "type": "KNOCKBACK", "force": 150 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_crystal_shard", "chance": 0.5 },
+        { "item_id": "material_golem_core", "chance": 0.15 },
+        { "item_id": "accessory_crystal_ring", "chance": 0.05 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_golem_crystal.png",
+        "frame_size": [64, 64],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 1, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 4, "loop": true },
+          "attack_telegraph": { "frames": [6, 7, 8], "fps": 4, "loop": false },
+          "attack": { "frames": [9, 10, 11], "fps": 8, "loop": false },
+          "sweep_telegraph": { "frames": [12, 13], "fps": 3, "loop": false },
+          "sweep": { "frames": [14, 15, 16], "fps": 8, "loop": false },
+          "hurt": { "frames": [17], "fps": 1, "loop": false },
+          "death": { "frames": [18, 19, 20, 21, 22], "fps": 6, "loop": false }
+        }
+      }
+    },
+
+
+    "m_soldier_mech": {
+      "id": "m_soldier_mech",
+      "name": "기계 병사",
+      "name_en": "Mechanical Soldier",
+      "chapter": 3,
+      "type": "MELEE",
+      "role": "TANK",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 50,
+        "speed": 70,
+        "damage": 15,
+        "defense": 5,
+        "exp": 22,
+        "gold_drop": [12, 25]
+      },
+
+      "special_properties": {
+        "can_block": true,
+        "block_chance": 0.4,
+        "block_damage_reduction": 0.8
+      },
+
+      "behavior": {
+        "aggro_range": 140,
+        "deaggro_range": 220,
+        "preferred_distance": 40,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "DEFENSIVE_ADVANCE",
+        "decision_tree": [
+          { "condition": "distance > 140", "action": "PATROL_FORMATION", "priority": 1 },
+          { "condition": "distance <= 140 AND distance > 50", "action": "SHIELD_ADVANCE", "priority": 2 },
+          { "condition": "distance <= 50 AND attack_ready", "action": "ATTACK_THRUST", "priority": 3 },
+          { "condition": "player_attacking AND facing_player", "action": "BLOCK", "priority": 4 },
+          { "condition": "block_success", "action": "COUNTER_ATTACK", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "spear_thrust",
+          "name": "창 찌르기",
+          "type": "MELEE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.0,
+          "telegraph": {
+            "duration": 0.4,
+            "visual": "soldier_thrust_ready",
+            "audio": "sfx_metal_scrape"
+          },
+          "hitbox": {
+            "type": "RECTANGLE",
+            "width": 80,
+            "height": 20
+          },
+          "effects": []
+        },
+        {
+          "id": "shield_bash",
+          "name": "방패 강타",
+          "type": "MELEE",
+          "damage_multiplier": 0.6,
+          "cooldown": 3.0,
+          "telegraph": {
+            "duration": 0.3,
+            "visual": "soldier_bash_ready",
+            "audio": "sfx_metal_clang"
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 45,
+            "angle": 120
+          },
+          "effects": [
+            { "type": "STUN", "duration": 0.8 },
+            { "type": "KNOCKBACK", "force": 60 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_mech_gear", "chance": 0.35 },
+        { "item_id": "material_iron_plate", "chance": 0.25 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_soldier_mech.png",
+        "frame_size": [32, 48],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 2, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 6, "loop": true },
+          "block": { "frames": [6], "fps": 1, "loop": true },
+          "attack_telegraph": { "frames": [7, 8], "fps": 5, "loop": false },
+          "attack": { "frames": [9, 10, 11], "fps": 12, "loop": false },
+          "bash_telegraph": { "frames": [12], "fps": 3, "loop": false },
+          "bash": { "frames": [13, 14], "fps": 10, "loop": false },
+          "hurt": { "frames": [15], "fps": 1, "loop": false },
+          "death": { "frames": [16, 17, 18, 19], "fps": 6, "loop": false }
+        }
+      }
+    },
+
+
+    "m_mage_flame": {
+      "id": "m_mage_flame",
+      "name": "화염 마법사",
+      "name_en": "Flame Mage",
+      "chapter": 3,
+      "type": "RANGED",
+      "role": "RANGED",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 35,
+        "speed": 65,
+        "damage": 18,
+        "defense": 2,
+        "exp": 25,
+        "gold_drop": [15, 30]
+      },
+
+      "special_properties": {
+        "can_teleport": true,
+        "teleport_cooldown": 8.0,
+        "teleport_range": 150
+      },
+
+      "behavior": {
+        "aggro_range": 220,
+        "deaggro_range": 280,
+        "preferred_distance": 160,
+        "flee_hp_threshold": 0.25,
+
+        "ai_pattern": "TELEPORTING_CASTER",
+        "decision_tree": [
+          { "condition": "distance > 220", "action": "IDLE", "priority": 1 },
+          { "condition": "distance <= 220 AND distance >= 120", "action": "ATTACK_FIREBALL", "priority": 2 },
+          { "condition": "distance < 120 AND teleport_ready", "action": "TELEPORT_AWAY", "priority": 3 },
+          { "condition": "distance < 120 AND NOT teleport_ready", "action": "BACKPEDAL", "priority": 4 },
+          { "condition": "hp_percent <= 25 AND teleport_ready", "action": "TELEPORT_FLEE", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "fireball",
+          "name": "파이어볼",
+          "type": "PROJECTILE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.5,
+          "telegraph": {
+            "duration": 0.6,
+            "visual": "mage_charge_fire",
+            "audio": "sfx_fire_charge"
+          },
+          "projectile": {
+            "speed": 200,
+            "sprite": "projectile_fireball.png",
+            "hitbox_radius": 15,
+            "lifetime": 3.0,
+            "piercing": false,
+            "explosion_on_hit": {
+              "radius": 40,
+              "damage_multiplier": 0.5
+            }
+          },
+          "effects": [
+            {
+              "type": "BURN",
+              "damage_per_tick": 3,
+              "tick_interval": 0.5,
+              "duration": 2.0,
+              "chance": 0.4
+            }
+          ]
+        },
+        {
+          "id": "flame_burst",
+          "name": "화염 폭발",
+          "type": "AOE",
+          "damage_multiplier": 0.8,
+          "cooldown": 6.0,
+          "uses_on_teleport": true,
+          "telegraph": {
+            "duration": 0.0,
+            "visual": "none"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 50,
+            "centered_on_self": true
+          },
+          "effects": [
+            { "type": "KNOCKBACK", "force": 100 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_fire_essence", "chance": 0.3 },
+        { "item_id": "scroll_fireball", "chance": 0.1 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_mage_flame.png",
+        "frame_size": [32, 48],
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 4, "loop": true },
+          "move": { "frames": [4, 5, 6, 7], "fps": 6, "loop": true },
+          "attack_telegraph": { "frames": [8, 9, 10], "fps": 5, "loop": false },
+          "attack": { "frames": [11, 12], "fps": 10, "loop": false },
+          "teleport_out": { "frames": [13, 14, 15], "fps": 12, "loop": false },
+          "teleport_in": { "frames": [15, 14, 13], "fps": 12, "loop": false },
+          "hurt": { "frames": [16], "fps": 1, "loop": false },
+          "death": { "frames": [17, 18, 19, 20], "fps": 8, "loop": false }
+        }
+      }
+    },
+
+
+    "m_robot_suicide": {
+      "id": "m_robot_suicide",
+      "name": "자폭 로봇",
+      "name_en": "Suicide Bot",
+      "chapter": 3,
+      "type": "SPECIAL",
+      "role": "SPECIAL",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 15,
+        "speed": 100,
+        "damage": 40,
+        "defense": 0,
+        "exp": 20,
+        "gold_drop": [5, 15]
+      },
+
+      "special_properties": {
+        "explodes_on_death": true,
+        "explosion_damage": 30,
+        "explosion_radius": 70,
+        "self_destruct_timer": 2.0
+      },
+
+      "behavior": {
+        "aggro_range": 180,
+        "deaggro_range": 250,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "KAMIKAZE",
+        "decision_tree": [
+          { "condition": "distance > 180", "action": "IDLE_SCAN", "priority": 1 },
+          { "condition": "distance <= 180 AND distance > 30", "action": "BEELINE_CHASE", "priority": 2 },
+          { "condition": "distance <= 30", "action": "INITIATE_SELF_DESTRUCT", "priority": 3 },
+          { "condition": "self_destruct_active", "action": "CONTINUE_CHASE", "priority": 4 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "self_destruct",
+          "name": "자폭",
+          "type": "EXPLOSION",
+          "damage_multiplier": 1.0,
+          "cooldown": 0,
+          "telegraph": {
+            "duration": 2.0,
+            "visual": "robot_blink_red",
+            "audio": "sfx_beep_accelerating",
+            "blink_pattern": {
+              "start_interval": 0.5,
+              "end_interval": 0.1,
+              "color": "0xFFFF0000"
+            }
+          },
+          "explosion": {
+            "radius": 70,
+            "damage": 40,
+            "friendly_fire": true
+          },
+          "effects": [
+            { "type": "KNOCKBACK", "force": 200 }
+          ],
+          "screen_shake": { "intensity": 8, "duration": 0.4 }
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_scrap_metal", "chance": 0.5 },
+        { "item_id": "material_explosive_core", "chance": 0.15 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_robot_suicide.png",
+        "frame_size": [32, 32],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 2, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 10, "loop": true },
+          "self_destruct_1": { "frames": [6], "fps": 2, "loop": true },
+          "self_destruct_2": { "frames": [6, 7], "fps": 5, "loop": true },
+          "self_destruct_3": { "frames": [6, 7], "fps": 10, "loop": true },
+          "explosion": { "frames": [8, 9, 10, 11, 12], "fps": 15, "loop": false }
+        }
+      }
+    },
+
+
+    "m_thorn_spirit": {
+      "id": "m_thorn_spirit",
+      "name": "가시 정령",
+      "name_en": "Thorn Spirit",
+      "chapter": 4,
+      "type": "MELEE",
+      "role": "CHASER",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 45,
+        "speed": 95,
+        "damage": 14,
+        "defense": 3,
+        "exp": 28,
+        "gold_drop": [15, 30]
+      },
+
+      "behavior": {
+        "aggro_range": 160,
+        "deaggro_range": 300,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "AGGRESSIVE_CHASER",
+        "decision_tree": [
+          { "condition": "distance > 160", "action": "IDLE_PATROL", "priority": 1 },
+          { "condition": "distance <= 160 AND distance > 40", "action": "CHASE", "priority": 2 },
+          { "condition": "distance <= 40", "action": "ATTACK_THORN_SWIPE", "priority": 3 },
+          { "condition": "hp_percent <= 30", "action": "ATTACK_THORN_BURST", "priority": 4 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "thorn_swipe",
+          "name": "가시 휘두르기",
+          "type": "MELEE",
+          "damage_multiplier": 1.0,
+          "cooldown": 1.8,
+          "telegraph": {
+            "duration": 0.4,
+            "visual": "thorn_arm_raise",
+            "audio": "sfx_thorn_whoosh"
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 50,
+            "angle": 120
+          },
+          "effects": [
+            { "type": "BLEED", "damage_per_tick": 2, "duration": 3.0, "chance": 0.4 }
+          ]
+        },
+        {
+          "id": "thorn_burst",
+          "name": "가시 폭발",
+          "type": "AOE",
+          "damage_multiplier": 1.5,
+          "cooldown": 8.0,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "thorn_body_glow",
+            "audio": "sfx_energy_buildup"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 80,
+            "centered_on_self": true
+          },
+          "effects": [
+            { "type": "KNOCKBACK", "force": 100 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_thorn_essence", "chance": 0.35 },
+        { "item_id": "material_rose_petal", "chance": 0.25 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_thorn_spirit.png",
+        "frame_size": [48, 48],
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 4, "loop": true },
+          "move": { "frames": [4, 5, 6, 7], "fps": 8, "loop": true },
+          "attack_telegraph": { "frames": [8, 9], "fps": 5, "loop": false },
+          "attack": { "frames": [10, 11, 12], "fps": 12, "loop": false },
+          "burst_telegraph": { "frames": [13, 14, 15], "fps": 4, "loop": false },
+          "burst": { "frames": [16, 17, 18], "fps": 10, "loop": false },
+          "hurt": { "frames": [19], "fps": 1, "loop": false },
+          "death": { "frames": [20, 21, 22, 23], "fps": 8, "loop": false }
+        }
+      }
+    },
+
+
+    "m_blood_rose": {
+      "id": "m_blood_rose",
+      "name": "피의 장미",
+      "name_en": "Blood Rose",
+      "chapter": 4,
+      "type": "RANGED",
+      "role": "RANGED",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 35,
+        "speed": 30,
+        "damage": 12,
+        "defense": 4,
+        "exp": 25,
+        "gold_drop": [12, 28]
+      },
+
+      "special_properties": {
+        "rooted": true,
+        "can_uproot": true,
+        "uproot_cooldown": 15.0
+      },
+
+      "behavior": {
+        "aggro_range": 220,
+        "deaggro_range": 280,
+        "preferred_distance": 180,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "ROOTED_TURRET",
+        "decision_tree": [
+          { "condition": "distance > 220", "action": "DORMANT", "priority": 1 },
+          { "condition": "distance <= 220 AND rooted", "action": "ATTACK_THORN_SHOT", "priority": 2 },
+          { "condition": "distance <= 80 AND uproot_ready", "action": "UPROOT_RELOCATE", "priority": 3 },
+          { "condition": "hp_percent <= 40", "action": "ATTACK_POLLEN_CLOUD", "priority": 4 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "thorn_shot",
+          "name": "가시 발사",
+          "type": "PROJECTILE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.0,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "rose_aim",
+            "audio": "sfx_thorn_charge"
+          },
+          "projectile": {
+            "speed": 220,
+            "sprite": "projectile_thorn.png",
+            "hitbox_radius": 10,
+            "lifetime": 2.5,
+            "count": 3,
+            "spread_angle": 15
+          },
+          "effects": [
+            { "type": "BLEED", "damage_per_tick": 1, "duration": 2.0, "chance": 0.3 }
+          ]
+        },
+        {
+          "id": "pollen_cloud",
+          "name": "독성 꽃가루",
+          "type": "AOE_PERSISTENT",
+          "damage_multiplier": 0.5,
+          "cooldown": 10.0,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "rose_shake",
+            "audio": "sfx_pollen_release"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 100,
+            "centered_on_self": true
+          },
+          "persist": {
+            "duration": 4.0,
+            "tick_rate": 0.5,
+            "damage_per_tick": 4
+          },
+          "effects": [
+            { "type": "CONFUSION", "duration": 2.0, "chance": 0.2 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_blood_petal", "chance": 0.4 },
+        { "item_id": "material_rose_thorn", "chance": 0.3 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_blood_rose.png",
+        "frame_size": [48, 64],
+        "animations": {
+          "dormant": { "frames": [0], "fps": 1, "loop": true },
+          "idle": { "frames": [1, 2, 3, 4], "fps": 3, "loop": true },
+          "attack_telegraph": { "frames": [5, 6], "fps": 4, "loop": false },
+          "attack": { "frames": [7, 8], "fps": 8, "loop": false },
+          "pollen_telegraph": { "frames": [9, 10, 11], "fps": 4, "loop": false },
+          "pollen": { "frames": [12, 13], "fps": 6, "loop": false },
+          "uproot": { "frames": [14, 15, 16], "fps": 6, "loop": false },
+          "move": { "frames": [17, 18, 19, 20], "fps": 6, "loop": true },
+          "replant": { "frames": [16, 15, 14], "fps": 6, "loop": false },
+          "hurt": { "frames": [21], "fps": 1, "loop": false },
+          "death": { "frames": [22, 23, 24, 25], "fps": 6, "loop": false }
+        }
+      }
+    },
+
+
+    "m_garden_guardian": {
+      "id": "m_garden_guardian",
+      "name": "정원 수호자",
+      "name_en": "Garden Guardian",
+      "chapter": 4,
+      "type": "MELEE",
+      "role": "TANK",
+      "tier": "ELITE",
+
+      "stats": {
+        "hp": 180,
+        "speed": 35,
+        "damage": 30,
+        "defense": 12,
+        "exp": 75,
+        "gold_drop": [50, 80]
+      },
+
+      "special_properties": {
+        "knockback_resist": 0.9,
+        "stagger_threshold": 80,
+        "regeneration": { "amount": 2, "interval": 2.0, "requires": "standing_still" }
+      },
+
+      "behavior": {
+        "aggro_range": 120,
+        "deaggro_range": 200,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "GUARDIAN_TANK",
+        "decision_tree": [
+          { "condition": "distance > 120", "action": "IDLE_GUARD", "priority": 1 },
+          { "condition": "distance <= 120 AND distance > 60", "action": "SLOW_ADVANCE", "priority": 2 },
+          { "condition": "distance <= 60", "action": "ATTACK_VINE_SLAM", "priority": 3 },
+          { "condition": "allies_nearby AND ally_hp_low", "action": "PROTECT_ALLY", "priority": 4 },
+          { "condition": "hp_percent <= 50", "action": "ATTACK_ROOT_PRISON", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "vine_slam",
+          "name": "덩굴 강타",
+          "type": "MELEE",
+          "damage_multiplier": 1.0,
+          "cooldown": 3.0,
+          "telegraph": {
+            "duration": 0.9,
+            "visual": "guardian_raise_arm",
+            "audio": "sfx_heavy_whoosh",
+            "ground_indicator": {
+              "type": "CIRCLE",
+              "radius": 70,
+              "color": "0x88448822"
+            }
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 70
+          },
+          "effects": [
+            { "type": "STUN", "duration": 0.8 },
+            { "type": "KNOCKBACK", "force": 80 }
+          ],
+          "screen_shake": { "intensity": 4, "duration": 0.3 }
+        },
+        {
+          "id": "root_prison",
+          "name": "뿌리 감옥",
+          "type": "GROUND_TARGETED",
+          "damage_multiplier": 0.5,
+          "cooldown": 12.0,
+          "telegraph": {
+            "duration": 1.2,
+            "visual": "guardian_channel",
+            "audio": "sfx_ground_rumble",
+            "ground_indicator": {
+              "type": "CIRCLE",
+              "radius": 60,
+              "follows_player": true,
+              "color": "0x88884422"
+            }
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 60,
+            "spawn_at": "player_position"
+          },
+          "effects": [
+            { "type": "ROOT", "duration": 2.5 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_guardian_bark", "chance": 0.5 },
+        { "item_id": "material_ancient_vine", "chance": 0.25 },
+        { "item_id": "accessory_natures_ward", "chance": 0.08 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_garden_guardian.png",
+        "frame_size": [80, 96],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 1, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 3, "loop": true },
+          "attack_telegraph": { "frames": [6, 7, 8], "fps": 3, "loop": false },
+          "attack": { "frames": [9, 10, 11], "fps": 8, "loop": false },
+          "root_telegraph": { "frames": [12, 13, 14], "fps": 2.5, "loop": false },
+          "root": { "frames": [15, 16], "fps": 6, "loop": false },
+          "protect": { "frames": [17], "fps": 1, "loop": true },
+          "hurt": { "frames": [18], "fps": 1, "loop": false },
+          "death": { "frames": [19, 20, 21, 22, 23], "fps": 5, "loop": false }
+        }
+      }
+    },
+
+
+    "m_memory_wraith": {
+      "id": "m_memory_wraith",
+      "name": "망각의 정령",
+      "name_en": "Memory Wraith",
+      "chapter": 5,
+      "type": "SPECIAL",
+      "role": "SPECIAL",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 40,
+        "speed": 110,
+        "damage": 16,
+        "defense": 0,
+        "exp": 32,
+        "gold_drop": [18, 35]
+      },
+
+      "special_properties": {
+        "phasing": true,
+        "visibility": 0.6,
+        "damage_reflection": 0.1
+      },
+
+      "behavior": {
+        "aggro_range": 180,
+        "deaggro_range": 300,
+        "preferred_distance": 100,
+        "flee_hp_threshold": 0.5,
+
+        "ai_pattern": "ELUSIVE_STRIKER",
+        "decision_tree": [
+          { "condition": "distance > 180", "action": "WANDER_ETHEREAL", "priority": 1 },
+          { "condition": "distance <= 180 AND distance > 80", "action": "CIRCLE_PLAYER", "priority": 2 },
+          { "condition": "distance <= 80 AND attack_ready", "action": "ATTACK_MEMORY_DRAIN", "priority": 3 },
+          { "condition": "just_attacked", "action": "PHASE_RETREAT", "priority": 4 },
+          { "condition": "hp_percent <= 50", "action": "FLEE_PHASE", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "memory_drain",
+          "name": "기억 흡수",
+          "type": "MELEE_SPECIAL",
+          "damage_multiplier": 1.0,
+          "cooldown": 3.5,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "wraith_solidify",
+            "audio": "sfx_whisper_attack"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 40
+          },
+          "effects": [
+            { "type": "MANA_DRAIN", "amount": 10 },
+            { "type": "VISION_BLUR", "duration": 1.5, "chance": 0.3 }
+          ],
+          "self_heal": { "amount": 10, "on_hit": true }
+        },
+        {
+          "id": "haunting_wail",
+          "name": "망각의 울음",
+          "type": "AOE",
+          "damage_multiplier": 0.6,
+          "cooldown": 8.0,
+          "telegraph": {
+            "duration": 0.7,
+            "visual": "wraith_inhale",
+            "audio": "sfx_ghost_inhale"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 120,
+            "centered_on_self": true
+          },
+          "effects": [
+            { "type": "FEAR", "duration": 1.5, "chance": 0.4 },
+            { "type": "SLOW", "amount": 0.4, "duration": 2.0 }
+          ]
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_memory_essence", "chance": 0.4 },
+        { "item_id": "material_ethereal_wisp", "chance": 0.2 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_memory_wraith.png",
+        "frame_size": [48, 64],
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 4, "loop": true },
+          "move": { "frames": [4, 5, 6, 7], "fps": 8, "loop": true },
+          "phase": { "frames": [8, 9, 10], "fps": 10, "loop": false },
+          "attack_telegraph": { "frames": [11, 12], "fps": 4, "loop": false },
+          "attack": { "frames": [13, 14, 15], "fps": 10, "loop": false },
+          "wail_telegraph": { "frames": [16, 17], "fps": 3, "loop": false },
+          "wail": { "frames": [18, 19, 20], "fps": 8, "loop": false },
+          "hurt": { "frames": [21], "fps": 1, "loop": false },
+          "death": { "frames": [22, 23, 24, 25, 26], "fps": 6, "loop": false }
+        }
+      }
+    },
+
+
+    "m_mirror_phantom": {
+      "id": "m_mirror_phantom",
+      "name": "거울의 환영",
+      "name_en": "Mirror Phantom",
+      "chapter": 5,
+      "type": "MELEE",
+      "role": "SPECIAL",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 50,
+        "speed": 100,
+        "damage": 18,
+        "defense": 2,
+        "exp": 35,
+        "gold_drop": [20, 40]
+      },
+
+      "special_properties": {
+        "mimic_player": true,
+        "copy_last_attack": true,
+        "inverted_appearance": true
+      },
+
+      "behavior": {
+        "aggro_range": 150,
+        "deaggro_range": 250,
+        "preferred_distance": 60,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "MIRROR_MIMIC",
+        "decision_tree": [
+          { "condition": "distance > 150", "action": "IDLE_MIRROR_POSE", "priority": 1 },
+          { "condition": "distance <= 150", "action": "MIRROR_MOVEMENT", "priority": 2 },
+          { "condition": "player_attacked AND distance <= 100", "action": "COPY_ATTACK", "priority": 3 },
+          { "condition": "distance <= 50 AND no_copy_available", "action": "ATTACK_SHADOW_SLASH", "priority": 4 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "shadow_slash",
+          "name": "그림자 베기",
+          "type": "MELEE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.5,
+          "telegraph": {
+            "duration": 0.45,
+            "visual": "phantom_wind_up",
+            "audio": "sfx_shadow_woosh"
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 55,
+            "angle": 90
+          },
+          "effects": []
+        },
+        {
+          "id": "mimic_attack",
+          "name": "모방 공격",
+          "type": "COPY",
+          "damage_multiplier": 0.8,
+          "cooldown": 0,
+          "telegraph": {
+            "duration": 0.3,
+            "visual": "phantom_shimmer",
+            "audio": "sfx_mirror_echo"
+          },
+          "mechanics": {
+            "copies": "player_last_attack",
+            "delay_after_player": 0.5,
+            "damage_reduction": 0.2
+          }
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_mirror_shard", "chance": 0.35 },
+        { "item_id": "material_shadow_essence", "chance": 0.25 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_mirror_phantom.png",
+        "frame_size": [48, 48],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 2, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 8, "loop": true },
+          "attack_telegraph": { "frames": [6, 7], "fps": 4, "loop": false },
+          "attack": { "frames": [8, 9, 10], "fps": 12, "loop": false },
+          "mimic_telegraph": { "frames": [11], "fps": 3, "loop": false },
+          "mimic": { "frames": [12, 13, 14], "fps": 10, "loop": false },
+          "hurt": { "frames": [15], "fps": 1, "loop": false },
+          "death": { "frames": [16, 17, 18, 19], "fps": 8, "loop": false }
+        }
+      }
+    },
+
+
+    "m_abyss_gazer": {
+      "id": "m_abyss_gazer",
+      "name": "심연의 시선",
+      "name_en": "Abyss Gazer",
+      "chapter": 5,
+      "type": "RANGED",
+      "role": "RANGED",
+      "tier": "ELITE",
+
+      "stats": {
+        "hp": 100,
+        "speed": 45,
+        "damage": 22,
+        "defense": 6,
+        "exp": 60,
+        "gold_drop": [40, 70]
+      },
+
+      "special_properties": {
+        "floating": true,
+        "all_seeing": true,
+        "debuff_specialist": true
+      },
+
+      "behavior": {
+        "aggro_range": 280,
+        "deaggro_range": 350,
+        "preferred_distance": 200,
+        "flee_hp_threshold": 0.2,
+
+        "ai_pattern": "DEBUFF_ARTILLERY",
+        "decision_tree": [
+          { "condition": "distance > 280", "action": "DORMANT_WATCH", "priority": 1 },
+          { "condition": "distance <= 280 AND distance > 150", "action": "ATTACK_VOID_BEAM", "priority": 2 },
+          { "condition": "player_has_no_debuff", "action": "ATTACK_CURSE_GAZE", "priority": 3 },
+          { "condition": "distance < 150", "action": "FLOAT_RETREAT", "priority": 4 },
+          { "condition": "hp_percent <= 20", "action": "ATTACK_DESPERATION_BURST", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "void_beam",
+          "name": "공허의 광선",
+          "type": "BEAM",
+          "damage_multiplier": 1.0,
+          "cooldown": 3.0,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "gazer_eye_glow",
+            "audio": "sfx_beam_charge",
+            "aim_line": {
+              "width": 30,
+              "length": 300,
+              "color": "0x88AA00FF"
+            }
+          },
+          "beam": {
+            "width": 30,
+            "length": 300,
+            "duration": 0.5,
+            "sweeps": false
+          },
+          "effects": [
+            { "type": "DARKNESS", "duration": 2.0, "chance": 0.3 }
+          ]
+        },
+        {
+          "id": "curse_gaze",
+          "name": "저주의 시선",
+          "type": "DEBUFF",
+          "damage_multiplier": 0,
+          "cooldown": 10.0,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "gazer_all_eyes_open",
+            "audio": "sfx_curse_whisper"
+          },
+          "target": "player",
+          "range": 250,
+          "effects": [
+            { "type": "CURSE", "damage_increase_taken": 0.25, "duration": 8.0 },
+            { "type": "SLOW", "amount": 0.2, "duration": 8.0 }
+          ]
+        },
+        {
+          "id": "desperation_burst",
+          "name": "절망의 폭발",
+          "type": "AOE",
+          "damage_multiplier": 2.0,
+          "cooldown": 0,
+          "uses_remaining_hp": true,
+          "telegraph": {
+            "duration": 1.5,
+            "visual": "gazer_overload",
+            "audio": "sfx_energy_critical"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 150,
+            "centered_on_self": true
+          },
+          "effects": [
+            { "type": "FEAR", "duration": 2.0 }
+          ],
+          "self_damage": 50
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_void_eye", "chance": 0.5 },
+        { "item_id": "material_curse_fragment", "chance": 0.3 },
+        { "item_id": "accessory_all_seeing_eye", "chance": 0.06 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_abyss_gazer.png",
+        "frame_size": [64, 64],
+        "animations": {
+          "dormant": { "frames": [0], "fps": 1, "loop": true },
+          "idle": { "frames": [1, 2, 3, 4], "fps": 3, "loop": true },
+          "move": { "frames": [5, 6, 7, 8], "fps": 5, "loop": true },
+          "beam_telegraph": { "frames": [9, 10, 11], "fps": 4, "loop": false },
+          "beam": { "frames": [12, 13, 14], "fps": 6, "loop": true },
+          "curse_telegraph": { "frames": [15, 16, 17], "fps": 3, "loop": false },
+          "curse": { "frames": [18, 19], "fps": 4, "loop": false },
+          "burst_telegraph": { "frames": [20, 21, 22, 23], "fps": 3, "loop": false },
+          "burst": { "frames": [24, 25, 26], "fps": 8, "loop": false },
+          "hurt": { "frames": [27], "fps": 1, "loop": false },
+          "death": { "frames": [28, 29, 30, 31, 32], "fps": 6, "loop": false }
+        }
+      }
+    },
+
+
+    "m_void_guardian": {
+      "id": "m_void_guardian",
+      "name": "허무의 수호자",
+      "name_en": "Void Guardian",
+      "chapter": 6,
+      "type": "MELEE",
+      "role": "TANK",
+      "tier": "ELITE",
+
+      "stats": {
+        "hp": 250,
+        "speed": 50,
+        "damage": 40,
+        "defense": 15,
+        "exp": 100,
+        "gold_drop": [80, 120]
+      },
+
+      "special_properties": {
+        "knockback_resist": 1.0,
+        "stagger_immune": true,
+        "void_armor": { "damage_reduction": 0.2, "duration": 5.0, "cooldown": 15.0 }
+      },
+
+      "behavior": {
+        "aggro_range": 150,
+        "deaggro_range": 250,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "RELENTLESS_GUARDIAN",
+        "decision_tree": [
+          { "condition": "distance > 150", "action": "PATROL_ZONE", "priority": 1 },
+          { "condition": "distance <= 150 AND distance > 60", "action": "VOID_CHARGE", "priority": 2 },
+          { "condition": "distance <= 60", "action": "ATTACK_VOID_CLEAVE", "priority": 3 },
+          { "condition": "hp_percent <= 50", "action": "ACTIVATE_VOID_ARMOR", "priority": 4 },
+          { "condition": "void_armor_active", "action": "ATTACK_AGGRESSIVE", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "void_cleave",
+          "name": "허무의 참격",
+          "type": "MELEE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.5,
+          "telegraph": {
+            "duration": 0.7,
+            "visual": "guardian_raise_blade",
+            "audio": "sfx_void_hum",
+            "ground_indicator": {
+              "type": "ARC",
+              "radius": 90,
+              "angle": 150,
+              "color": "0x88660088"
+            }
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 90,
+            "angle": 150
+          },
+          "effects": [
+            { "type": "VOID_MARK", "damage_amp": 0.15, "duration": 5.0 }
+          ]
+        },
+        {
+          "id": "void_slam",
+          "name": "공허 강타",
+          "type": "AOE",
+          "damage_multiplier": 1.3,
+          "cooldown": 6.0,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "guardian_jump",
+            "audio": "sfx_heavy_impact_charge",
+            "ground_indicator": {
+              "type": "CIRCLE",
+              "radius": 100,
+              "color": "0x88440066"
+            }
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 100
+          },
+          "effects": [
+            { "type": "KNOCKDOWN", "duration": 1.0 },
+            { "type": "VOID_ZONE", "radius": 100, "duration": 3.0, "damage_per_second": 10 }
+          ],
+          "screen_shake": { "intensity": 6, "duration": 0.4 }
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_void_essence", "chance": 0.6 },
+        { "item_id": "material_guardian_core", "chance": 0.3 },
+        { "item_id": "weapon_void_blade", "chance": 0.05 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_void_guardian.png",
+        "frame_size": [80, 96],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 2, "loop": true },
+          "move": { "frames": [2, 3, 4, 5], "fps": 4, "loop": true },
+          "charge": { "frames": [6, 7], "fps": 8, "loop": true },
+          "attack_telegraph": { "frames": [8, 9, 10], "fps": 4, "loop": false },
+          "attack": { "frames": [11, 12, 13, 14], "fps": 10, "loop": false },
+          "slam_telegraph": { "frames": [15, 16, 17], "fps": 3, "loop": false },
+          "slam": { "frames": [18, 19, 20, 21], "fps": 8, "loop": false },
+          "armor_activate": { "frames": [22, 23, 24], "fps": 6, "loop": false },
+          "armor_idle": { "frames": [25, 26], "fps": 3, "loop": true },
+          "hurt": { "frames": [27], "fps": 1, "loop": false },
+          "death": { "frames": [28, 29, 30, 31, 32, 33], "fps": 5, "loop": false }
+        }
+      }
+    },
+
+
+    "m_void_priest": {
+      "id": "m_void_priest",
+      "name": "허무의 사제",
+      "name_en": "Void Priest",
+      "chapter": 6,
+      "type": "RANGED",
+      "role": "SPECIAL",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 70,
+        "speed": 55,
+        "damage": 15,
+        "defense": 4,
+        "exp": 45,
+        "gold_drop": [30, 55]
+      },
+
+      "special_properties": {
+        "support_unit": true,
+        "priority_target": true,
+        "buff_allies": true
+      },
+
+      "behavior": {
+        "aggro_range": 250,
+        "deaggro_range": 300,
+        "preferred_distance": 180,
+        "flee_hp_threshold": 0.3,
+
+        "ai_pattern": "SUPPORT_CASTER",
+        "decision_tree": [
+          { "condition": "allies_injured AND heal_ready", "action": "HEAL_ALLY", "priority": 1 },
+          { "condition": "allies_exist AND buff_ready", "action": "BUFF_ALLIES", "priority": 2 },
+          { "condition": "distance <= 250", "action": "ATTACK_VOID_BOLT", "priority": 3 },
+          { "condition": "distance < 100", "action": "FLEE_TELEPORT", "priority": 4 },
+          { "condition": "no_allies AND low_hp", "action": "ATTACK_DESPERATION", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "void_bolt",
+          "name": "공허의 화살",
+          "type": "PROJECTILE",
+          "damage_multiplier": 1.0,
+          "cooldown": 2.2,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "priest_channel",
+            "audio": "sfx_void_charge"
+          },
+          "projectile": {
+            "speed": 250,
+            "sprite": "projectile_void_bolt.png",
+            "hitbox_radius": 12,
+            "lifetime": 2.5,
+            "homing": 0.1
+          },
+          "effects": [
+            { "type": "MANA_BURN", "amount": 5 }
+          ]
+        },
+        {
+          "id": "void_heal",
+          "name": "허무의 치유",
+          "type": "HEAL",
+          "cooldown": 8.0,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "priest_prayer",
+            "audio": "sfx_heal_dark"
+          },
+          "heal": {
+            "amount": 50,
+            "target": "lowest_hp_ally",
+            "range": 200
+          }
+        },
+        {
+          "id": "void_empowerment",
+          "name": "공허의 강화",
+          "type": "BUFF",
+          "cooldown": 15.0,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "priest_arms_raise",
+            "audio": "sfx_buff_dark"
+          },
+          "buff": {
+            "target": "all_allies_in_range",
+            "range": 200,
+            "effects": [
+              { "type": "DAMAGE_BOOST", "amount": 0.3, "duration": 10.0 },
+              { "type": "SPEED_BOOST", "amount": 0.2, "duration": 10.0 }
+            ]
+          }
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_void_cloth", "chance": 0.4 },
+        { "item_id": "material_dark_tome_page", "chance": 0.25 },
+        { "item_id": "potion_mana_large", "chance": 0.15 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_void_priest.png",
+        "frame_size": [48, 64],
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 3, "loop": true },
+          "move": { "frames": [4, 5, 6, 7], "fps": 5, "loop": true },
+          "attack_telegraph": { "frames": [8, 9], "fps": 4, "loop": false },
+          "attack": { "frames": [10, 11], "fps": 8, "loop": false },
+          "heal_telegraph": { "frames": [12, 13, 14], "fps": 3, "loop": false },
+          "heal": { "frames": [15, 16], "fps": 6, "loop": false },
+          "buff_telegraph": { "frames": [17, 18], "fps": 2.5, "loop": false },
+          "buff": { "frames": [19, 20, 21], "fps": 6, "loop": false },
+          "teleport": { "frames": [22, 23, 24], "fps": 10, "loop": false },
+          "hurt": { "frames": [25], "fps": 1, "loop": false },
+          "death": { "frames": [26, 27, 28, 29], "fps": 6, "loop": false }
+        }
+      }
+    },
+
+
+    "m_distorted_knight": {
+      "id": "m_distorted_knight",
+      "name": "왜곡된 기사",
+      "name_en": "Distorted Knight",
+      "chapter": 6,
+      "type": "MELEE",
+      "role": "CHASER",
+      "tier": "COMMON",
+
+      "stats": {
+        "hp": 90,
+        "speed": 85,
+        "damage": 28,
+        "defense": 8,
+        "exp": 50,
+        "gold_drop": [35, 60]
+      },
+
+      "special_properties": {
+        "berserk_mode": { "trigger": "hp <= 30%", "damage_mult": 1.5, "speed_mult": 1.3 },
+        "unstable_form": true
+      },
+
+      "behavior": {
+        "aggro_range": 170,
+        "deaggro_range": 280,
+        "preferred_distance": 0,
+        "flee_hp_threshold": 0,
+
+        "ai_pattern": "AGGRESSIVE_BERSERKER",
+        "decision_tree": [
+          { "condition": "distance > 170", "action": "PATROL_ERRATIC", "priority": 1 },
+          { "condition": "distance <= 170 AND distance > 60", "action": "CHARGE_ATTACK", "priority": 2 },
+          { "condition": "distance <= 60", "action": "ATTACK_COMBO", "priority": 3 },
+          { "condition": "hp_percent <= 30", "action": "ENTER_BERSERK", "priority": 4 },
+          { "condition": "berserk_active", "action": "RELENTLESS_ASSAULT", "priority": 5 }
+        ]
+      },
+
+      "attacks": [
+        {
+          "id": "distorted_slash",
+          "name": "왜곡된 베기",
+          "type": "MELEE_COMBO",
+          "damage_multiplier": [1.0, 1.2],
+          "cooldown": 2.0,
+          "hits": 2,
+          "telegraph": {
+            "per_hit": [
+              { "duration": 0.4, "visual": "knight_slash_1", "audio": "sfx_sword_swing" },
+              { "duration": 0.35, "visual": "knight_slash_2", "audio": "sfx_sword_swing" }
+            ]
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 65,
+            "angles": [110, 130]
+          },
+          "combo_window": 0.6,
+          "effects": []
+        },
+        {
+          "id": "phase_lunge",
+          "name": "위상 돌진",
+          "type": "DASH_ATTACK",
+          "damage_multiplier": 1.4,
+          "cooldown": 5.0,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "knight_crouch_distort",
+            "audio": "sfx_phase_shift"
+          },
+          "dash": {
+            "distance": 150,
+            "speed": 600,
+            "phases_through": true
+          },
+          "hitbox": {
+            "type": "RECTANGLE",
+            "width": 150,
+            "height": 40
+          },
+          "effects": [
+            { "type": "DISORIENT", "duration": 1.0, "chance": 0.4 }
+          ]
+        },
+        {
+          "id": "berserk_flurry",
+          "name": "광란의 난무",
+          "type": "MELEE_RAPID",
+          "damage_multiplier": 0.6,
+          "cooldown": 4.0,
+          "requires": "berserk_active",
+          "telegraph": {
+            "duration": 0.3,
+            "visual": "knight_rage_pose",
+            "audio": "sfx_berserk_roar"
+          },
+          "hits": 5,
+          "hit_interval": 0.15,
+          "hitbox": {
+            "type": "ARC",
+            "radius": 70,
+            "angle": 180
+          },
+          "effects": []
+        }
+      ],
+
+      "drops": [
+        { "item_id": "material_distorted_metal", "chance": 0.45 },
+        { "item_id": "material_chaos_shard", "chance": 0.25 },
+        { "item_id": "weapon_distorted_blade", "chance": 0.03 }
+      ],
+
+      "assets": {
+        "sprite_sheet": "enemy_distorted_knight.png",
+        "frame_size": [64, 64],
+        "animations": {
+          "idle": { "frames": [0, 1], "fps": 2, "loop": true },
+          "idle_berserk": { "frames": [2, 3, 4], "fps": 4, "loop": true },
+          "move": { "frames": [5, 6, 7, 8], "fps": 8, "loop": true },
+          "move_berserk": { "frames": [9, 10, 11, 12], "fps": 10, "loop": true },
+          "slash_1_telegraph": { "frames": [13], "fps": 2.5, "loop": false },
+          "slash_1": { "frames": [14, 15, 16], "fps": 12, "loop": false },
+          "slash_2_telegraph": { "frames": [17], "fps": 3, "loop": false },
+          "slash_2": { "frames": [18, 19, 20], "fps": 12, "loop": false },
+          "lunge_telegraph": { "frames": [21, 22], "fps": 4, "loop": false },
+          "lunge": { "frames": [23, 24], "fps": 15, "loop": false },
+          "flurry_telegraph": { "frames": [25], "fps": 3, "loop": false },
+          "flurry": { "frames": [26, 27, 28, 29, 30], "fps": 20, "loop": false },
+          "berserk_transition": { "frames": [31, 32, 33], "fps": 4, "loop": false },
+          "hurt": { "frames": [34], "fps": 1, "loop": false },
+          "death": { "frames": [35, 36, 37, 38, 39], "fps": 6, "loop": false }
+        }
+      }
+    }
+  },
+
+
+  "bosses": {
+
+    "b_yggdra": {
+      "id": "b_yggdra",
+      "name": "타락한 이그드라",
+      "name_en": "Corrupted Yggdra",
+      "subtitle": "잊혀진 숲의 수호자",
+      "chapter": 1,
+      "type": "BOSS",
+      "tier": "BOSS",
+
+      "stats": {
+        "hp": 500,
+        "speed": 50,
+        "damage": 20,
+        "defense": 5,
+        "exp": 200,
+        "gold_drop": [100, 150]
+      },
+
+      "special_properties": {
+        "knockback_resist": 1.0,
+        "stagger_immune": true,
+        "weak_point": "glowing_core"
+      },
+
+      "arena": {
+        "recommended_size": { "width": 400, "height": 300 },
+        "spawn_position": "center_top",
+        "entry_lock": true
+      },
+
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "숲의 분노",
+          "condition": { "hp_percent": { "min": 51, "max": 100 } },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.0,
+            "movement_speed_mult": 1.0
+          },
+          "available_skills": ["root_stab", "poison_cloud"],
+          "skill_rotation": "WEIGHTED_RANDOM",
+          "skill_weights": { "root_stab": 0.6, "poison_cloud": 0.4 }
+        },
+        {
+          "id": "phase_2",
+          "name": "광폭화: 부패의 비명",
+          "condition": { "hp_percent": { "min": 0, "max": 50 } },
+          "transition": {
+            "animation": "yggdra_scream",
+            "duration": 2.0,
+            "invincible": true,
+            "screen_effect": "screen_shake_heavy",
+            "spawn_adds": { "enemy_id": "m_slime_corrupted", "count": 3, "positions": "arena_edges" }
+          },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.3,
+            "movement_speed_mult": 1.2
+          },
+          "available_skills": ["root_stab", "poison_cloud", "vine_sweep", "corruption_burst"],
+          "skill_rotation": "SEQUENTIAL_THEN_RANDOM",
+          "intro_sequence": ["corruption_burst", "vine_sweep"]
+        }
+      ],
+
+      "skills": [
+        {
+          "id": "root_stab",
+          "name": "뿌리 찌르기",
+          "type": "GROUND_TARGETED",
+          "damage": 25,
+          "cooldown": 3.0,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "ground_crack_warning",
+            "audio": "sfx_ground_rumble",
+            "ground_indicator": {
+              "type": "LINE",
+              "width": 40,
+              "length": 250,
+              "color": "0x88884422"
+            }
+          },
+          "hitbox": {
+            "type": "RECTANGLE",
+            "width": 40,
+            "height": 250,
+            "spawn_from": "boss_front"
+          },
+          "effects": [
+            { "type": "KNOCKUP", "height": 30, "duration": 0.5 }
+          ],
+          "description": "땅에서 뿌리가 솟아올라 일직선으로 플레이어를 찌름"
+        },
+        {
+          "id": "poison_cloud",
+          "name": "독구름",
+          "type": "AOE_PERSISTENT",
+          "damage": 5,
+          "cooldown": 6.0,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "spore_gather",
+            "audio": "sfx_gas_release",
+            "ground_indicator": {
+              "type": "CIRCLE",
+              "radius": 100,
+              "color": "0x6644AA44"
+            }
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 100,
+            "position": "player_location"
+          },
+          "persist": {
+            "duration": 5.0,
+            "tick_rate": 0.5,
+            "damage_per_tick": 5
+          },
+          "effects": [
+            { "type": "SLOW", "amount": 0.3, "duration": 1.0 }
+          ],
+          "description": "플레이어 위치에 독구름 생성, 지속 피해"
+        },
+        {
+          "id": "vine_sweep",
+          "name": "덩굴 휩쓸기",
+          "type": "MELEE_WIDE",
+          "damage": 30,
+          "cooldown": 4.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 0.6,
+            "visual": "yggdra_arm_raise",
+            "audio": "sfx_vine_whip"
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 150,
+            "angle": 180
+          },
+          "effects": [
+            { "type": "KNOCKBACK", "force": 180 }
+          ],
+          "description": "거대한 덩굴 팔로 전방 180도 휩쓸기"
+        },
+        {
+          "id": "corruption_burst",
+          "name": "부패의 폭발",
+          "type": "AOE_CENTERED",
+          "damage": 35,
+          "cooldown": 10.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 1.2,
+            "visual": "yggdra_core_glow",
+            "audio": "sfx_energy_charge",
+            "ground_indicator": {
+              "type": "CIRCLE",
+              "radius": 180,
+              "color": "0x88FF4444",
+              "pulse": true
+            }
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 180,
+            "centered_on_self": true
+          },
+          "safe_zone": {
+            "type": "RING",
+            "inner_radius": 80,
+            "outer_radius": 180,
+            "note": "보스 바로 밑이 안전"
+          },
+          "effects": [
+            { "type": "POISON", "damage_per_tick": 3, "duration": 4.0 }
+          ],
+          "screen_shake": { "intensity": 6, "duration": 0.5 },
+          "description": "주변 전체에 부패 에너지 폭발. 보스 바로 아래가 안전지대"
+        }
+      ],
+
+      "drops": [
+        { "item_id": "boss_material_yggdra_heart", "chance": 1.0 },
+        { "item_id": "weapon_vine_whip", "chance": 0.15 },
+        { "item_id": "accessory_forest_charm", "chance": 0.2 },
+        { "item_id": "arcana_fragment_1", "chance": 1.0 }
+      ],
+
+      "lore": {
+        "encounter_dialogue": "...침입자... 이 숲에서... 나가...",
+        "defeat_dialogue": "마침내... 안식을...",
+        "journal_entry": "한때 숲을 지키던 정령이었으나, 망각의 저주에 물들어 타락했다."
+      },
+
+      "assets": {
+        "sprite_sheet": "boss_yggdra.png",
+        "frame_size": [128, 128],
+        "portrait": "portrait_yggdra.png",
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 3, "loop": true },
+          "root_stab_telegraph": { "frames": [4, 5, 6], "fps": 4, "loop": false },
+          "root_stab": { "frames": [7, 8, 9, 10], "fps": 8, "loop": false },
+          "poison_cloud_telegraph": { "frames": [11, 12, 13], "fps": 3, "loop": false },
+          "poison_cloud": { "frames": [14, 15], "fps": 6, "loop": false },
+          "vine_sweep_telegraph": { "frames": [16, 17], "fps": 3, "loop": false },
+          "vine_sweep": { "frames": [18, 19, 20, 21], "fps": 12, "loop": false },
+          "corruption_telegraph": { "frames": [22, 23, 24, 25], "fps": 3, "loop": false },
+          "corruption_burst": { "frames": [26, 27, 28], "fps": 8, "loop": false },
+          "phase_transition": { "frames": [29, 30, 31, 32, 33], "fps": 5, "loop": false },
+          "hurt": { "frames": [34], "fps": 1, "loop": false },
+          "death": { "frames": [35, 36, 37, 38, 39, 40], "fps": 4, "loop": false }
+        }
+      }
+    },
+
+
+    "b_onyx": {
+      "id": "b_onyx",
+      "name": "수정 거미 오닉스",
+      "name_en": "Crystal Spider Onyx",
+      "subtitle": "심연의 눈",
+      "chapter": 2,
+      "type": "BOSS",
+      "tier": "BOSS",
+
+      "stats": {
+        "hp": 700,
+        "speed": 70,
+        "damage": 25,
+        "defense": 8,
+        "exp": 350,
+        "gold_drop": [180, 250]
+      },
+
+      "special_properties": {
+        "knockback_resist": 0.9,
+        "stagger_immune": true,
+        "wall_crawl": true,
+        "darkness_mechanic": true
+      },
+
+      "arena": {
+        "recommended_size": { "width": 500, "height": 400 },
+        "spawn_position": "ceiling_center",
+        "entry_lock": true,
+        "light_sources": [
+          { "x": 100, "y": 100, "destructible": true },
+          { "x": 400, "y": 100, "destructible": true },
+          { "x": 100, "y": 300, "destructible": true },
+          { "x": 400, "y": 300, "destructible": true }
+        ]
+      },
+
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "거미의 사냥",
+          "condition": { "hp_percent": { "min": 51, "max": 100 } },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.0,
+            "movement_speed_mult": 1.0
+          },
+          "available_skills": ["web_shot", "pounce", "spawn_spiderling"],
+          "skill_rotation": "WEIGHTED_RANDOM",
+          "skill_weights": { "web_shot": 0.4, "pounce": 0.4, "spawn_spiderling": 0.2 }
+        },
+        {
+          "id": "phase_2",
+          "name": "광폭화: 심연의 어둠",
+          "condition": { "hp_percent": { "min": 0, "max": 50 } },
+          "transition": {
+            "animation": "onyx_darkness_shroud",
+            "duration": 2.5,
+            "invincible": true,
+            "screen_effect": "lights_flicker_out",
+            "destroys_lights": 2,
+            "spawn_adds": { "enemy_id": "m_spiderling", "count": 5, "positions": "random" }
+          },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.4,
+            "movement_speed_mult": 1.3,
+            "visibility_reduction": 0.5
+          },
+          "available_skills": ["web_shot", "pounce", "spawn_spiderling", "darkness_dive", "web_trap_field"],
+          "skill_rotation": "PRIORITY_BASED",
+          "special_behavior": "prefers_attacking_from_darkness"
+        }
+      ],
+
+      "skills": [
+        {
+          "id": "web_shot",
+          "name": "거미줄 발사",
+          "type": "PROJECTILE",
+          "damage": 15,
+          "cooldown": 2.5,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "onyx_aim_laser",
+            "audio": "sfx_web_charge"
+          },
+          "projectile": {
+            "speed": 350,
+            "sprite": "projectile_web.png",
+            "hitbox_radius": 20
+          },
+          "effects": [
+            { "type": "ROOT", "duration": 1.5 },
+            { "type": "SLOW", "amount": 0.5, "duration": 3.0 }
+          ],
+          "description": "플레이어를 조준하여 거미줄 발사. 맞으면 속박"
+        },
+        {
+          "id": "pounce",
+          "name": "급습",
+          "type": "LEAP_ATTACK",
+          "damage": 30,
+          "cooldown": 4.0,
+          "telegraph": {
+            "duration": 0.7,
+            "visual": "onyx_crouch",
+            "audio": "sfx_spider_hiss",
+            "ground_indicator": {
+              "type": "CIRCLE",
+              "radius": 60,
+              "follows_player": true,
+              "color": "0x88FF0000"
+            }
+          },
+          "leap": {
+            "height": 150,
+            "target": "player_position",
+            "landing_damage_radius": 60
+          },
+          "effects": [
+            { "type": "KNOCKDOWN", "duration": 0.8 }
+          ],
+          "description": "플레이어 위치로 점프하여 내려찍기"
+        },
+        {
+          "id": "spawn_spiderling",
+          "name": "새끼 거미 소환",
+          "type": "SUMMON",
+          "damage": 0,
+          "cooldown": 12.0,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "onyx_egg_sac_glow",
+            "audio": "sfx_eggs_cracking"
+          },
+          "summon": {
+            "enemy_id": "m_spiderling",
+            "count": 3,
+            "max_active": 6,
+            "spawn_pattern": "around_boss"
+          },
+          "description": "새끼 거미 3마리 소환. 최대 6마리까지"
+        },
+        {
+          "id": "darkness_dive",
+          "name": "어둠 속 습격",
+          "type": "TELEPORT_ATTACK",
+          "damage": 35,
+          "cooldown": 6.0,
+          "phase_unlock": 2,
+          "requires": "darkness_zone_exists",
+          "telegraph": {
+            "duration": 0.4,
+            "visual": "darkness_shimmer",
+            "audio": "sfx_shadow_woosh"
+          },
+          "mechanics": {
+            "teleport_to": "nearest_darkness",
+            "emerge_attack_radius": 80,
+            "invincible_during_teleport": true
+          },
+          "effects": [
+            { "type": "FEAR", "duration": 1.0, "chance": 0.3 }
+          ],
+          "description": "어두운 영역으로 순간이동 후 기습 공격"
+        },
+        {
+          "id": "web_trap_field",
+          "name": "거미줄 함정",
+          "type": "AOE_FIELD",
+          "damage": 0,
+          "cooldown": 15.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 1.2,
+            "visual": "onyx_spin_web",
+            "audio": "sfx_web_spinning"
+          },
+          "field": {
+            "count": 5,
+            "radius_each": 40,
+            "duration": 10.0,
+            "placement": "random_arena"
+          },
+          "trap_effect": {
+            "type": "ROOT",
+            "duration": 2.0,
+            "trigger_delay": 0.3
+          },
+          "description": "아레나에 5개의 거미줄 함정 설치"
+        }
+      ],
+
+      "summons": {
+        "m_spiderling": {
+          "name": "새끼 거미",
+          "stats": { "hp": 15, "speed": 120, "damage": 8 },
+          "behavior": "SWARM_PLAYER",
+          "despawn_on_boss_death": true
+        }
+      },
+
+      "drops": [
+        { "item_id": "boss_material_onyx_fang", "chance": 1.0 },
+        { "item_id": "armor_spider_silk", "chance": 0.15 },
+        { "item_id": "accessory_night_vision_gem", "chance": 0.2 },
+        { "item_id": "arcana_fragment_2", "chance": 1.0 }
+      ],
+
+      "lore": {
+        "encounter_dialogue": "어둠 속에서... 너를 지켜보고 있었다...",
+        "defeat_dialogue": "빛이... 너무... 눈부셔...",
+        "journal_entry": "심연의 동굴 가장 깊은 곳에 서식하는 거대 거미. 수정으로 이루어진 외골격은 어둠 속에서 희미하게 빛난다."
+      },
+
+      "assets": {
+        "sprite_sheet": "boss_onyx.png",
+        "frame_size": [160, 128],
+        "portrait": "portrait_onyx.png",
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 4, "loop": true },
+          "move": { "frames": [4, 5, 6, 7, 8, 9], "fps": 8, "loop": true },
+          "wall_crawl": { "frames": [10, 11, 12, 13], "fps": 6, "loop": true },
+          "web_shot_telegraph": { "frames": [14, 15], "fps": 4, "loop": false },
+          "web_shot": { "frames": [16, 17], "fps": 8, "loop": false },
+          "pounce_telegraph": { "frames": [18, 19, 20], "fps": 4, "loop": false },
+          "pounce": { "frames": [21, 22, 23, 24], "fps": 12, "loop": false },
+          "summon": { "frames": [25, 26, 27, 28], "fps": 4, "loop": false },
+          "darkness_dive": { "frames": [29, 30, 31], "fps": 10, "loop": false },
+          "web_field": { "frames": [32, 33, 34, 35], "fps": 6, "loop": false },
+          "phase_transition": { "frames": [36, 37, 38, 39, 40], "fps": 4, "loop": false },
+          "hurt": { "frames": [41], "fps": 1, "loop": false },
+          "death": { "frames": [42, 43, 44, 45, 46, 47], "fps": 4, "loop": false }
+        }
+      }
+    },
+
+
+    "b_kaiser": {
+      "id": "b_kaiser",
+      "name": "강철의 폭군 카이저",
+      "name_en": "Steel Tyrant Kaiser",
+      "subtitle": "영원한 전쟁왕",
+      "chapter": 3,
+      "type": "BOSS",
+      "tier": "BOSS",
+
+      "stats": {
+        "hp": 1000,
+        "speed": 60,
+        "damage": 35,
+        "defense": 12,
+        "exp": 500,
+        "gold_drop": [300, 400]
+      },
+
+      "special_properties": {
+        "knockback_resist": 1.0,
+        "stagger_immune": true,
+        "armor_phases": true,
+        "can_be_parried": true
+      },
+
+      "arena": {
+        "recommended_size": { "width": 600, "height": 450 },
+        "spawn_position": "throne",
+        "entry_lock": true,
+        "destructible_pillars": 4
+      },
+
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "왕의 시험",
+          "condition": { "hp_percent": { "min": 71, "max": 100 } },
+          "behavior_modifier": {
+            "attack_speed_mult": 0.9,
+            "movement_speed_mult": 0.8
+          },
+          "available_skills": ["sword_combo", "shield_charge"],
+          "skill_rotation": "ALTERNATING",
+          "description": "느리지만 강력한 공격. 패턴 학습 구간"
+        },
+        {
+          "id": "phase_2",
+          "name": "분노의 검",
+          "condition": { "hp_percent": { "min": 31, "max": 70 } },
+          "transition": {
+            "animation": "kaiser_throw_shield",
+            "duration": 1.5,
+            "invincible": true,
+            "screen_effect": "dramatic_zoom",
+            "dialogue": "방패 따위는 필요 없다!"
+          },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.2,
+            "movement_speed_mult": 1.0,
+            "defense_reduction": 4
+          },
+          "available_skills": ["sword_combo", "whirlwind_slash", "ground_slam"],
+          "skill_rotation": "AGGRESSIVE_CHAIN",
+          "description": "방패를 버리고 공격적으로 변화"
+        },
+        {
+          "id": "phase_3",
+          "name": "광폭화: 강철의 폭풍",
+          "condition": { "hp_percent": { "min": 0, "max": 30 } },
+          "transition": {
+            "animation": "kaiser_berserk_roar",
+            "duration": 2.0,
+            "invincible": true,
+            "screen_effect": "red_vignette_pulse",
+            "aura": { "type": "fire", "damage_per_second": 3, "radius": 80 },
+            "dialogue": "이 전장에서... 살아남아 보아라!"
+          },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.5,
+            "movement_speed_mult": 1.3,
+            "damage_multiplier": 1.2
+          },
+          "available_skills": ["sword_combo", "whirlwind_slash", "ground_slam", "execution_strike", "arena_devastation"],
+          "skill_rotation": "RELENTLESS",
+          "special_behavior": "no_rest_between_attacks"
+        }
+      ],
+
+      "skills": [
+        {
+          "id": "sword_combo",
+          "name": "대검 연속베기",
+          "type": "MELEE_COMBO",
+          "damage": [30, 35, 50],
+          "cooldown": 3.0,
+          "hits": 3,
+          "telegraph": {
+            "per_hit": [
+              { "duration": 0.5, "visual": "kaiser_wind_up_1", "audio": "sfx_sword_woosh" },
+              { "duration": 0.4, "visual": "kaiser_wind_up_2", "audio": "sfx_sword_woosh" },
+              { "duration": 0.6, "visual": "kaiser_overhead", "audio": "sfx_power_charge" }
+            ]
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 120,
+            "angles": [120, 120, 180]
+          },
+          "combo_window": 0.8,
+          "parryable": [true, true, false],
+          "effects": [
+            { "hit": 3, "type": "KNOCKBACK", "force": 150 }
+          ],
+          "description": "3연속 베기. 1, 2타는 패리 가능, 3타는 불가"
+        },
+        {
+          "id": "shield_charge",
+          "name": "방패 돌진",
+          "type": "CHARGE",
+          "damage": 25,
+          "cooldown": 5.0,
+          "phase_available": [1],
+          "telegraph": {
+            "duration": 0.7,
+            "visual": "kaiser_shield_brace",
+            "audio": "sfx_metal_scrape",
+            "charge_line": {
+              "length": 300,
+              "width": 60,
+              "color": "0x88FFAA00"
+            }
+          },
+          "charge": {
+            "distance": 300,
+            "speed": 500,
+            "width": 60
+          },
+          "effects": [
+            { "type": "STUN", "duration": 1.2 },
+            { "type": "KNOCKBACK", "force": 200 }
+          ],
+          "wall_collision": {
+            "self_stun": 1.5,
+            "creates_opening": true
+          },
+          "description": "방패를 앞세워 돌진. 벽에 부딪히면 보스가 기절"
+        },
+        {
+          "id": "whirlwind_slash",
+          "name": "회전 참격",
+          "type": "SPIN_ATTACK",
+          "damage": 40,
+          "cooldown": 6.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "kaiser_spin_charge",
+            "audio": "sfx_wind_gather"
+          },
+          "spin": {
+            "rotations": 3,
+            "duration": 1.5,
+            "radius": 140,
+            "moves_toward_player": true,
+            "speed_while_spinning": 80
+          },
+          "effects": [
+            { "type": "BLEED", "damage_per_tick": 5, "duration": 3.0 }
+          ],
+          "screen_shake": { "intensity": 3, "duration": 1.5 },
+          "description": "대검을 휘두르며 3회전. 이동하면서 공격"
+        },
+        {
+          "id": "ground_slam",
+          "name": "대지 강타",
+          "type": "AOE_SHOCKWAVE",
+          "damage": 45,
+          "cooldown": 8.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "kaiser_jump_up",
+            "audio": "sfx_heavy_land_charge",
+            "ground_indicator": {
+              "type": "EXPANDING_RING",
+              "inner_start": 0,
+              "outer_end": 250,
+              "color": "0x88FF4444"
+            }
+          },
+          "shockwave": {
+            "waves": 2,
+            "wave_delay": 0.3,
+            "radius_per_wave": [150, 250],
+            "damage_falloff": [1.0, 0.6]
+          },
+          "effects": [
+            { "type": "KNOCKDOWN", "duration": 1.0 }
+          ],
+          "safe_zone": "in_air_or_far",
+          "screen_shake": { "intensity": 10, "duration": 0.6 },
+          "description": "점프 후 내려찍기. 2중 충격파 발생"
+        },
+        {
+          "id": "execution_strike",
+          "name": "처형의 일격",
+          "type": "HEAVY_SINGLE",
+          "damage": 80,
+          "cooldown": 12.0,
+          "phase_unlock": 3,
+          "telegraph": {
+            "duration": 1.5,
+            "visual": "kaiser_raise_sword_high",
+            "audio": "sfx_divine_charge",
+            "sword_glow": true,
+            "ground_indicator": {
+              "type": "CONE",
+              "angle": 60,
+              "length": 200,
+              "color": "0xAAFF0000"
+            }
+          },
+          "hitbox": {
+            "type": "CONE",
+            "angle": 60,
+            "length": 200
+          },
+          "effects": [
+            { "type": "EXECUTION", "kills_below_hp_percent": 15 }
+          ],
+          "description": "긴 선딜레이의 초고위력 공격. HP 15% 이하 시 즉사"
+        },
+        {
+          "id": "arena_devastation",
+          "name": "아레나 초토화",
+          "type": "FULL_SCREEN",
+          "damage": 60,
+          "cooldown": 25.0,
+          "phase_unlock": 3,
+          "telegraph": {
+            "duration": 2.5,
+            "visual": "kaiser_channel_power",
+            "audio": "sfx_apocalypse_charge",
+            "warning_text": "카이저가 전력을 모으고 있다!",
+            "safe_zones_spawn": true
+          },
+          "mechanics": {
+            "safe_zones": {
+              "count": 2,
+              "type": "BEHIND_PILLAR",
+              "visual": "pillar_shadow"
+            },
+            "pillar_destruction": "if_used_as_cover"
+          },
+          "screen_effect": {
+            "buildup": "screen_darken",
+            "explosion": "white_flash"
+          },
+          "screen_shake": { "intensity": 15, "duration": 1.0 },
+          "description": "전체 범위 공격. 기둥 뒤에 숨어야 회피 가능"
+        }
+      ],
+
+      "drops": [
+        { "item_id": "boss_material_kaiser_core", "chance": 1.0 },
+        { "item_id": "weapon_kaiser_greatsword", "chance": 0.1 },
+        { "item_id": "armor_royal_plate", "chance": 0.15 },
+        { "item_id": "accessory_crown_fragment", "chance": 0.2 },
+        { "item_id": "arcana_fragment_3", "chance": 1.0 }
+      ],
+
+      "lore": {
+        "encounter_dialogue": "또 다른 도전자인가... 좋다. 왕에게 도전할 자격을 증명해 보아라.",
+        "phase2_dialogue": "흥미롭군. 이제 진심으로 상대해 주마.",
+        "phase3_dialogue": "인정한다... 네 실력을! 하지만 이 폭풍을 견딜 수 있겠느냐!",
+        "defeat_dialogue": "훌륭하다... 전사여... 네가... 새로운... 왕이다...",
+        "journal_entry": "붉은 요새를 지배하는 불멸의 전사. 수천 년간 도전자들을 쓰러뜨려왔으나, 진정한 강자를 기다려왔다고 전해진다."
+      },
+
+      "assets": {
+        "sprite_sheet": "boss_kaiser.png",
+        "frame_size": [192, 192],
+        "portrait": "portrait_kaiser.png",
+        "animations": {
+          "idle_shield": { "frames": [0, 1], "fps": 2, "loop": true },
+          "idle_no_shield": { "frames": [2, 3], "fps": 2, "loop": true },
+          "idle_berserk": { "frames": [4, 5, 6, 7], "fps": 4, "loop": true },
+          "walk": { "frames": [8, 9, 10, 11], "fps": 6, "loop": true },
+          "combo_1_telegraph": { "frames": [12, 13], "fps": 4, "loop": false },
+          "combo_1": { "frames": [14, 15, 16], "fps": 12, "loop": false },
+          "combo_2_telegraph": { "frames": [17], "fps": 2.5, "loop": false },
+          "combo_2": { "frames": [18, 19, 20], "fps": 12, "loop": false },
+          "combo_3_telegraph": { "frames": [21, 22], "fps": 3, "loop": false },
+          "combo_3": { "frames": [23, 24, 25, 26], "fps": 10, "loop": false },
+          "shield_charge_telegraph": { "frames": [27, 28], "fps": 3, "loop": false },
+          "shield_charge": { "frames": [29, 30], "fps": 10, "loop": true },
+          "shield_charge_wall_hit": { "frames": [31, 32], "fps": 4, "loop": false },
+          "whirlwind_telegraph": { "frames": [33, 34], "fps": 2.5, "loop": false },
+          "whirlwind": { "frames": [35, 36, 37, 38], "fps": 12, "loop": true },
+          "ground_slam_telegraph": { "frames": [39, 40, 41], "fps": 3, "loop": false },
+          "ground_slam": { "frames": [42, 43, 44, 45], "fps": 8, "loop": false },
+          "execution_telegraph": { "frames": [46, 47, 48, 49], "fps": 3, "loop": false },
+          "execution": { "frames": [50, 51, 52, 53], "fps": 10, "loop": false },
+          "devastation_telegraph": { "frames": [54, 55, 56, 57, 58], "fps": 2, "loop": false },
+          "devastation": { "frames": [59, 60, 61], "fps": 6, "loop": false },
+          "throw_shield": { "frames": [62, 63, 64], "fps": 6, "loop": false },
+          "berserk_transition": { "frames": [65, 66, 67, 68, 69], "fps": 4, "loop": false },
+          "hurt": { "frames": [70], "fps": 1, "loop": false },
+          "death": { "frames": [71, 72, 73, 74, 75, 76, 77], "fps": 4, "loop": false }
+        }
+      }
+    },
+
+
+    "b_liliana_illusion": {
+      "id": "b_liliana_illusion",
+      "name": "리리아나의 환영",
+      "name_en": "Liliana's Illusion",
+      "subtitle": "피의 정원의 잔영",
+      "chapter": 4,
+      "type": "BOSS",
+      "tier": "BOSS",
+
+      "stats": {
+        "hp": 800,
+        "speed": 75,
+        "damage": 28,
+        "defense": 6,
+        "exp": 450,
+        "gold_drop": [250, 350]
+      },
+
+      "special_properties": {
+        "knockback_resist": 0.7,
+        "stagger_immune": false,
+        "illusion_form": true,
+        "emotional_combat": true,
+        "forgiveness_mechanic": true
+      },
+
+      "arena": {
+        "recommended_size": { "width": 500, "height": 400 },
+        "spawn_position": "center",
+        "entry_lock": true,
+        "rose_field": true,
+        "emotional_triggers": ["memory_flashback", "guilt_dialogue"]
+      },
+
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "분노의 환영",
+          "condition": { "hp_percent": { "min": 51, "max": 100 } },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.0,
+            "movement_speed_mult": 1.0
+          },
+          "available_skills": ["thorn_whip", "petal_storm", "illusion_dash"],
+          "skill_rotation": "AGGRESSIVE",
+          "dialogue_triggers": [
+            { "at_hp": 90, "line": "왜... 날 죽였어...?" },
+            { "at_hp": 70, "line": "기억해? 우리의 약속을..." }
+          ]
+        },
+        {
+          "id": "phase_2",
+          "name": "슬픔의 환영",
+          "condition": { "hp_percent": { "min": 0, "max": 50 } },
+          "transition": {
+            "animation": "liliana_weep",
+            "duration": 3.0,
+            "invincible": true,
+            "screen_effect": "rose_petals_fall",
+            "dialogue": "그래도... 널 미워할 수 없어..."
+          },
+          "behavior_modifier": {
+            "attack_speed_mult": 0.8,
+            "movement_speed_mult": 0.9,
+            "defense_increase": 4
+          },
+          "available_skills": ["thorn_whip", "petal_storm", "memory_bind", "forgiveness_bloom"],
+          "skill_rotation": "DEFENSIVE_THEN_BURST",
+          "special_mechanic": "player_can_choose_to_stop_attacking"
+        }
+      ],
+
+      "skills": [
+        {
+          "id": "thorn_whip",
+          "name": "가시 채찍",
+          "type": "MELEE_REACH",
+          "damage": 25,
+          "cooldown": 2.5,
+          "telegraph": {
+            "duration": 0.5,
+            "visual": "liliana_arm_back",
+            "audio": "sfx_whip_crack"
+          },
+          "hitbox": {
+            "type": "LINE",
+            "width": 30,
+            "length": 180
+          },
+          "effects": [
+            { "type": "PULL", "force": 80, "chance": 0.5 },
+            { "type": "BLEED", "damage_per_tick": 3, "duration": 3.0 }
+          ],
+          "description": "가시 덩굴을 채찍처럼 휘둘러 공격. 끌어당김 효과"
+        },
+        {
+          "id": "petal_storm",
+          "name": "장미 폭풍",
+          "type": "AOE_EXPANDING",
+          "damage": 20,
+          "cooldown": 6.0,
+          "telegraph": {
+            "duration": 0.8,
+            "visual": "liliana_spin_charge",
+            "audio": "sfx_wind_gather"
+          },
+          "aoe": {
+            "type": "RING_WAVE",
+            "inner_radius": 0,
+            "outer_radius": 200,
+            "expansion_speed": 150
+          },
+          "effects": [
+            { "type": "SLOW", "amount": 0.4, "duration": 2.0 }
+          ],
+          "description": "장미 꽃잎이 원형으로 퍼지며 피해"
+        },
+        {
+          "id": "illusion_dash",
+          "name": "환영 이동",
+          "type": "TELEPORT_ATTACK",
+          "damage": 30,
+          "cooldown": 4.0,
+          "telegraph": {
+            "duration": 0.4,
+            "visual": "liliana_fade",
+            "audio": "sfx_illusion_shift"
+          },
+          "mechanics": {
+            "creates_afterimages": 2,
+            "afterimage_damage": 0.3,
+            "teleport_behind_player": true
+          },
+          "effects": [],
+          "description": "잔상을 남기며 순간이동 후 공격"
+        },
+        {
+          "id": "memory_bind",
+          "name": "기억의 속박",
+          "type": "CROWD_CONTROL",
+          "damage": 0,
+          "cooldown": 12.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 1.2,
+            "visual": "liliana_reach_out",
+            "audio": "sfx_memory_echo",
+            "screen_effect": "memory_flashback"
+          },
+          "mechanics": {
+            "root_duration": 2.5,
+            "shows_memory": "happy_past",
+            "damage_during_memory": false
+          },
+          "effects": [
+            { "type": "ROOT", "duration": 2.5 },
+            { "type": "VISION_OVERRIDE", "shows": "memory_scene", "duration": 2.5 }
+          ],
+          "description": "플레이어를 과거 기억에 속박. 공격하지 않음"
+        },
+        {
+          "id": "forgiveness_bloom",
+          "name": "용서의 꽃",
+          "type": "SPECIAL",
+          "damage": 0,
+          "cooldown": 20.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 2.0,
+            "visual": "liliana_kneel_flower",
+            "audio": "sfx_gentle_bloom"
+          },
+          "mechanics": {
+            "creates_safe_zone": true,
+            "safe_zone_radius": 80,
+            "heals_player_if_enters": 30,
+            "triggers_forgiveness_dialogue": true
+          },
+          "description": "안전 지대 생성. 들어가면 회복 + 용서 대화 트리거"
+        }
+      ],
+
+      "special_mechanics": {
+        "forgiveness_ending": {
+          "trigger": "player_stops_attacking_at_10%",
+          "duration": 10.0,
+          "result": "peaceful_resolution",
+          "bonus_reward": "first_heart_piece"
+        },
+        "forced_ending": {
+          "trigger": "player_kills_boss",
+          "result": "liliana_fades_with_sadness",
+          "no_bonus": true
+        }
+      },
+
+      "drops": [
+        { "item_id": "boss_material_liliana_tear", "chance": 1.0 },
+        { "item_id": "accessory_rose_locket", "chance": 0.25 },
+        { "item_id": "armor_thorned_dress", "chance": 0.1 },
+        { "item_id": "first_heart", "chance": 1.0, "condition": "any_ending" }
+      ],
+
+      "lore": {
+        "encounter_dialogue": "다시... 널 만났네... 아리온...",
+        "phase2_dialogue": "그래도... 널 미워할 수 없어...",
+        "forgiveness_dialogue": "용서해... 내가 널 이런 길로 이끌어서...",
+        "defeat_dialogue": "다음에는... 행복하게...",
+        "journal_entry": "피의 정원에 나타난 리리아나의 환영. 분노와 슬픔, 그리고 용서의 감정이 뒤섞여 있다. 그녀는 진정 원망하는 것일까, 아니면..."
+      },
+
+      "assets": {
+        "sprite_sheet": "boss_liliana_illusion.png",
+        "frame_size": [96, 128],
+        "portrait": "portrait_liliana.png",
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 3, "loop": true },
+          "idle_sad": { "frames": [4, 5, 6, 7], "fps": 2, "loop": true },
+          "move": { "frames": [8, 9, 10, 11], "fps": 6, "loop": true },
+          "thorn_whip_telegraph": { "frames": [12, 13], "fps": 4, "loop": false },
+          "thorn_whip": { "frames": [14, 15, 16, 17], "fps": 12, "loop": false },
+          "petal_storm_telegraph": { "frames": [18, 19, 20], "fps": 4, "loop": false },
+          "petal_storm": { "frames": [21, 22, 23, 24], "fps": 8, "loop": false },
+          "illusion_dash_telegraph": { "frames": [25, 26], "fps": 5, "loop": false },
+          "illusion_dash": { "frames": [27, 28, 29], "fps": 15, "loop": false },
+          "memory_bind_telegraph": { "frames": [30, 31, 32, 33], "fps": 3, "loop": false },
+          "memory_bind": { "frames": [34, 35], "fps": 2, "loop": true },
+          "forgiveness_telegraph": { "frames": [36, 37, 38, 39], "fps": 2, "loop": false },
+          "forgiveness": { "frames": [40, 41, 42], "fps": 3, "loop": true },
+          "weep_transition": { "frames": [43, 44, 45, 46, 47], "fps": 3, "loop": false },
+          "hurt": { "frames": [48], "fps": 1, "loop": false },
+          "death": { "frames": [49, 50, 51, 52, 53, 54], "fps": 4, "loop": false },
+          "forgiveness_ending": { "frames": [55, 56, 57, 58, 59, 60], "fps": 3, "loop": false }
+        }
+      }
+    },
+
+
+    "b_shadow_self": {
+      "id": "b_shadow_self",
+      "name": "그림자 자아",
+      "name_en": "Shadow Self",
+      "subtitle": "또 다른 나",
+      "chapter": 5,
+      "type": "BOSS",
+      "tier": "BOSS",
+
+      "stats": {
+        "hp": 1,
+        "speed": 80,
+        "damage": 35,
+        "defense": 0,
+        "exp": 0,
+        "gold_drop": [0, 0]
+      },
+
+      "special_properties": {
+        "cannot_be_killed": true,
+        "invincible": true,
+        "defeat_by_approach": true,
+        "mirrors_player": true,
+        "psychological_boss": true
+      },
+
+      "arena": {
+        "recommended_size": { "width": 400, "height": 400 },
+        "spawn_position": "opposite_player",
+        "entry_lock": true,
+        "mirror_floor": true,
+        "shrinking_arena": { "enabled": true, "shrink_interval": 30.0, "min_size": 200 }
+      },
+
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "거부",
+          "condition": { "distance_to_boss": { "min": 150, "max": 999 } },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.0,
+            "keeps_distance": true
+          },
+          "available_skills": ["shadow_slash", "dark_reflection", "retreat"],
+          "dialogue_triggers": [
+            { "at_start": true, "line": "넌 날 받아들이지 않을 거야." },
+            { "at_time": 30, "line": "계속 도망칠 셈이야?" }
+          ]
+        },
+        {
+          "id": "phase_2",
+          "name": "대치",
+          "condition": { "distance_to_boss": { "min": 80, "max": 149 } },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.3,
+            "aggressive": true
+          },
+          "available_skills": ["shadow_slash", "dark_reflection", "guilt_wave", "memory_assault"],
+          "dialogue_triggers": [
+            { "on_enter": true, "line": "그래, 맞서 싸워봐. 하지만 이길 순 없어." },
+            { "at_time": 20, "line": "우린 같은 존재야. 넌 날 죽일 수 없어." }
+          ]
+        },
+        {
+          "id": "phase_3",
+          "name": "수용",
+          "condition": { "distance_to_boss": { "min": 0, "max": 79 } },
+          "behavior_modifier": {
+            "attack_speed_mult": 0,
+            "stops_attacking": true
+          },
+          "available_skills": [],
+          "special_event": "integration_sequence",
+          "dialogue_triggers": [
+            { "on_enter": true, "line": "...드디어 날 받아들이는 거야?" },
+            { "at_time": 3, "line": "우리는... 하나야..." }
+          ]
+        }
+      ],
+
+      "skills": [
+        {
+          "id": "shadow_slash",
+          "name": "그림자 베기",
+          "type": "MELEE_COPY",
+          "damage": 30,
+          "cooldown": 2.0,
+          "telegraph": {
+            "duration": 0.4,
+            "visual": "shadow_mirror_player_attack",
+            "audio": "sfx_shadow_woosh"
+          },
+          "mechanics": {
+            "copies_player_weapon": true,
+            "reversed_animation": true
+          },
+          "hitbox": {
+            "type": "ARC",
+            "radius": 70,
+            "angle": 120
+          },
+          "effects": [
+            { "type": "SELF_DOUBT", "damage_reduction": 0.1, "duration": 5.0, "stacks": true }
+          ],
+          "description": "플레이어의 공격을 그대로 모방"
+        },
+        {
+          "id": "dark_reflection",
+          "name": "어둠의 반사",
+          "type": "PROJECTILE_REFLECT",
+          "damage": 0,
+          "cooldown": 5.0,
+          "telegraph": {
+            "duration": 0.3,
+            "visual": "shadow_stance",
+            "audio": "sfx_mirror_shine"
+          },
+          "mechanics": {
+            "reflect_window": 1.5,
+            "reflects_projectiles": true,
+            "reflects_melee": { "enabled": true, "damage_return": 0.5 }
+          },
+          "description": "플레이어의 공격을 반사"
+        },
+        {
+          "id": "guilt_wave",
+          "name": "죄책감의 파동",
+          "type": "AOE_PSYCHOLOGICAL",
+          "damage": 25,
+          "cooldown": 8.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "shadow_scream",
+            "audio": "sfx_guilt_echo",
+            "screen_effect": "guilt_flash"
+          },
+          "hitbox": {
+            "type": "CIRCLE",
+            "radius": 180,
+            "centered_on_self": true
+          },
+          "effects": [
+            { "type": "GUILT", "attack_power_reduction": 0.2, "duration": 8.0 },
+            { "type": "SLOW", "amount": 0.3, "duration": 3.0 }
+          ],
+          "screen_shake": { "intensity": 5, "duration": 0.5 },
+          "description": "죄책감을 불러일으켜 공격력 감소"
+        },
+        {
+          "id": "memory_assault",
+          "name": "기억의 습격",
+          "type": "SUMMON_MEMORY",
+          "damage": 20,
+          "cooldown": 15.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 1.5,
+            "visual": "shadow_channel_memories",
+            "audio": "sfx_memories_surge"
+          },
+          "mechanics": {
+            "summons_memory_phantoms": 3,
+            "phantom_appearance": "important_npcs",
+            "phantom_hp": 30,
+            "phantom_damage": 15
+          },
+          "description": "과거 기억 속 인물들의 환영 소환"
+        }
+      ],
+
+      "victory_condition": {
+        "type": "approach_and_hold",
+        "required_distance": 50,
+        "hold_duration": 5.0,
+        "during_hold": {
+          "player_invincible": true,
+          "cinematic_plays": true,
+          "integration_dialogue": [
+            "...날 받아들여줘서 고마워.",
+            "이제 우린 하나야.",
+            "네 이름은... 아리온.",
+            "기억해. 넌 누군가를 사랑했어.",
+            "그리고... 그 사람을 죽였어."
+          ]
+        }
+      },
+
+      "drops": [
+        { "item_id": "second_heart", "chance": 1.0 },
+        { "item_id": "arcana_of_abyss", "chance": 1.0 },
+        { "item_id": "memory_protagonist_name", "chance": 1.0, "unlocks": "arion" }
+      ],
+
+      "lore": {
+        "encounter_dialogue": "오랫동안 기다렸어... 나 자신.",
+        "phase2_dialogue": "도망치지 마. 넌 날 알아.",
+        "integration_dialogue": "이제... 온전해졌어.",
+        "journal_entry": "기억의 심연 가장 깊은 곳에서 만난 또 다른 자신. 공격해도 죽지 않는다. 받아들여야만 한다."
+      },
+
+      "assets": {
+        "sprite_sheet": "boss_shadow_self.png",
+        "frame_size": [64, 64],
+        "portrait": "portrait_shadow_self.png",
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 3, "loop": true },
+          "move": { "frames": [4, 5, 6, 7], "fps": 8, "loop": true },
+          "retreat": { "frames": [8, 9, 10, 11], "fps": 8, "loop": true },
+          "slash_telegraph": { "frames": [12, 13], "fps": 5, "loop": false },
+          "slash": { "frames": [14, 15, 16], "fps": 12, "loop": false },
+          "reflect_telegraph": { "frames": [17], "fps": 3, "loop": false },
+          "reflect": { "frames": [18, 19], "fps": 6, "loop": true },
+          "guilt_telegraph": { "frames": [20, 21, 22], "fps": 3, "loop": false },
+          "guilt": { "frames": [23, 24, 25], "fps": 8, "loop": false },
+          "memory_summon": { "frames": [26, 27, 28, 29], "fps": 4, "loop": false },
+          "approached": { "frames": [30, 31], "fps": 2, "loop": true },
+          "integration": { "frames": [32, 33, 34, 35, 36, 37, 38, 39], "fps": 3, "loop": false }
+        }
+      }
+    },
+
+
+    "b_avatar_of_oblivion": {
+      "id": "b_avatar_of_oblivion",
+      "name": "망각의 화신",
+      "name_en": "Avatar of Oblivion",
+      "subtitle": "모든 것을 잊게 하는 자",
+      "chapter": 6,
+      "type": "BOSS",
+      "tier": "FINAL_BOSS",
+
+      "stats": {
+        "hp": 2000,
+        "speed": 55,
+        "damage": 50,
+        "defense": 20,
+        "exp": 1000,
+        "gold_drop": [500, 800]
+      },
+
+      "special_properties": {
+        "knockback_resist": 1.0,
+        "stagger_immune": true,
+        "final_boss": true,
+        "three_hearts_mechanic": true,
+        "ending_branch": true
+      },
+
+      "arena": {
+        "recommended_size": { "width": 700, "height": 550 },
+        "spawn_position": "throne",
+        "entry_lock": true,
+        "liliana_seal_present": true,
+        "void_corruption_spreading": true
+      },
+
+      "phases": [
+        {
+          "id": "phase_1",
+          "name": "과거의 망각",
+          "condition": { "hp_percent": { "min": 71, "max": 100 } },
+          "heart_resonance": "first_heart",
+          "behavior_modifier": {
+            "attack_speed_mult": 0.9,
+            "movement_speed_mult": 0.8
+          },
+          "available_skills": ["void_grasp", "memory_erasure", "temporal_distortion"],
+          "skill_rotation": "METHODICAL",
+          "visual_theme": "purple_void",
+          "dialogue_triggers": [
+            { "at_start": true, "line": "과거를 지우면... 고통도 사라진다." },
+            { "at_hp": 80, "line": "첫 번째 심장이 공명한다..." }
+          ]
+        },
+        {
+          "id": "phase_2",
+          "name": "현재의 망각",
+          "condition": { "hp_percent": { "min": 41, "max": 70 } },
+          "heart_resonance": "second_heart",
+          "transition": {
+            "animation": "avatar_absorb_void",
+            "duration": 2.0,
+            "invincible": true,
+            "screen_effect": "reality_crack",
+            "dialogue": "현재마저 잊혀지면... 아무것도 남지 않는다."
+          },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.1,
+            "movement_speed_mult": 1.0
+          },
+          "available_skills": ["void_grasp", "memory_erasure", "reality_tear", "summon_forgotten"],
+          "skill_rotation": "AGGRESSIVE",
+          "visual_theme": "darker_void"
+        },
+        {
+          "id": "phase_3",
+          "name": "미래의 망각",
+          "condition": { "hp_percent": { "min": 11, "max": 40 } },
+          "heart_resonance": "third_heart",
+          "transition": {
+            "animation": "avatar_rage",
+            "duration": 2.5,
+            "invincible": true,
+            "screen_effect": "void_storm",
+            "liliana_awakens": true,
+            "dialogue": "미래조차... 망각 속으로!"
+          },
+          "behavior_modifier": {
+            "attack_speed_mult": 1.4,
+            "movement_speed_mult": 1.2,
+            "damage_multiplier": 1.3
+          },
+          "available_skills": ["void_grasp", "oblivion_burst", "reality_tear", "final_erasure"],
+          "skill_rotation": "RELENTLESS",
+          "visual_theme": "absolute_void",
+          "liliana_assists": true
+        },
+        {
+          "id": "phase_4",
+          "name": "최후의 거래",
+          "condition": { "hp_percent": { "min": 0, "max": 10 } },
+          "heart_resonance": "all_three",
+          "special_phase": true,
+          "transition": {
+            "animation": "avatar_kneel",
+            "duration": 3.0,
+            "invincible": true,
+            "screen_effect": "time_freeze",
+            "dialogue": "인정한다... 네 의지를."
+          },
+          "behavior_modifier": {
+            "stops_attacking": true
+          },
+          "ending_choice": {
+            "normal_ending": {
+              "condition": "no_hidden_items",
+              "choice": "sacrifice_self",
+              "outcome": "arion_forgotten_liliana_saved"
+            },
+            "true_ending": {
+              "condition": "has_promise_ring AND has_first_memory_crystal",
+              "choice": "cut_thread_of_reincarnation",
+              "outcome": "both_live_this_life_only"
+            }
+          }
+        }
+      ],
+
+      "skills": [
+        {
+          "id": "void_grasp",
+          "name": "공허의 손아귀",
+          "type": "GRAB_ATTACK",
+          "damage": 45,
+          "cooldown": 4.0,
+          "telegraph": {
+            "duration": 0.7,
+            "visual": "avatar_extend_arm",
+            "audio": "sfx_void_reach",
+            "ground_indicator": {
+              "type": "LINE",
+              "width": 60,
+              "length": 200,
+              "color": "0x88440066"
+            }
+          },
+          "hitbox": {
+            "type": "RECTANGLE",
+            "width": 60,
+            "height": 200
+          },
+          "on_hit": {
+            "grabs_player": true,
+            "hold_duration": 1.5,
+            "crush_damage": 20,
+            "escapable": { "button_mash": true, "required_inputs": 10 }
+          },
+          "effects": [],
+          "description": "플레이어를 잡아 조이기. 버튼 연타로 탈출"
+        },
+        {
+          "id": "memory_erasure",
+          "name": "기억 소거",
+          "type": "DEBUFF_HEAVY",
+          "damage": 30,
+          "cooldown": 10.0,
+          "telegraph": {
+            "duration": 1.2,
+            "visual": "avatar_eye_glow",
+            "audio": "sfx_memory_static",
+            "targeting": "player"
+          },
+          "mechanics": {
+            "erases_buff": true,
+            "erases_random_skill_temporarily": { "duration": 15.0 }
+          },
+          "effects": [
+            { "type": "AMNESIA", "disables_one_skill": true, "duration": 15.0 },
+            { "type": "VISION_STATIC", "duration": 2.0 }
+          ],
+          "description": "플레이어의 스킬 하나를 일시적으로 사용 불가"
+        },
+        {
+          "id": "temporal_distortion",
+          "name": "시간 왜곡",
+          "type": "ZONE_CONTROL",
+          "damage": 0,
+          "cooldown": 15.0,
+          "telegraph": {
+            "duration": 1.0,
+            "visual": "avatar_time_ripple",
+            "audio": "sfx_time_bend"
+          },
+          "mechanics": {
+            "creates_slow_zone": true,
+            "zone_count": 3,
+            "zone_radius": 80,
+            "slow_amount": 0.6,
+            "duration": 8.0
+          },
+          "description": "아레나에 시간 왜곡 구역 생성"
+        },
+        {
+          "id": "reality_tear",
+          "name": "현실 균열",
+          "type": "AOE_DELAYED",
+          "damage": 55,
+          "cooldown": 8.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 1.5,
+            "visual": "void_crack_form",
+            "audio": "sfx_reality_crack",
+            "ground_indicator": {
+              "type": "CROSS",
+              "arm_length": 250,
+              "arm_width": 50,
+              "color": "0xAA660088"
+            }
+          },
+          "hitbox": {
+            "type": "CROSS",
+            "arm_length": 250,
+            "arm_width": 50
+          },
+          "effects": [
+            { "type": "VOID_BURN", "damage_per_tick": 8, "duration": 4.0 }
+          ],
+          "screen_shake": { "intensity": 7, "duration": 0.5 },
+          "description": "십자 형태의 현실 균열. 긴 선딜레이"
+        },
+        {
+          "id": "summon_forgotten",
+          "name": "망각된 자 소환",
+          "type": "SUMMON",
+          "damage": 0,
+          "cooldown": 20.0,
+          "phase_unlock": 2,
+          "telegraph": {
+            "duration": 2.0,
+            "visual": "avatar_raise_arms",
+            "audio": "sfx_summon_dark"
+          },
+          "summon": {
+            "summons": [
+              { "id": "m_void_guardian", "count": 1 },
+              { "id": "m_distorted_knight", "count": 2 }
+            ],
+            "max_active": 4,
+            "spawn_pattern": "arena_edges"
+          },
+          "description": "허무의 수호자와 왜곡된 기사 소환"
+        },
+        {
+          "id": "oblivion_burst",
+          "name": "망각의 폭발",
+          "type": "AOE_MASSIVE",
+          "damage": 70,
+          "cooldown": 12.0,
+          "phase_unlock": 3,
+          "telegraph": {
+            "duration": 2.0,
+            "visual": "avatar_charge_oblivion",
+            "audio": "sfx_oblivion_charge",
+            "warning_text": "망각의 화신이 힘을 모으고 있다!",
+            "ground_indicator": {
+              "type": "FULL_ARENA",
+              "color": "0x66220044",
+              "safe_zones": 2
+            }
+          },
+          "mechanics": {
+            "full_arena_damage": true,
+            "safe_zones": {
+              "count": 2,
+              "radius": 60,
+              "spawns_near": "liliana_seal"
+            }
+          },
+          "effects": [
+            { "type": "AMNESIA_STACK", "stacks_with_existing": true }
+          ],
+          "screen_shake": { "intensity": 12, "duration": 1.0 },
+          "description": "전체 범위 공격. 리리아나 봉인 근처에 안전 지대"
+        },
+        {
+          "id": "final_erasure",
+          "name": "최종 소거",
+          "type": "ULTIMATE",
+          "damage": 100,
+          "cooldown": 30.0,
+          "phase_unlock": 3,
+          "telegraph": {
+            "duration": 3.0,
+            "visual": "avatar_ascend",
+            "audio": "sfx_final_attack",
+            "cinematic": true,
+            "ground_indicator": {
+              "type": "EXPANDING_CIRCLE",
+              "start_radius": 0,
+              "end_radius": 400,
+              "color": "0xFFFF0000"
+            }
+          },
+          "mechanics": {
+            "expanding_erasure": true,
+            "expansion_speed": 100,
+            "must_reach_edge": true
+          },
+          "effects": [
+            { "type": "INSTANT_KILL", "if_caught": true }
+          ],
+          "counter_mechanic": {
+            "three_hearts_active": true,
+            "creates_barrier": true,
+            "reduces_damage": 0.8
+          },
+          "description": "확장되는 소멸 파동. 세 심장 공명으로 피해 감소"
+        }
+      ],
+
+      "liliana_assistance": {
+        "phase_unlock": 3,
+        "abilities": [
+          {
+            "id": "liliana_heal",
+            "trigger": "player_hp_below_30%",
+            "effect": "heal_player",
+            "amount": 50,
+            "cooldown": 30.0
+          },
+          {
+            "id": "liliana_shield",
+            "trigger": "avatar_uses_oblivion_burst",
+            "effect": "create_safe_zone",
+            "duration": 3.0
+          }
+        ],
+        "dialogue": [
+          "버텨! 거의 다 왔어!",
+          "같이... 끝내자!"
+        ]
+      },
+
+      "ending_cutscenes": {
+        "normal_ending": {
+          "id": "forgotten_hero",
+          "sequence": [
+            "arion_uses_all_hearts",
+            "seal_breaks",
+            "liliana_freed",
+            "arion_fades_from_existence",
+            "liliana_cries_but_forgets",
+            "credits_roll",
+            "post_credits_liliana_feels_longing"
+          ]
+        },
+        "true_ending": {
+          "id": "love_of_this_life",
+          "sequence": [
+            "arion_shows_ring_and_crystal",
+            "thread_of_reincarnation_visible",
+            "choice_to_cut_thread",
+            "both_cut_together",
+            "no_more_reincarnation",
+            "but_live_this_life_together",
+            "bittersweet_embrace",
+            "credits_roll",
+            "post_credits_walking_together"
+          ]
+        }
+      },
+
+      "drops": [
+        { "item_id": "third_heart", "chance": 1.0, "phase": "phase_3_end" },
+        { "item_id": "boss_material_oblivion_core", "chance": 1.0 },
+        { "item_id": "weapon_memory_blade", "chance": 0.2 },
+        { "item_id": "armor_void_vestment", "chance": 0.15 },
+        { "item_id": "ending_unlock", "chance": 1.0, "type": "story_item" }
+      ],
+
+      "lore": {
+        "encounter_dialogue": "기억은 고통이다. 망각은 자비다. 내가 널 해방시켜 주마.",
+        "phase2_dialogue": "아직도 집착하느냐? 기억 따위에?",
+        "phase3_dialogue": "세 개의 심장... 그래, 넌 자격이 있다.",
+        "phase4_dialogue": "선택하라. 네 사랑의 형태를.",
+        "defeat_normal": "가거라... 잊혀진 영웅이여...",
+        "defeat_true": "...아름다운 선택이다.",
+        "journal_entry": "망각의 옥좌에 앉은 최종 보스. 모든 기억과 존재를 잊게 만드는 힘을 지녔다. 세 개의 심장으로만 대적할 수 있다."
+      },
+
+      "assets": {
+        "sprite_sheet": "boss_avatar_oblivion.png",
+        "frame_size": [256, 256],
+        "portrait": "portrait_avatar.png",
+        "animations": {
+          "idle": { "frames": [0, 1, 2, 3], "fps": 2, "loop": true },
+          "idle_enraged": { "frames": [4, 5, 6, 7], "fps": 3, "loop": true },
+          "move": { "frames": [8, 9, 10, 11], "fps": 4, "loop": true },
+          "void_grasp_telegraph": { "frames": [12, 13, 14], "fps": 4, "loop": false },
+          "void_grasp": { "frames": [15, 16, 17, 18], "fps": 8, "loop": false },
+          "void_grasp_hold": { "frames": [19, 20], "fps": 4, "loop": true },
+          "memory_erasure_telegraph": { "frames": [21, 22, 23], "fps": 2.5, "loop": false },
+          "memory_erasure": { "frames": [24, 25, 26], "fps": 6, "loop": false },
+          "temporal_telegraph": { "frames": [27, 28, 29], "fps": 3, "loop": false },
+          "temporal": { "frames": [30, 31], "fps": 4, "loop": false },
+          "reality_tear_telegraph": { "frames": [32, 33, 34, 35], "fps": 3, "loop": false },
+          "reality_tear": { "frames": [36, 37, 38], "fps": 8, "loop": false },
+          "summon_telegraph": { "frames": [39, 40, 41], "fps": 1.5, "loop": false },
+          "summon": { "frames": [42, 43, 44], "fps": 4, "loop": false },
+          "oblivion_telegraph": { "frames": [45, 46, 47, 48, 49], "fps": 2.5, "loop": false },
+          "oblivion_burst": { "frames": [50, 51, 52, 53], "fps": 6, "loop": false },
+          "final_erasure_telegraph": { "frames": [54, 55, 56, 57, 58, 59], "fps": 2, "loop": false },
+          "final_erasure": { "frames": [60, 61, 62, 63, 64], "fps": 4, "loop": false },
+          "phase_transition_1": { "frames": [65, 66, 67, 68], "fps": 3, "loop": false },
+          "phase_transition_2": { "frames": [69, 70, 71, 72, 73], "fps": 3, "loop": false },
+          "phase_transition_3": { "frames": [74, 75, 76, 77, 78, 79], "fps": 3, "loop": false },
+          "kneel": { "frames": [80, 81, 82], "fps": 2, "loop": false },
+          "hurt": { "frames": [83], "fps": 1, "loop": false },
+          "death_normal": { "frames": [84, 85, 86, 87, 88, 89, 90], "fps": 3, "loop": false },
+          "death_true": { "frames": [91, 92, 93, 94, 95, 96, 97, 98], "fps": 3, "loop": false }
+        }
+      }
+    }
+  }
+}

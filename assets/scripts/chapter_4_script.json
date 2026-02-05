@@ -1,0 +1,1141 @@
+{
+  "chapter": {
+    "id": "ch4_garden_of_blood",
+    "title": "피의 정원",
+    "title_en": "The Garden of Blood"
+  },
+
+  "chapter_intro": {
+    "type": "narration",
+    "trigger": "onChapterStart",
+    "background": "bg_garden_gate",
+    "lines": [
+      {
+        "speaker": "Narrator",
+        "text": "붉은 꽃잎이 바람에 날린다.",
+        "effect": "red_petals_wind"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "핏빛 장미로 뒤덮인 정원. 아름답지만... 어딘가 잘못되어 있다."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "장미에서 나는 건 향기가 아니다. 피 냄새다."
+      },
+      {
+        "speaker": "Player",
+        "text": "여기가... 피의 정원.",
+        "mood": "tense"
+      },
+      {
+        "speaker": "Player",
+        "text": "'그녀'가 기다린다고 했지.",
+        "mood": "determined"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "가슴이 아프다. 이유를 모르겠지만... 이 장소가 익숙하다.",
+        "effect": "heart_ache"
+      },
+      {
+        "speaker": "Player",
+        "text": "...왜 눈물이 나는 거지.",
+        "mood": "confused_emotional",
+        "effect": "tear_drop"
+      }
+    ]
+  },
+
+  "npc_gardener": {
+    "id": "npc_005",
+    "name": "정원사",
+    "name_en": "The Gardener",
+    "portrait": "npc_gardener",
+    "location": "garden_outer",
+
+    "dialogues": {
+      "first_encounter": {
+        "trigger": "onFirstMeet",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "장미 덤불 사이에 노인이 있다. 온몸에 가시가 박혀 있지만, 웃고 있다."
+          },
+          {
+            "speaker": "Gardener",
+            "text": "어서 오게, 낯선 이여...",
+            "mood": "gentle"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "...아니, 낯설지 않군.",
+            "mood": "recognition"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "그 눈. 그 눈은...",
+            "mood": "painful_recognition"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "아가씨를 죽인 자의 눈이야.",
+            "mood": "accusation"
+          },
+          {
+            "speaker": "Player",
+            "text": "...!!",
+            "mood": "shock"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "하지만 원망하지 않아.",
+            "mood": "tired_acceptance"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "네가 왜 그랬는지... 알고 있으니까.",
+            "mood": "understanding"
+          },
+          {
+            "speaker": "Player",
+            "text": "...당신은 누구야? 아가씨라니?",
+            "mood": "confused"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "리리아나 아가씨를 어릴 때부터 돌봤지.",
+            "mood": "nostalgic"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "네 연인이었던... 그 아이를.",
+            "mood": "gentle_sadness"
+          },
+          {
+            "speaker": "Player",
+            "text": "리리아나...",
+            "mood": "name_triggers_memory",
+            "effect": "memory_flash_brief"
+          }
+        ],
+        "choices": [
+          {
+            "text": "리리아나에 대해 말해줘.",
+            "next": "about_liliana"
+          },
+          {
+            "text": "왜 그녀를 죽여야 했어?",
+            "next": "about_curse"
+          },
+          {
+            "text": "이 정원은 뭐야?",
+            "next": "about_garden"
+          }
+        ]
+      },
+
+      "about_liliana": {
+        "sequence": [
+          {
+            "speaker": "Gardener",
+            "text": "아가씨는... 햇살 같은 아이였어.",
+            "mood": "fond_memory"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "항상 웃고, 노래하고, 장미를 좋아했지.",
+            "mood": "nostalgic"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "특히 흰 장미를. '순수함을 닮았다'고.",
+            "mood": "bittersweet"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "하지만 아가씨는... 저주를 품고 태어났어.",
+            "mood": "darkening"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "'종말의 저주'. 22번째 생일에 발동하면... 세상이 끝나.",
+            "mood": "grim"
+          },
+          {
+            "speaker": "Player",
+            "text": "......",
+            "mood": "processing"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "아가씨는 알고 있었어. 자기가 뭔지.",
+            "mood": "sad"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "그래서 너를 사랑했을 때... 가장 두려워했지.",
+            "mood": "compassion"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "'내가 죽어야 하는데, 이 사람을 두고 어떻게 죽어'라고.",
+            "mood": "quoting"
+          }
+        ]
+      },
+
+      "about_curse": {
+        "sequence": [
+          {
+            "speaker": "Gardener",
+            "text": "...그걸 내게 묻나.",
+            "mood": "pained"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "네가 기억해야 할 것을.",
+            "mood": "stern"
+          },
+          {
+            "speaker": "Player",
+            "text": "기억이... 없어. 제발.",
+            "mood": "pleading"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "...그래. 알겠어.",
+            "mood": "softening"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "종말의 저주는 해결책이 없었어. 하나를 제외하곤.",
+            "mood": "heavy"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "저주의 그릇을... 발동 전에 죽이는 것.",
+            "mood": "grim"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "아가씨는 그걸 알았어. 그리고...",
+            "mood": "pause"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "너에게 부탁했지. '날 죽여줘'라고.",
+            "mood": "revelation"
+          },
+          {
+            "speaker": "Player",
+            "text": "......그녀가... 부탁했다고?",
+            "mood": "shattered"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "넌 거부했어. 몇 번이고.",
+            "mood": "understanding"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "하지만 결국... 저주가 발동하기 직전에...",
+            "mood": "heavy"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "그래야만 했어. 세상을 위해. 그녀를 위해.",
+            "mood": "acceptance"
+          }
+        ]
+      },
+
+      "about_garden": {
+        "sequence": [
+          {
+            "speaker": "Gardener",
+            "text": "이 정원은 아가씨가 가장 좋아했던 곳이야.",
+            "mood": "nostalgic"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "아가씨가 죽은 후... 장미가 붉게 변했지.",
+            "mood": "dark"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "아가씨의 피로. 아가씨의 눈물로.",
+            "mood": "poetic_grief"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "지금 이 정원은 아가씨의 원한... 아니, 사랑의 잔재야.",
+            "mood": "complex"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "원한과 사랑은... 같은 것에서 태어나거든.",
+            "mood": "philosophical"
+          }
+        ]
+      },
+
+      "farewell": {
+        "trigger": "onLeave",
+        "sequence": [
+          {
+            "speaker": "Gardener",
+            "text": "장미 미로를 지나면 아가씨가 있어.",
+            "mood": "directing"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "하지만 조심해. 미로에는 기억이 심어져 있어.",
+            "mood": "warning"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "네 기억. 아가씨의 기억. 둘의 기억.",
+            "mood": "ominous"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "아플 거야. 많이.",
+            "mood": "compassion"
+          },
+          {
+            "speaker": "Gardener",
+            "text": "하지만 그게 네가 치러야 할 대가야.",
+            "mood": "stern_love"
+          }
+        ]
+      }
+    }
+  },
+
+  "rose_maze_memories": {
+    "location": "garden_maze",
+    "type": "environmental_sequence",
+    "intro": {
+      "speaker": "Narrator",
+      "text": "장미 미로에 들어선다. 꽃잎마다 무언가가 새겨져 있다.",
+      "effect": "maze_enter"
+    },
+    "memories": [
+      {
+        "rose_color": "white",
+        "trigger": "onApproach_rose_1",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "흰 장미에서 기억이 흘러나온다."
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "...울고 있었어, 그때.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "처음 만난 날... 정원에서...",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "넌 물었지. '왜 울어요?'",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "난 대답했어. '곧 죽을 거라서요.'",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "그리고 난... 뭐라고 했지?",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "'그럼 그전까지 제가 곁에 있을게요.'",
+            "style": "memory_echo",
+            "mood": "tender"
+          },
+          {
+            "speaker": "Player",
+            "text": "...그랬구나. 그렇게 시작됐구나.",
+            "mood": "emotional"
+          }
+        ]
+      },
+      {
+        "rose_color": "pink",
+        "trigger": "onApproach_rose_2",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "분홍 장미에서 따뜻한 기억이 피어난다."
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "약속해줘.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "뭘?",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "항상 내 곁에 있어줘. 끝까지.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "약속할게. 뭐가 됐든... 네 곁에 있을게.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player",
+            "text": "(약속... 지켰나? 아니면 어겼나?)",
+            "mood": "conflicted"
+          }
+        ]
+      },
+      {
+        "rose_color": "red",
+        "trigger": "onApproach_rose_3",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "빨간 장미. 사랑의 색."
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "사랑해.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "나도 사랑해.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "...나 때문에 불행해지지 마.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "무슨 소리야. 넌 내 행복이야.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "...그 말, 나중에 후회하게 될지도 몰라.",
+            "style": "memory_echo",
+            "mood": "foreshadowing"
+          }
+        ]
+      },
+      {
+        "rose_color": "black",
+        "trigger": "onApproach_rose_4",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "검은 장미. 꽃잎이 시들어 있다."
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "...날 죽여줘.",
+            "style": "memory_echo",
+            "mood": "pleading"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "싫어. 절대 못 해.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "제발... 네가 아니면 안 돼.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "다른 방법을 찾을 거야. 반드시.",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "시간이 없어... 저주가 깨어나고 있어...",
+            "style": "memory_echo",
+            "mood": "desperate"
+          },
+          {
+            "speaker": "Player",
+            "text": "(아... 이게... 그날이었구나...)",
+            "mood": "devastated"
+          }
+        ]
+      },
+      {
+        "rose_color": "blood",
+        "trigger": "onApproach_rose_5",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "핏빛 장미. 가시가 유난히 날카롭다."
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "미안해...",
+            "style": "memory_echo",
+            "mood": "sobbing"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "미안해... 미안해...",
+            "style": "memory_echo"
+          },
+          {
+            "speaker": "Narrator",
+            "text": "검이 내리꽂히는 소리. 피가 튀는 소리.",
+            "sfx": "sword_stab",
+            "effect": "blood_splash"
+          },
+          {
+            "speaker": "Liliana (Memory)",
+            "text": "...고마워.",
+            "style": "memory_echo",
+            "mood": "peaceful"
+          },
+          {
+            "speaker": "Player (Memory)",
+            "text": "사랑해... 영원히...",
+            "style": "memory_echo",
+            "mood": "broken"
+          },
+          {
+            "speaker": "Player",
+            "text": "......",
+            "mood": "silence",
+            "effect": "tear_stream"
+          }
+        ]
+      }
+    ]
+  },
+
+  "fountain_memory": {
+    "trigger": "onReachFountain",
+    "location": "garden_fountain",
+    "type": "major_memory_recovery",
+    "sequence": [
+      {
+        "speaker": "Narrator",
+        "text": "분수 중앙에 동상이 있다. 아름다운 여인의 모습.",
+        "effect": "camera_focus_statue"
+      },
+      {
+        "speaker": "Player",
+        "text": "리리아나...",
+        "mood": "recognition"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "이름을 부르자, 가슴의 문양이 강하게 빛난다.",
+        "effect": "heart_glow_intense"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "기억이... 쏟아진다.",
+        "effect": "memory_flood"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 이 분수 앞에서 함께 웃었다."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 이 분수 앞에서 사랑을 고백했다."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 이 분수 앞에서... 그녀의 마지막 숨을 봤다."
+      },
+      {
+        "speaker": "Player",
+        "text": "리리아나... 나는...",
+        "mood": "overwhelmed"
+      },
+      {
+        "speaker": "Player",
+        "text": "나는 너를 사랑했어.",
+        "mood": "certainty"
+      },
+      {
+        "speaker": "Player",
+        "text": "그래서... 죽였어.",
+        "mood": "broken_acceptance"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "'두 번째 기억'을 완전히 되찾았다.",
+        "item_get": "memory_complete_2"
+      }
+    ]
+  },
+
+  "thorn_room_hallucination": {
+    "location": "garden_thorns",
+    "type": "hallucination_sequence",
+
+    "hearts_2": {
+      "trigger": "onPlayerHeartsEqual2",
+      "sequence": [
+        {
+          "speaker": "Liliana (Hallucination)",
+          "text": "왜 날 죽였어?",
+          "style": "accusation_echo"
+        },
+        {
+          "speaker": "Player",
+          "text": "어쩔 수 없었어...!",
+          "mood": "defensive"
+        },
+        {
+          "speaker": "Liliana (Hallucination)",
+          "text": "사랑한다면서... 왜?",
+          "style": "accusation_echo"
+        },
+        {
+          "speaker": "Player",
+          "text": "널 지키려고! 세상을 지키려고!",
+          "mood": "desperate"
+        },
+        {
+          "speaker": "Liliana (Hallucination)",
+          "text": "...거짓말쟁이.",
+          "style": "cold_whisper"
+        }
+      ]
+    },
+
+    "hearts_1": {
+      "trigger": "onPlayerHeartsEqual1",
+      "sequence": [
+        {
+          "speaker": "Liliana (Hallucination)",
+          "text": "죽여줘... 다시...",
+          "style": "pleading_ghost"
+        },
+        {
+          "speaker": "Liliana (Hallucination)",
+          "text": "아니, 죽지 마... 제발...",
+          "style": "conflicted"
+        },
+        {
+          "speaker": "Liliana (Hallucination)",
+          "text": "사랑해... 미워해... 사랑해...",
+          "style": "broken_loop"
+        },
+        {
+          "speaker": "Player",
+          "text": "리리아나...! 어디 있어!",
+          "mood": "frantic"
+        },
+        {
+          "speaker": "???",
+          "text": "곧 만나게 될 거야.",
+          "style": "player_voice"
+        },
+        {
+          "speaker": "Player",
+          "text": "...내 목소리?",
+          "mood": "realization"
+        },
+        {
+          "speaker": "???",
+          "text": "넌 날 가장 잘 아는 사람이니까.",
+          "style": "player_voice"
+        },
+        {
+          "speaker": "Player",
+          "text": "(설마... 이 목소리는...)",
+          "mood": "dawning_horror"
+        }
+      ]
+    }
+  },
+
+  "boss_liliana": {
+    "id": "boss_004",
+    "name": "리리아나의 환영",
+    "name_en": "Liliana's Revenant",
+    "subtitle": "피어난 원한",
+
+    "encounter": {
+      "trigger": "onEnterBossRoom",
+      "sequence": [
+        {
+          "speaker": "Narrator",
+          "text": "정원의 심장. 거대한 장미 나무 아래.",
+          "effect": "camera_pan"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그리고 그곳에... '그녀'가 있다."
+        },
+        {
+          "speaker": "Narrator",
+          "text": "아름다운 여인. 하지만 가슴에 검 상처가 있고, 그 상처에서 장미가 피어나 있다."
+        },
+        {
+          "speaker": "Liliana",
+          "text": "......",
+          "mood": "silent_stare"
+        },
+        {
+          "speaker": "Player",
+          "text": "리리아나...",
+          "mood": "whisper"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "...오래 기다렸어.",
+          "mood": "complex"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "기억났어? 나를?",
+          "mood": "testing"
+        },
+        {
+          "speaker": "Player",
+          "text": "...응. 다 기억나.",
+          "mood": "heavy"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "......",
+          "mood": "pause"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그녀의 모습이 변한다. 아름다움이 일그러지고, 원한이 드러난다.",
+          "effect": "transform_revenant"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "사랑했어. 진심으로. 세상 누구보다.",
+          "mood": "raw_emotion"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "그래서 더 용서할 수 없어.",
+          "mood": "bitter"
+        },
+        {
+          "speaker": "Player",
+          "text": "리리아나... 난...",
+          "mood": "pleading"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "네가 나를 죽였어. 네 손으로. 네 검으로.",
+          "mood": "accusation"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "죽는 건 무섭지 않았어.",
+          "mood": "softening_slightly"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "네 손에 죽는 것도.",
+          "mood": "tender_pain"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "하지만...",
+          "mood": "breaking"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "네 눈에서 눈물이 보였을 때...",
+          "mood": "crying"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "그게 제일 아팠어.",
+          "mood": "devastating"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "...이리 와.",
+          "mood": "cold"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "같이 아파하자. 영원히.",
+          "mood": "dark_invitation",
+          "effect": "boss_battle_start"
+        }
+      ]
+    },
+
+    "phase_transition_1": {
+      "trigger": "onBossHealthBelow65",
+      "sequence": [
+        {
+          "speaker": "Liliana",
+          "text": "기억나? 이 정원에서...",
+          "mood": "nostalgic_attack"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "함께 춤췄던 거...",
+          "mood": "bittersweet",
+          "effect": "rose_petal_dance"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "다시는... 못 하겠지.",
+          "mood": "grief_to_rage",
+          "effect": "phase2_transform"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "네가! 그걸! 빼앗았으니까!",
+          "mood": "fury"
+        }
+      ]
+    },
+
+    "phase_transition_2": {
+      "trigger": "onBossHealthBelow30",
+      "sequence": [
+        {
+          "speaker": "Liliana",
+          "text": "...아파.",
+          "mood": "breaking_down"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "미워해야 하는데... 사랑해야 하는데...",
+          "mood": "confused"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "뭐가 맞는 거야...?",
+          "mood": "lost",
+          "effect": "phase3_unstable"
+        },
+        {
+          "speaker": "Player",
+          "text": "리리아나...!",
+          "mood": "calling_out"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "가까이 오지 마!!",
+          "mood": "panic"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "...아니, 와줘... 제발...",
+          "mood": "desperate"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "몰라... 나도 몰라...",
+          "mood": "sobbing",
+          "effect": "erratic_pattern_start"
+        }
+      ]
+    },
+
+    "defeat": {
+      "trigger": "onBossDefeated",
+      "sequence": [
+        {
+          "speaker": "Narrator",
+          "text": "리리아나가 무너진다. 장미 꽃잎이 흩날린다.",
+          "effect": "boss_collapse"
+        },
+        {
+          "speaker": "Player",
+          "text": "리리아나!!",
+          "mood": "running_to_her"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "주인공이 그녀를 안는다. 처음이자 마지막으로.",
+          "effect": "embrace"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "...아팠어.",
+          "mood": "quiet"
+        },
+        {
+          "speaker": "Player",
+          "text": "알아... 미안해...",
+          "mood": "broken"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "아팠어. 정말 많이.",
+          "mood": "honest"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "하지만...",
+          "mood": "pause"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그녀의 모습이 변한다. 원한이 사라지고, 생전의 아름다운 얼굴이 드러난다.",
+          "effect": "transform_to_human"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "...알아.",
+          "mood": "gentle_smile"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "알고 있었어. 처음부터.",
+          "mood": "acceptance"
+        },
+        {
+          "speaker": "Player",
+          "text": "뭘...?",
+          "mood": "confused"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "내가 부탁했잖아. '날 죽여줘'라고.",
+          "mood": "reminding"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "넌 거부했어. 끝까지.",
+          "mood": "fondness"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "그런데도 결국... 나를 위해 그랬어.",
+          "mood": "gratitude"
+        },
+        {
+          "speaker": "Player",
+          "text": "세상을 구하려고...",
+          "mood": "justifying"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "아니.",
+          "mood": "knowing"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "'나'를 구하려고 그랬어.",
+          "mood": "understanding"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "저주에 잠식당하면... 내가 사라지니까.",
+          "mood": "explaining"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "넌 차라리... '나'로 죽는 걸 선택해줬어.",
+          "mood": "touched"
+        },
+        {
+          "speaker": "Player",
+          "text": "......",
+          "mood": "silent_tears"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "고마워. 그리고 미안해.",
+          "mood": "tender"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "그 무게를 혼자 지게 해서.",
+          "mood": "apologetic"
+        },
+        {
+          "speaker": "Player",
+          "text": "...용서해줘?",
+          "mood": "hopeful_fear"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "용서...는 진작에 했어.",
+          "mood": "smiling"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "다만 원한은... 내 선택이 아니었어.",
+          "mood": "explaining"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "이제 그것도 풀렸으니까.",
+          "mood": "relieved"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "......가야 해.",
+          "mood": "fading"
+        },
+        {
+          "speaker": "Player",
+          "text": "잠깐...!",
+          "mood": "desperate"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "하지만 진짜 '나'는 아직 살아있어.",
+          "mood": "revelation"
+        },
+        {
+          "speaker": "Player",
+          "text": "...뭐라고?",
+          "mood": "shock"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "세 개의 심장... 그게 열쇠야.",
+          "mood": "cryptic"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "기억의 심연에서... 진짜 나를 찾아.",
+          "mood": "instruction"
+        },
+        {
+          "speaker": "Liliana",
+          "text": "사랑해. 영원히.",
+          "mood": "final_words",
+          "effect": "fade_away"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그녀가 빛이 되어 흩어진다. 장미 꽃잎과 함께.",
+          "effect": "dissolve_to_petals"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그 자리에 무언가 남아있다.",
+          "item_get": "arcana_garden"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "'피의 정원의 아르카나'를 획득했다."
+        }
+      ]
+    }
+  },
+
+  "epilogue": {
+    "trigger": "onChapterComplete",
+    "sequence": [
+      {
+        "speaker": "Player",
+        "text": "진짜 리리아나가... 살아있다고?",
+        "mood": "processing"
+      },
+      {
+        "speaker": "Player",
+        "text": "세 개의 심장이 열쇠라고 했어.",
+        "mood": "thinking"
+      },
+      {
+        "speaker": "???",
+        "text": "드디어 알아챘군.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "Player",
+        "text": "...넌 나야, 그렇지?",
+        "mood": "confronting"
+      },
+      {
+        "speaker": "???",
+        "text": "반은 맞고 반은 틀려.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "???",
+        "text": "난 네가 잃어버린 것들의 집합체야.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "???",
+        "text": "기억, 감정, 그리고... 죄.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "Player",
+        "text": "왜 이제야 말해주는 거야?",
+        "mood": "frustrated"
+      },
+      {
+        "speaker": "???",
+        "text": "준비가 안 됐었으니까.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "???",
+        "text": "지금은... 거의 다 됐어.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "???",
+        "text": "'기억의 심연'으로 와.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "???",
+        "text": "거기서 마지막 진실을 보여줄게.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "???",
+        "text": "그리고... 리리아나를 구할 방법도.",
+        "style": "player_voice"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "정원이 시들어간다. 장미들이 하나둘 떨어진다."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "하지만 주인공의 가슴에서는... 희미한 빛이 살아있다."
+      },
+      {
+        "speaker": "Player",
+        "text": "기다려, 리리아나.",
+        "mood": "determination"
+      },
+      {
+        "speaker": "Player",
+        "text": "이번엔... 진짜로 널 구할 거야.",
+        "mood": "resolve"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "Chapter 4 Complete - 피의 정원",
+        "effect": "chapter_end_card"
+      }
+    ]
+  }
+}

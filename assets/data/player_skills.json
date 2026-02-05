@@ -1,0 +1,1115 @@
+{
+  "version": "1.0.0",
+  "description": "Project Arcana - Player Skill Configuration",
+
+  "design_philosophy": {
+    "skill_feel": "모든 스킬은 타격감이 있어야 함. 히트스탑 + 화면 흔들림 + 이펙트",
+    "skill_clarity": "스킬 범위와 효과가 시각적으로 명확해야 함",
+    "skill_depth": "단순한 데미지 스킬이 아닌, 상황별 활용이 다른 스킬",
+    "heart_integration": "세 개의 심장 획득에 따라 궁극기 해금"
+  },
+
+  "skill_categories": {
+    "BASIC": "기본 공격 (무한 사용)",
+    "ACTIVE": "액티브 스킬 (쿨다운)",
+    "DASH": "회피/이동기",
+    "ULTIMATE": "궁극기 (심장 획득 시 해금)",
+    "PASSIVE": "패시브 효과"
+  },
+
+  "resource_system": {
+    "mana": {
+      "max": 100,
+      "regen_per_second": 2,
+      "regen_on_hit": 5,
+      "regen_on_kill": 15
+    },
+    "heart_gauge": {
+      "max": 100,
+      "gain_on_damage_dealt": 1,
+      "gain_on_damage_taken": 3,
+      "gain_on_perfect_dodge": 10,
+      "required_for_ultimate": 100
+    }
+  },
+
+
+  "basic_attacks": {
+
+    "basic_slash": {
+      "id": "basic_slash",
+      "name": "기본 베기",
+      "name_en": "Basic Slash",
+      "type": "BASIC",
+      "category": "MELEE",
+
+      "stats": {
+        "damage": 15,
+        "combo_hits": 3,
+        "combo_damage": [15, 18, 25],
+        "combo_window": 0.6,
+        "attack_speed": 1.0,
+        "range": 60,
+        "mana_cost": 0
+      },
+
+      "hitbox": {
+        "type": "ARC",
+        "radius": 60,
+        "angles": [100, 100, 140]
+      },
+
+      "combo_system": {
+        "hit_1": {
+          "damage_mult": 1.0,
+          "animation": "slash_1",
+          "duration": 0.3,
+          "can_cancel_into": ["dash", "skill"]
+        },
+        "hit_2": {
+          "damage_mult": 1.2,
+          "animation": "slash_2",
+          "duration": 0.35,
+          "can_cancel_into": ["dash", "skill"]
+        },
+        "hit_3": {
+          "damage_mult": 1.7,
+          "animation": "slash_3",
+          "duration": 0.5,
+          "effects": [
+            { "type": "KNOCKBACK", "force": 60 }
+          ],
+          "can_cancel_into": ["dash"]
+        }
+      },
+
+      "feedback": {
+        "hit_stop": { "duration": 0.03, "per_hit": true },
+        "screen_shake": { "intensity": 2, "duration": 0.1, "hit_3_only": true },
+        "hit_effect": "effect_slash_impact",
+        "hit_sound": "sfx_sword_hit"
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "damage": "+3" } },
+        { "level": 3, "bonus": { "combo_4th_hit": true, "damage_4th": 35 } },
+        { "level": 4, "bonus": { "damage": "+5", "range": "+10" } },
+        { "level": 5, "bonus": { "bleed_chance": 0.15, "bleed_damage": 2, "bleed_duration": 3.0 } }
+      ],
+
+      "assets": {
+        "icon": "icon_basic_slash.png",
+        "animations": {
+          "slash_1": { "frames": [0, 1, 2, 3], "fps": 15 },
+          "slash_2": { "frames": [4, 5, 6, 7], "fps": 14 },
+          "slash_3": { "frames": [8, 9, 10, 11, 12], "fps": 12 }
+        },
+        "effects": {
+          "trail": "effect_sword_trail.png",
+          "impact": "effect_slash_impact.png"
+        }
+      }
+    },
+
+
+    "charged_thrust": {
+      "id": "charged_thrust",
+      "name": "차지 찌르기",
+      "name_en": "Charged Thrust",
+      "type": "BASIC",
+      "category": "MELEE_CHARGE",
+
+      "stats": {
+        "damage_min": 20,
+        "damage_max": 60,
+        "charge_time_min": 0.3,
+        "charge_time_max": 1.5,
+        "range_min": 80,
+        "range_max": 150,
+        "mana_cost": 0
+      },
+
+      "charge_mechanics": {
+        "can_move_while_charging": true,
+        "move_speed_reduction": 0.5,
+        "charge_levels": [
+          { "time": 0.3, "damage_mult": 1.0, "range": 80, "visual": "charge_level_1" },
+          { "time": 0.8, "damage_mult": 1.8, "range": 110, "visual": "charge_level_2" },
+          { "time": 1.5, "damage_mult": 3.0, "range": 150, "visual": "charge_level_3", "pierce": true }
+        ],
+        "overcharge_penalty": { "time": 2.0, "self_stagger": 0.5 }
+      },
+
+      "hitbox": {
+        "type": "RECTANGLE",
+        "width_min": 30,
+        "width_max": 40,
+        "length": "variable"
+      },
+
+      "effects_at_max_charge": [
+        { "type": "PIERCE", "max_targets": 3 },
+        { "type": "ARMOR_BREAK", "reduction": 0.2, "duration": 5.0 }
+      ],
+
+      "feedback": {
+        "charge_sound": "sfx_charge_loop",
+        "release_sound": "sfx_thrust_release",
+        "max_charge_flash": true,
+        "hit_stop": { "duration": 0.05 },
+        "screen_shake": { "intensity": 4, "at_max_charge": true }
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "charge_speed": "+15%" } },
+        { "level": 3, "bonus": { "damage_max": "+15" } },
+        { "level": 4, "bonus": { "move_speed_while_charging": "+20%" } },
+        { "level": 5, "bonus": { "max_charge_stun": 0.8 } }
+      ],
+
+      "assets": {
+        "icon": "icon_charged_thrust.png",
+        "animations": {
+          "charge_start": { "frames": [0, 1], "fps": 8 },
+          "charge_hold_1": { "frames": [2, 3], "fps": 4, "loop": true },
+          "charge_hold_2": { "frames": [4, 5], "fps": 6, "loop": true },
+          "charge_hold_3": { "frames": [6, 7], "fps": 8, "loop": true },
+          "thrust": { "frames": [8, 9, 10, 11], "fps": 20 }
+        }
+      }
+    }
+  },
+
+
+  "active_skills": {
+
+    "crescent_wave": {
+      "id": "crescent_wave",
+      "name": "초승달 파동",
+      "name_en": "Crescent Wave",
+      "type": "ACTIVE",
+      "category": "RANGED_ATTACK",
+      "unlock_level": 1,
+
+      "stats": {
+        "damage": 35,
+        "cooldown": 4.0,
+        "mana_cost": 15,
+        "range": 250,
+        "projectile_speed": 350
+      },
+
+      "mechanics": {
+        "projectile_type": "WAVE",
+        "hitbox": {
+          "type": "RECTANGLE",
+          "width": 80,
+          "height": 30
+        },
+        "piercing": true,
+        "max_pierce": 5,
+        "damage_falloff_per_pierce": 0.1
+      },
+
+      "input": {
+        "button": "SKILL_1",
+        "aim_type": "DIRECTION",
+        "cast_time": 0.2
+      },
+
+      "feedback": {
+        "cast_sound": "sfx_wave_cast",
+        "travel_sound": "sfx_wave_travel",
+        "hit_sound": "sfx_wave_hit",
+        "hit_stop": { "duration": 0.02 },
+        "screen_shake": { "intensity": 1, "per_hit": false }
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "damage": "+10", "description": "데미지 증가" } },
+        { "level": 3, "bonus": { "cooldown": "-0.5", "description": "쿨다운 감소" } },
+        { "level": 4, "bonus": { "double_wave": true, "description": "2연속 발사 (0.2초 간격)" } },
+        { "level": 5, "bonus": { "wave_return": true, "return_damage": 0.5, "description": "파동이 돌아옴" } }
+      ],
+
+      "visual": {
+        "color": "0xFF88CCFF",
+        "trail": true
+      },
+
+      "assets": {
+        "icon": "icon_crescent_wave.png",
+        "projectile": "projectile_crescent.png",
+        "animations": {
+          "cast": { "frames": [0, 1, 2, 3], "fps": 20 }
+        }
+      }
+    },
+
+
+    "phantom_strike": {
+      "id": "phantom_strike",
+      "name": "환영 돌진",
+      "name_en": "Phantom Strike",
+      "type": "ACTIVE",
+      "category": "DASH_ATTACK",
+      "unlock_level": 3,
+
+      "stats": {
+        "damage": 45,
+        "cooldown": 6.0,
+        "mana_cost": 20,
+        "dash_distance": 180,
+        "dash_speed": 800
+      },
+
+      "mechanics": {
+        "dash_type": "TARGETED",
+        "invincible_frames": { "start": 0.05, "end": 0.25 },
+        "hitbox": {
+          "type": "LINE",
+          "width": 50,
+          "length": "dash_distance"
+        },
+        "ends_behind_target": true,
+        "requires_target": false
+      },
+
+      "input": {
+        "button": "SKILL_2",
+        "aim_type": "DIRECTION_OR_TARGET",
+        "cast_time": 0.1
+      },
+
+      "combo_potential": {
+        "reset_basic_combo": true,
+        "bonus_damage_if_from_behind": 1.5,
+        "marks_target": { "duration": 3.0, "bonus_crit_chance": 0.2 }
+      },
+
+      "feedback": {
+        "dash_sound": "sfx_phantom_dash",
+        "hit_sound": "sfx_phantom_hit",
+        "hit_stop": { "duration": 0.04 },
+        "screen_shake": { "intensity": 3 },
+        "afterimage_count": 3
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "damage": "+12" } },
+        { "level": 3, "bonus": { "cooldown_on_kill": -3.0, "description": "처치 시 쿨다운 3초 감소" } },
+        { "level": 4, "bonus": { "invincible_duration": "+0.1" } },
+        { "level": 5, "bonus": { "second_dash": true, "second_dash_window": 1.5, "description": "1.5초 내 재사용 가능" } }
+      ],
+
+      "assets": {
+        "icon": "icon_phantom_strike.png",
+        "animations": {
+          "dash_start": { "frames": [0, 1], "fps": 20 },
+          "dash": { "frames": [2, 3], "fps": 15, "loop": true },
+          "dash_end": { "frames": [4, 5, 6], "fps": 15 }
+        },
+        "effects": {
+          "afterimage": "effect_phantom_afterimage.png",
+          "trail": "effect_phantom_trail.png"
+        }
+      }
+    },
+
+
+    "arcane_barrier": {
+      "id": "arcane_barrier",
+      "name": "아르카나 결계",
+      "name_en": "Arcane Barrier",
+      "type": "ACTIVE",
+      "category": "DEFENSE",
+      "unlock_level": 5,
+
+      "stats": {
+        "shield_amount": 50,
+        "duration": 3.0,
+        "cooldown": 12.0,
+        "mana_cost": 30
+      },
+
+      "mechanics": {
+        "shield_type": "ABSORB",
+        "blocks_all_damage": true,
+        "perfect_block_window": 0.3,
+        "perfect_block_bonus": {
+          "reflect_damage": 0.5,
+          "mana_restore": 20,
+          "cooldown_reduction": 4.0
+        }
+      },
+
+      "input": {
+        "button": "SKILL_3",
+        "aim_type": "INSTANT",
+        "cast_time": 0.1
+      },
+
+      "visual_indicator": {
+        "shield_sphere": true,
+        "color_normal": "0xFF4488FF",
+        "color_perfect": "0xFFFFDD44",
+        "flash_on_hit": true
+      },
+
+      "feedback": {
+        "cast_sound": "sfx_barrier_up",
+        "block_sound": "sfx_barrier_block",
+        "perfect_block_sound": "sfx_perfect_block",
+        "break_sound": "sfx_barrier_break",
+        "screen_flash_on_perfect": true
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "shield_amount": "+20" } },
+        { "level": 3, "bonus": { "perfect_window": "+0.15", "description": "퍼펙트 블록 판정 증가" } },
+        { "level": 4, "bonus": { "duration": "+1.0" } },
+        { "level": 5, "bonus": { "counter_attack": true, "counter_damage": 80, "description": "퍼펙트 블록 시 자동 반격" } }
+      ],
+
+      "assets": {
+        "icon": "icon_arcane_barrier.png",
+        "animations": {
+          "cast": { "frames": [0, 1, 2], "fps": 15 },
+          "idle": { "frames": [3, 4, 5, 6], "fps": 8, "loop": true },
+          "hit": { "frames": [7, 8], "fps": 12 },
+          "perfect": { "frames": [9, 10, 11], "fps": 15 },
+          "break": { "frames": [12, 13, 14, 15], "fps": 12 }
+        }
+      }
+    },
+
+
+    "soul_rend": {
+      "id": "soul_rend",
+      "name": "영혼 가르기",
+      "name_en": "Soul Rend",
+      "type": "ACTIVE",
+      "category": "HEAVY_ATTACK",
+      "unlock_level": 7,
+
+      "stats": {
+        "damage": 80,
+        "cooldown": 10.0,
+        "mana_cost": 35,
+        "range": 100,
+        "charge_time": 0.8
+      },
+
+      "mechanics": {
+        "attack_type": "OVERHEAD_SLAM",
+        "hitbox": {
+          "type": "SEMICIRCLE",
+          "radius": 100,
+          "angle": 180
+        },
+        "armor_ignore": 0.5,
+        "guaranteed_stagger": true
+      },
+
+      "input": {
+        "button": "SKILL_4",
+        "aim_type": "DIRECTION",
+        "hold_to_charge": false,
+        "cast_time": 0.8
+      },
+
+      "effects": [
+        { "type": "STAGGER", "duration": 1.0 },
+        { "type": "DEFENSE_BREAK", "reduction": 0.3, "duration": 6.0 },
+        { "type": "SOUL_MARK", "bonus_damage_from_all": 0.15, "duration": 6.0 }
+      ],
+
+      "risk_reward": {
+        "long_windup": true,
+        "can_be_interrupted": true,
+        "super_armor_during_swing": true,
+        "recovery_time": 0.6
+      },
+
+      "feedback": {
+        "charge_sound": "sfx_soul_charge",
+        "swing_sound": "sfx_soul_swing",
+        "hit_sound": "sfx_soul_impact",
+        "hit_stop": { "duration": 0.1 },
+        "screen_shake": { "intensity": 8, "duration": 0.3 },
+        "time_slow": { "factor": 0.5, "duration": 0.15 }
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "damage": "+25" } },
+        { "level": 3, "bonus": { "charge_time": "-0.2" } },
+        { "level": 4, "bonus": { "soul_mark_duration": "+3.0" } },
+        { "level": 5, "bonus": { "execute_threshold": 0.15, "execute_damage": 999, "description": "HP 15% 이하 적 즉사" } }
+      ],
+
+      "assets": {
+        "icon": "icon_soul_rend.png",
+        "animations": {
+          "windup": { "frames": [0, 1, 2, 3, 4], "fps": 6 },
+          "swing": { "frames": [5, 6, 7, 8], "fps": 15 },
+          "recovery": { "frames": [9, 10, 11], "fps": 10 }
+        },
+        "effects": {
+          "soul_trail": "effect_soul_trail.png",
+          "impact": "effect_soul_impact.png",
+          "mark": "effect_soul_mark.png"
+        }
+      }
+    },
+
+
+    "blade_storm": {
+      "id": "blade_storm",
+      "name": "칼날 폭풍",
+      "name_en": "Blade Storm",
+      "type": "ACTIVE",
+      "category": "AOE_ATTACK",
+      "unlock_level": 10,
+
+      "stats": {
+        "damage_per_hit": 25,
+        "hits": 8,
+        "total_damage": 200,
+        "cooldown": 15.0,
+        "mana_cost": 50,
+        "radius": 120,
+        "duration": 2.0
+      },
+
+      "mechanics": {
+        "attack_type": "SPINNING_AOE",
+        "hitbox": {
+          "type": "CIRCLE",
+          "radius": 120,
+          "centered_on_player": true
+        },
+        "hit_interval": 0.25,
+        "can_move_during": true,
+        "move_speed_during": 0.6
+      },
+
+      "input": {
+        "button": "SKILL_4",
+        "aim_type": "INSTANT",
+        "cast_time": 0.2
+      },
+
+      "effects": [
+        { "type": "PULL", "force": 30, "per_hit": true },
+        { "type": "BLEED_STACK", "damage": 3, "duration": 5.0, "max_stacks": 5 }
+      ],
+
+      "feedback": {
+        "spin_sound": "sfx_blade_spin_loop",
+        "hit_sound": "sfx_blade_hit_multi",
+        "hit_stop": { "duration": 0.01, "per_hit": true },
+        "screen_shake": { "intensity": 2, "continuous": true }
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "damage_per_hit": "+5" } },
+        { "level": 3, "bonus": { "radius": "+20" } },
+        { "level": 4, "bonus": { "duration": "+0.5", "hits": "+2" } },
+        { "level": 5, "bonus": { "final_explosion": true, "explosion_damage": 100, "description": "종료 시 폭발" } }
+      ],
+
+      "assets": {
+        "icon": "icon_blade_storm.png",
+        "animations": {
+          "start": { "frames": [0, 1, 2], "fps": 15 },
+          "spin": { "frames": [3, 4, 5, 6], "fps": 20, "loop": true },
+          "end": { "frames": [7, 8, 9], "fps": 12 }
+        },
+        "effects": {
+          "blade_circle": "effect_blade_circle.png",
+          "wind": "effect_blade_wind.png"
+        }
+      }
+    },
+
+
+    "memory_echo": {
+      "id": "memory_echo",
+      "name": "기억의 메아리",
+      "name_en": "Memory Echo",
+      "type": "ACTIVE",
+      "category": "UTILITY",
+      "unlock_level": 12,
+
+      "stats": {
+        "cooldown": 20.0,
+        "mana_cost": 40,
+        "clone_duration": 5.0,
+        "clone_damage": 0.4
+      },
+
+      "mechanics": {
+        "creates_clone": true,
+        "clone_behavior": "MIRROR_DELAYED",
+        "clone_delay": 0.5,
+        "clone_copies": ["basic_attacks", "active_skills"],
+        "clone_hp": 1,
+        "clone_can_be_targeted": true,
+        "swap_with_clone": { "enabled": true, "button": "RECAST", "window": 5.0 }
+      },
+
+      "input": {
+        "button": "SKILL_5",
+        "aim_type": "INSTANT",
+        "cast_time": 0.3,
+        "recast_available": true
+      },
+
+      "strategic_uses": [
+        "Double damage output",
+        "Bait enemy attacks",
+        "Swap position for escape/engage"
+      ],
+
+      "feedback": {
+        "summon_sound": "sfx_echo_summon",
+        "swap_sound": "sfx_echo_swap",
+        "expire_sound": "sfx_echo_fade"
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "clone_damage": "+0.1" } },
+        { "level": 3, "bonus": { "clone_duration": "+2.0" } },
+        { "level": 4, "bonus": { "clone_explode_on_death": true, "explosion_damage": 50 } },
+        { "level": 5, "bonus": { "two_clones": true, "description": "분신 2개 생성" } }
+      ],
+
+      "assets": {
+        "icon": "icon_memory_echo.png",
+        "clone_sprite": "player_clone.png",
+        "animations": {
+          "summon": { "frames": [0, 1, 2, 3], "fps": 12 },
+          "swap": { "frames": [4, 5, 6], "fps": 15 }
+        }
+      }
+    }
+  },
+
+
+  "dash_skill": {
+
+    "shadow_step": {
+      "id": "shadow_step",
+      "name": "그림자 걸음",
+      "name_en": "Shadow Step",
+      "type": "DASH",
+      "category": "MOVEMENT",
+      "unlock_level": 1,
+
+      "stats": {
+        "distance": 120,
+        "cooldown": 2.5,
+        "charges": 2,
+        "charge_recharge_time": 3.0,
+        "mana_cost": 0
+      },
+
+      "mechanics": {
+        "invincible_frames": { "start": 0.0, "duration": 0.25 },
+        "dash_speed": 1000,
+        "can_dash_through_enemies": true,
+        "can_dash_through_projectiles": true,
+        "direction": "INPUT_DIRECTION"
+      },
+
+      "input": {
+        "button": "DASH",
+        "double_tap_enabled": true,
+        "aim_type": "DIRECTION"
+      },
+
+      "perfect_dodge": {
+        "window": 0.15,
+        "trigger": "dodge_attack_during_iframes",
+        "rewards": {
+          "heart_gauge": 10,
+          "mana_restore": 10,
+          "time_slow": { "factor": 0.3, "duration": 0.5 },
+          "bonus_damage_window": { "multiplier": 1.5, "duration": 1.0 }
+        }
+      },
+
+      "chain_dash": {
+        "enabled": true,
+        "max_chain": 2,
+        "chain_window": 0.4,
+        "chain_distance_reduction": 0.8
+      },
+
+      "feedback": {
+        "dash_sound": "sfx_shadow_dash",
+        "perfect_dodge_sound": "sfx_perfect_dodge",
+        "afterimage": true,
+        "afterimage_count": 2
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "distance": "+20" } },
+        { "level": 3, "bonus": { "charges": "+1" } },
+        { "level": 4, "bonus": { "invincible_duration": "+0.05" } },
+        { "level": 5, "bonus": { "perfect_dodge_attack": true, "counter_damage": 40, "description": "퍼펙트 회피 시 자동 반격" } }
+      ],
+
+      "assets": {
+        "icon": "icon_shadow_step.png",
+        "animations": {
+          "dash": { "frames": [0, 1, 2, 3], "fps": 30 }
+        },
+        "effects": {
+          "afterimage": "effect_dash_afterimage.png",
+          "perfect_flash": "effect_perfect_dodge.png"
+        }
+      }
+    }
+  },
+
+
+  "ultimate_skills": {
+
+    "heart_of_memory": {
+      "id": "heart_of_memory",
+      "name": "기억의 심장",
+      "name_en": "Heart of Memory",
+      "type": "ULTIMATE",
+      "category": "BUFF_ULTIMATE",
+      "unlock_condition": "first_heart_acquired",
+      "heart_association": "FIRST_HEART",
+
+      "stats": {
+        "duration": 10.0,
+        "heart_gauge_cost": 100,
+        "cooldown_after_use": 5.0
+      },
+
+      "effects": {
+        "attack_boost": 1.3,
+        "speed_boost": 1.2,
+        "mana_regen_boost": 3.0,
+        "skill_cooldown_reduction": 0.5,
+        "visual_aura": "golden_memory"
+      },
+
+      "special_ability": {
+        "name": "기억 회귀",
+        "description": "발동 시점의 HP/마나/위치를 기록. 종료 시 해당 상태로 복귀 선택 가능",
+        "rewind_optional": true,
+        "rewind_button": "ULTIMATE_RECAST"
+      },
+
+      "input": {
+        "button": "ULTIMATE",
+        "activation": "INSTANT",
+        "can_cancel": false
+      },
+
+      "feedback": {
+        "activation_sound": "sfx_heart_memory_activate",
+        "loop_sound": "sfx_heart_memory_loop",
+        "end_sound": "sfx_heart_memory_end",
+        "screen_effect": "golden_vignette",
+        "time_slow_on_activate": { "factor": 0.1, "duration": 0.5 }
+      },
+
+      "lore": "과거의 기억. 첫 번째 심장은 지나간 것들을 담고 있다.",
+
+      "assets": {
+        "icon": "icon_heart_memory.png",
+        "animations": {
+          "activate": { "frames": [0, 1, 2, 3, 4, 5], "fps": 10 },
+          "active_loop": { "frames": [6, 7, 8, 9], "fps": 6, "loop": true },
+          "rewind": { "frames": [10, 11, 12, 13, 14], "fps": 12 },
+          "end": { "frames": [15, 16, 17], "fps": 8 }
+        }
+      }
+    },
+
+
+    "heart_of_acceptance": {
+      "id": "heart_of_acceptance",
+      "name": "수용의 심장",
+      "name_en": "Heart of Acceptance",
+      "type": "ULTIMATE",
+      "category": "DEFENSE_ULTIMATE",
+      "unlock_condition": "second_heart_acquired",
+      "heart_association": "SECOND_HEART",
+
+      "stats": {
+        "duration": 8.0,
+        "heart_gauge_cost": 100,
+        "cooldown_after_use": 5.0
+      },
+
+      "effects": {
+        "damage_reduction": 0.5,
+        "cc_immunity": true,
+        "reflect_damage": 0.3,
+        "heal_on_damage_taken": 0.1,
+        "visual_aura": "shadow_acceptance"
+      },
+
+      "special_ability": {
+        "name": "그림자 통합",
+        "description": "받은 피해의 30%를 저장. 종료 시 저장된 피해를 주변 적에게 폭발",
+        "stored_damage_cap": 500,
+        "explosion_radius": 200,
+        "explosion_button": "ULTIMATE_RECAST"
+      },
+
+      "input": {
+        "button": "ULTIMATE",
+        "activation": "INSTANT",
+        "can_cancel": false
+      },
+
+      "feedback": {
+        "activation_sound": "sfx_heart_accept_activate",
+        "damage_absorb_sound": "sfx_damage_absorb",
+        "explosion_sound": "sfx_shadow_explosion",
+        "screen_effect": "dark_purple_vignette"
+      },
+
+      "lore": "현재의 수용. 두 번째 심장은 자신의 어둠을 받아들인다.",
+
+      "assets": {
+        "icon": "icon_heart_acceptance.png",
+        "animations": {
+          "activate": { "frames": [0, 1, 2, 3, 4, 5], "fps": 10 },
+          "active_loop": { "frames": [6, 7, 8, 9], "fps": 6, "loop": true },
+          "absorb": { "frames": [10, 11], "fps": 8 },
+          "explosion": { "frames": [12, 13, 14, 15, 16], "fps": 15 },
+          "end": { "frames": [17, 18, 19], "fps": 8 }
+        }
+      }
+    },
+
+
+    "heart_of_will": {
+      "id": "heart_of_will",
+      "name": "의지의 심장",
+      "name_en": "Heart of Will",
+      "type": "ULTIMATE",
+      "category": "ATTACK_ULTIMATE",
+      "unlock_condition": "third_heart_acquired",
+      "heart_association": "THIRD_HEART",
+
+      "stats": {
+        "damage": 500,
+        "heart_gauge_cost": 100,
+        "cooldown_after_use": 5.0
+      },
+
+      "effects": {
+        "attack_type": "CINEMATIC_ULTIMATE",
+        "hitbox": {
+          "type": "FULL_SCREEN",
+          "delay": 2.0
+        },
+        "boss_damage_cap": 0.2,
+        "visual": "memories_flash"
+      },
+
+      "special_ability": {
+        "name": "세 개의 심장",
+        "description": "기억, 수용, 의지가 하나로. 모든 적에게 막대한 피해 + 스턴",
+        "stun_duration": 2.0,
+        "healing": { "percent_of_damage": 0.1 }
+      },
+
+      "cinematic_sequence": [
+        { "time": 0.0, "action": "player_rises", "screen": "darken" },
+        { "time": 0.5, "action": "hearts_orbit", "screen": "hearts_glow" },
+        { "time": 1.5, "action": "hearts_merge", "screen": "white_flash" },
+        { "time": 2.0, "action": "damage_dealt", "screen": "return_normal" }
+      ],
+
+      "input": {
+        "button": "ULTIMATE",
+        "activation": "HOLD_1_SECOND",
+        "can_cancel": true,
+        "cancel_refunds_gauge": 0.5
+      },
+
+      "feedback": {
+        "charge_sound": "sfx_heart_will_charge",
+        "activation_sound": "sfx_heart_will_activate",
+        "impact_sound": "sfx_heart_will_impact",
+        "screen_effect": "full_cinematic",
+        "time_stop_during": true
+      },
+
+      "lore": "미래의 의지. 세 번째 심장은 앞으로 나아갈 힘을 준다.",
+
+      "assets": {
+        "icon": "icon_heart_will.png",
+        "animations": {
+          "charge": { "frames": [0, 1, 2, 3], "fps": 4, "loop": true },
+          "activate": { "frames": [4, 5, 6, 7, 8, 9, 10], "fps": 8 },
+          "hearts_orbit": { "frames": [11, 12, 13, 14, 15], "fps": 10 },
+          "merge": { "frames": [16, 17, 18, 19, 20], "fps": 12 },
+          "impact": { "frames": [21, 22, 23, 24, 25], "fps": 15 },
+          "end": { "frames": [26, 27, 28], "fps": 8 }
+        },
+        "effects": {
+          "heart_glow": "effect_heart_glow.png",
+          "merge_flash": "effect_merge_flash.png",
+          "impact_wave": "effect_will_impact.png"
+        }
+      }
+    },
+
+
+    "three_hearts_unity": {
+      "id": "three_hearts_unity",
+      "name": "세 심장의 공명",
+      "name_en": "Three Hearts Unity",
+      "type": "ULTIMATE",
+      "category": "FUSION_ULTIMATE",
+      "unlock_condition": "all_three_hearts_acquired",
+      "heart_association": "ALL",
+
+      "stats": {
+        "duration": 15.0,
+        "heart_gauge_cost": 100,
+        "cooldown_after_use": 10.0
+      },
+
+      "effects": {
+        "combines_all_hearts": true,
+        "attack_boost": 1.5,
+        "damage_reduction": 0.3,
+        "all_skills_enhanced": true,
+        "infinite_mana": true,
+        "no_cooldowns": true
+      },
+
+      "special_ability": {
+        "name": "완전한 인간",
+        "description": "세 심장이 공명하여 완전체가 됨. 모든 능력 강화 + 무제한 마나",
+        "final_burst_on_end": {
+          "damage": 300,
+          "radius": 250,
+          "heal_percent": 0.3
+        }
+      },
+
+      "transformation": {
+        "visual_change": true,
+        "aura": "tri_color_hearts",
+        "player_glow": "0xFFFFDD88"
+      },
+
+      "restriction": {
+        "only_in_chapter_6": true,
+        "or_new_game_plus": true
+      },
+
+      "feedback": {
+        "activation_sound": "sfx_unity_activate",
+        "loop_sound": "sfx_unity_loop",
+        "end_sound": "sfx_unity_end",
+        "screen_effect": "tri_color_border",
+        "bgm_change": "bgm_final_form"
+      },
+
+      "lore": "기억, 수용, 의지. 세 개의 심장이 하나가 될 때, 인간은 완전해진다.",
+
+      "assets": {
+        "icon": "icon_three_hearts.png",
+        "transformed_sprite": "player_unity_form.png",
+        "animations": {
+          "transformation": { "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "fps": 8 },
+          "unity_idle": { "frames": [10, 11, 12, 13], "fps": 6, "loop": true },
+          "unity_attack": { "frames": [14, 15, 16, 17], "fps": 15 },
+          "final_burst": { "frames": [18, 19, 20, 21, 22, 23], "fps": 12 },
+          "revert": { "frames": [24, 25, 26, 27], "fps": 8 }
+        }
+      }
+    }
+  },
+
+
+  "passive_skills": {
+
+    "quick_recovery": {
+      "id": "quick_recovery",
+      "name": "빠른 회복",
+      "name_en": "Quick Recovery",
+      "type": "PASSIVE",
+      "category": "SURVIVAL",
+      "unlock_level": 2,
+
+      "effect": {
+        "description": "피격 후 회복 시간 감소",
+        "recovery_speed_bonus": 0.3
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "recovery_speed_bonus": 0.5 } },
+        { "level": 3, "bonus": { "invincible_after_hit": 0.2, "description": "피격 후 0.2초 무적" } }
+      ],
+
+      "assets": {
+        "icon": "icon_quick_recovery.png"
+      }
+    },
+
+
+    "critical_edge": {
+      "id": "critical_edge",
+      "name": "치명적인 칼날",
+      "name_en": "Critical Edge",
+      "type": "PASSIVE",
+      "category": "OFFENSE",
+      "unlock_level": 4,
+
+      "effect": {
+        "description": "치명타 확률 및 피해 증가",
+        "crit_chance_bonus": 0.1,
+        "crit_damage_bonus": 0.3
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "crit_chance_bonus": 0.15 } },
+        { "level": 3, "bonus": { "crit_damage_bonus": 0.5 } },
+        { "level": 4, "bonus": { "crit_heal": 5, "description": "치명타 시 HP 5 회복" } }
+      ],
+
+      "assets": {
+        "icon": "icon_critical_edge.png"
+      }
+    },
+
+
+    "soul_siphon": {
+      "id": "soul_siphon",
+      "name": "영혼 흡수",
+      "name_en": "Soul Siphon",
+      "type": "PASSIVE",
+      "category": "SUSTAIN",
+      "unlock_level": 6,
+
+      "effect": {
+        "description": "적 처치 시 HP 회복",
+        "heal_on_kill": 10,
+        "heal_on_elite_kill": 30,
+        "heal_on_boss_damage": { "percent": 0.01, "cap": 5 }
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "heal_on_kill": 15 } },
+        { "level": 3, "bonus": { "mana_on_kill": 10, "description": "처치 시 마나도 회복" } },
+        { "level": 4, "bonus": { "lifesteal": 0.03, "description": "공격 피해의 3% 회복" } }
+      ],
+
+      "assets": {
+        "icon": "icon_soul_siphon.png"
+      }
+    },
+
+
+    "adrenaline_rush": {
+      "id": "adrenaline_rush",
+      "name": "아드레날린",
+      "name_en": "Adrenaline Rush",
+      "type": "PASSIVE",
+      "category": "OFFENSE",
+      "unlock_level": 8,
+
+      "effect": {
+        "description": "HP가 낮을수록 공격력 증가",
+        "damage_boost_at_50hp": 0.1,
+        "damage_boost_at_25hp": 0.25,
+        "damage_boost_at_10hp": 0.5
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "attack_speed_at_low_hp": 0.15 } },
+        { "level": 3, "bonus": { "damage_boost_at_25hp": 0.35 } },
+        { "level": 4, "bonus": { "last_stand": true, "survive_lethal_once": true, "cooldown": 180, "description": "치명상 1회 생존" } }
+      ],
+
+      "assets": {
+        "icon": "icon_adrenaline.png"
+      }
+    },
+
+
+    "heart_resonance": {
+      "id": "heart_resonance",
+      "name": "심장 공명",
+      "name_en": "Heart Resonance",
+      "type": "PASSIVE",
+      "category": "HEART",
+      "unlock_level": 1,
+
+      "effect": {
+        "description": "심장 게이지 획득량 증가",
+        "heart_gauge_gain_bonus": 0.2
+      },
+
+      "scaling_with_hearts": {
+        "0_hearts": { "bonus": 0.2 },
+        "1_heart": { "bonus": 0.3, "extra": "ultimate_cooldown_-10%" },
+        "2_hearts": { "bonus": 0.4, "extra": "ultimate_duration_+2s" },
+        "3_hearts": { "bonus": 0.5, "extra": "heart_gauge_passive_regen" }
+      },
+
+      "upgrades": [
+        { "level": 2, "bonus": { "heart_gauge_gain_bonus": 0.3 } },
+        { "level": 3, "bonus": { "heart_gauge_on_perfect_dodge": "+5" } },
+        { "level": 4, "bonus": { "hearts_boost_all_stats": 0.05, "description": "심장당 전체 스탯 5% 증가" } }
+      ],
+
+      "assets": {
+        "icon": "icon_heart_resonance.png"
+      }
+    }
+  },
+
+
+  "skill_tree": {
+    "description": "레벨업 시 스킬 포인트 획득. 스킬 해금 및 업그레이드에 사용",
+    "points_per_level": 1,
+    "respec_cost": 100,
+    "respec_currency": "gold",
+
+    "branches": {
+      "offense": {
+        "name": "공격",
+        "skills": ["crescent_wave", "phantom_strike", "soul_rend", "blade_storm", "critical_edge", "adrenaline_rush"]
+      },
+      "defense": {
+        "name": "방어",
+        "skills": ["arcane_barrier", "shadow_step", "quick_recovery"]
+      },
+      "utility": {
+        "name": "유틸리티",
+        "skills": ["memory_echo", "soul_siphon", "heart_resonance"]
+      },
+      "hearts": {
+        "name": "심장",
+        "skills": ["heart_of_memory", "heart_of_acceptance", "heart_of_will", "three_hearts_unity"],
+        "auto_unlock": true
+      }
+    }
+  },
+
+
+  "skill_loadout": {
+    "max_active_skills": 4,
+    "dash_always_equipped": true,
+    "ultimate_always_available": true,
+    "can_change_in_hub": true,
+    "cannot_change_in_dungeon": true
+  }
+}

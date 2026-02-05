@@ -1,0 +1,1128 @@
+{
+  "chapter": "ch6_throne_of_oblivion",
+  "title": "망각의 옥좌",
+  "title_en": "The Throne of Oblivion",
+  "chapter_type": "final",
+
+  "scenes": {
+    "gate_of_oblivion": {
+      "id": "ch6_scene_001",
+      "location": "망각의 문",
+      "background": "bg_oblivion_gate",
+      "bgm": "bgm_oblivion_ambient",
+
+      "trigger": "chapter_start",
+
+      "dialogues": [
+        {
+          "id": "ch6_001_001",
+          "speaker": "system",
+          "mood": "grand",
+          "text": "세계의 끝. 망각의 문이 눈앞에 있다.",
+          "text_en": "The end of the world. The Gate of Oblivion stands before you."
+        },
+        {
+          "id": "ch6_001_002",
+          "speaker": "arion",
+          "mood": "determined",
+          "text": "여기야... 리리아나가 있는 곳.",
+          "text_en": "This is it... Where Liliana is."
+        },
+        {
+          "id": "ch6_001_003",
+          "speaker": "system",
+          "mood": "mystical",
+          "text": "세 개의 심장이 공명한다. 문이 천천히 열린다.",
+          "text_en": "The Three Hearts resonate. The gate slowly opens."
+        },
+        {
+          "id": "ch6_001_004",
+          "speaker": "arion",
+          "mood": "resolute",
+          "text": "기다려, 리리아나. 이번엔 진짜로 구하러 갈게.",
+          "text_en": "Wait for me, Liliana. This time, I'm coming to truly save you."
+        }
+      ]
+    },
+
+    "path_of_forgotten": {
+      "id": "ch6_scene_002",
+      "location": "잊혀진 자들의 길",
+      "background": "bg_oblivion_path",
+      "bgm": "bgm_oblivion_path",
+
+      "trigger": "enter_path",
+
+      "environment_events": [
+        {
+          "id": "path_001",
+          "type": "ghost_encounter",
+          "visual": "흐릿한 형체가 지나간다",
+          "text": "형체 없는 존재들이 떠다닌다. 세계가 잊은 자들.",
+          "text_en": "Formless beings drift by. Those the world has forgotten."
+        },
+        {
+          "id": "path_002",
+          "type": "whisper",
+          "text": "\"내 이름은... 이름이... 기억나지 않아...\"",
+          "text_en": "\"My name is... my name... I can't remember...\""
+        },
+        {
+          "id": "path_003",
+          "type": "whisper",
+          "text": "\"누가 나를 기억해줘... 제발...\"",
+          "text_en": "\"Someone remember me... please...\""
+        }
+      ],
+
+      "dialogues": [
+        {
+          "id": "ch6_002_001",
+          "speaker": "arion",
+          "mood": "somber",
+          "text": "리리아나만이 아니었어... 이렇게 많은 존재들이 잊혀졌다니.",
+          "text_en": "It wasn't just Liliana... So many beings have been forgotten."
+        },
+        {
+          "id": "ch6_002_002",
+          "speaker": "arion",
+          "mood": "pained",
+          "text": "이름도, 얼굴도, 업적도... 전부 사라진 거야.",
+          "text_en": "Their names, faces, achievements... All erased."
+        },
+        {
+          "id": "ch6_002_003",
+          "speaker": "arion",
+          "mood": "determined",
+          "text": "...리리아나는 이렇게 두지 않겠어.",
+          "text_en": "...I won't let Liliana end up like this."
+        }
+      ]
+    },
+
+    "guardian_encounter": {
+      "id": "ch6_scene_003",
+      "location": "수호자의 방",
+      "background": "bg_oblivion_guardian",
+      "bgm": "bgm_oblivion_boss_p1",
+
+      "trigger": "reach_guardian",
+
+      "dialogues": [
+        {
+          "id": "ch6_003_001",
+          "speaker": "system",
+          "mood": "ominous",
+          "text": "거대한 공간. 중앙에 빛나는 눈이 아리온을 바라본다.",
+          "text_en": "A vast space. A glowing eye at the center watches Arion."
+        },
+        {
+          "id": "ch6_003_002",
+          "speaker": "guardian",
+          "mood": "ancient",
+          "text": "멈춰라. 기억을 가진 자여.",
+          "text_en": "Halt. You who possess memory."
+        },
+        {
+          "id": "ch6_003_003",
+          "speaker": "guardian",
+          "mood": "stern",
+          "text": "잊혀진 것은 잊혀져야 한다. 그것이 세계의 균형.",
+          "text_en": "What is forgotten must remain forgotten. That is the balance of the world."
+        },
+        {
+          "id": "ch6_003_004",
+          "speaker": "arion",
+          "mood": "defiant",
+          "text": "균형이라고? 리리아나는 잊혀질 존재가 아니야.",
+          "text_en": "Balance? Liliana is not meant to be forgotten."
+        },
+        {
+          "id": "ch6_003_005",
+          "speaker": "guardian",
+          "mood": "warning",
+          "text": "그녀를 되찾으려면 대가를 치러야 한다.",
+          "text_en": "To reclaim her, you must pay the price."
+        },
+        {
+          "id": "ch6_003_006",
+          "speaker": "arion",
+          "mood": "resolute",
+          "text": "알아. 그래도 갈 거야.",
+          "text_en": "I know. I'm going anyway."
+        },
+        {
+          "id": "ch6_003_007",
+          "speaker": "guardian",
+          "mood": "battle",
+          "text": "...그렇다면 네 의지를 증명해라.",
+          "text_en": "...Then prove your resolve."
+        }
+      ],
+
+      "mid_boss": {
+        "name": "기억의 수호자",
+        "name_en": "Guardian of Memory",
+        "note": "중간 보스, 튜토리얼 성격"
+      }
+    },
+
+    "sage_encounter": {
+      "id": "ch6_scene_004",
+      "location": "옥좌의 전실",
+      "background": "bg_oblivion_anteroom",
+      "bgm": "bgm_oblivion_ambient",
+
+      "trigger": "defeat_guardian",
+
+      "dialogues": [
+        {
+          "id": "ch6_004_001",
+          "speaker": "system",
+          "mood": "mysterious",
+          "text": "윤곽이 흐릿한 노인이 서있다. 얼굴이 계속 변한다.",
+          "text_en": "A blurry-outlined elder stands here. Their face keeps changing."
+        },
+        {
+          "id": "ch6_004_002",
+          "speaker": "sage",
+          "mood": "weary",
+          "text": "오래... 기다렸다. 봉인을 풀러 온 자여.",
+          "text_en": "I've waited... long. You who came to break the seal."
+        },
+        {
+          "id": "ch6_004_003",
+          "speaker": "arion",
+          "mood": "curious",
+          "text": "당신은... 누구죠?",
+          "text_en": "Who... are you?"
+        },
+        {
+          "id": "ch6_004_004",
+          "speaker": "sage",
+          "mood": "hollow",
+          "text": "나도 한때는 이름이 있었지. 업적도. 하지만...",
+          "text_en": "I once had a name. Achievements too. But..."
+        },
+        {
+          "id": "ch6_004_005",
+          "speaker": "sage",
+          "mood": "resigned",
+          "text": "대가를 치렀거든. 리리아나처럼.",
+          "text_en": "I paid the price. Like Liliana."
+        },
+        {
+          "id": "ch6_004_006",
+          "speaker": "arion",
+          "mood": "shocked",
+          "text": "당신도 누군가를 위해...?",
+          "text_en": "You too, for someone...?"
+        },
+        {
+          "id": "ch6_004_007",
+          "speaker": "sage",
+          "mood": "nostalgic",
+          "text": "그랬을 거야. 아마. 기억나지 않지만.",
+          "text_en": "Probably. I think so. I don't remember, though."
+        }
+      ],
+
+      "price_explanation": [
+        {
+          "id": "ch6_004_p01",
+          "speaker": "sage",
+          "mood": "teaching",
+          "text": "봉인을 풀 방법을 알려주지.",
+          "text_en": "Let me tell you how to break the seal."
+        },
+        {
+          "id": "ch6_004_p02",
+          "speaker": "sage",
+          "mood": "serious",
+          "text": "방법은 두 가지다.",
+          "text_en": "There are two ways."
+        },
+        {
+          "id": "ch6_004_p03",
+          "speaker": "sage",
+          "mood": "grave",
+          "text": "첫째, 네가 대신 잊혀지는 것.",
+          "text_en": "First, you become forgotten in her place."
+        },
+        {
+          "id": "ch6_004_p04",
+          "speaker": "sage",
+          "mood": "explaining",
+          "text": "세계가 너를 잊는다. 리리아나를 포함해서.",
+          "text_en": "The world forgets you. Including Liliana."
+        },
+        {
+          "id": "ch6_004_p05",
+          "speaker": "sage",
+          "mood": "heavy",
+          "text": "넌 존재하지만, 아무도 인식하지 못해. 영원히.",
+          "text_en": "You'll exist, but no one will perceive you. Forever."
+        },
+        {
+          "id": "ch6_004_p06",
+          "speaker": "arion",
+          "mood": "pained",
+          "text": "...두 번째 방법은?",
+          "text_en": "...And the second way?"
+        },
+        {
+          "id": "ch6_004_p07",
+          "speaker": "sage",
+          "mood": "cryptic",
+          "text": "다른 무언가를 대가로 바치는 것.",
+          "text_en": "Offer something else as the price."
+        },
+        {
+          "id": "ch6_004_p08",
+          "speaker": "sage",
+          "mood": "mysterious",
+          "text": "하지만... 특별한 것이 필요해.",
+          "text_en": "But... it requires something special."
+        },
+        {
+          "id": "ch6_004_p09",
+          "speaker": "sage",
+          "mood": "hinting",
+          "text": "이 세계 너머의 무언가. 윤회의 실 같은 것.",
+          "text_en": "Something beyond this world. Like the thread of reincarnation."
+        },
+        {
+          "id": "ch6_004_p10",
+          "speaker": "arion",
+          "mood": "confused",
+          "text": "윤회의 실...?",
+          "text_en": "Thread of reincarnation...?"
+        },
+        {
+          "id": "ch6_004_p11",
+          "speaker": "sage",
+          "mood": "fading",
+          "text": "...가서 직접 확인해라. 망각의 화신이 알려줄 거다.",
+          "text_en": "...Go and see for yourself. The Incarnation of Oblivion will tell you."
+        }
+      ]
+    },
+
+    "reunion": {
+      "id": "ch6_scene_005",
+      "location": "망각의 옥좌",
+      "background": "bg_oblivion_throne",
+      "bgm": "bgm_oblivion_reunion",
+
+      "trigger": "enter_throne_room",
+
+      "dialogues": [
+        {
+          "id": "ch6_005_001",
+          "speaker": "system",
+          "mood": "breathtaking",
+          "text": "거대한 수정 관. 그 안에 리리아나가 잠들어 있다.",
+          "text_en": "A massive crystal coffin. Liliana sleeps within."
+        },
+        {
+          "id": "ch6_005_002",
+          "speaker": "arion",
+          "mood": "emotional",
+          "text": "리리아나...!",
+          "text_en": "Liliana...!"
+        },
+        {
+          "id": "ch6_005_003",
+          "speaker": "system",
+          "mood": "tender",
+          "text": "평화로운 얼굴. 저주의 흔적은 없다. 마치 꿈을 꾸는 것처럼.",
+          "text_en": "A peaceful face. No trace of the curse. As if she's simply dreaming."
+        },
+        {
+          "id": "ch6_005_004",
+          "speaker": "arion",
+          "mood": "tearful",
+          "text": "...기다렸어? 오래... 기다렸어?",
+          "text_en": "...Did you wait? Did you wait long?"
+        },
+        {
+          "id": "ch6_005_005",
+          "speaker": "arion",
+          "mood": "guilty",
+          "text": "미안해. 늦어서. 너무 오래 걸려서.",
+          "text_en": "I'm sorry. For being late. For taking so long."
+        },
+        {
+          "id": "ch6_005_006",
+          "speaker": "arion",
+          "mood": "determined",
+          "text": "하지만 이제 데리러 왔어. 진짜로.",
+          "text_en": "But now I've come for you. For real."
+        }
+      ],
+
+      "third_heart_trial": [
+        {
+          "id": "ch6_005_t01",
+          "speaker": "system",
+          "mood": "mystical",
+          "text": "세 개의 심장이 빛나기 시작한다.",
+          "text_en": "The Three Hearts begin to glow."
+        },
+        {
+          "id": "ch6_005_t02",
+          "speaker": "system",
+          "mood": "challenging",
+          "text": "세 번째 심장 - 미래의 심장이 완성을 요구한다.",
+          "text_en": "The Third Heart - Heart of the Future demands completion."
+        },
+        {
+          "id": "ch6_005_t03",
+          "speaker": "voice",
+          "mood": "testing",
+          "text": "\"네 의지를 증명하라. 어떤 대가를 치르더라도 그녀를 구할 것인가?\"",
+          "text_en": "\"Prove your resolve. Will you save her no matter the cost?\""
+        },
+        {
+          "id": "ch6_005_t04",
+          "speaker": "arion",
+          "mood": "unwavering",
+          "text": "...그렇다. 어떤 대가라도.",
+          "text_en": "...Yes. Any price."
+        },
+        {
+          "id": "ch6_005_t05",
+          "speaker": "arion",
+          "mood": "resolute",
+          "text": "내가 잊혀져도, 사라져도, 그녀만 살 수 있다면.",
+          "text_en": "Even if I'm forgotten, even if I vanish, as long as she can live."
+        },
+        {
+          "id": "ch6_005_t06",
+          "speaker": "system",
+          "mood": "triumphant",
+          "text": "세 번째 심장 - 미래의 심장이 완성되었다.",
+          "text_en": "The Third Heart - Heart of the Future is complete.",
+          "effect": "obtain_third_heart"
+        },
+        {
+          "id": "ch6_005_t07",
+          "speaker": "system",
+          "mood": "powerful",
+          "text": "세 개의 심장이 하나로 공명한다!",
+          "text_en": "The Three Hearts resonate as one!",
+          "effect": "hearts_unite"
+        }
+      ]
+    },
+
+    "final_boss_encounter": {
+      "id": "ch6_scene_006",
+      "location": "공허",
+      "background": "bg_oblivion_void",
+      "bgm": null,
+
+      "trigger": "hearts_unite",
+
+      "dialogues": [
+        {
+          "id": "ch6_006_001",
+          "speaker": "system",
+          "mood": "ominous",
+          "text": "공간이 뒤틀린다. 거대한 공허가 나타난다.",
+          "text_en": "Space distorts. A vast void appears."
+        },
+        {
+          "id": "ch6_006_002",
+          "speaker": "oblivion",
+          "mood": "ancient",
+          "text": "...세 개의 심장을 모았구나.",
+          "text_en": "...You've gathered the Three Hearts."
+        },
+        {
+          "id": "ch6_006_003",
+          "speaker": "oblivion",
+          "mood": "neutral",
+          "text": "오랜만이다. 이 봉인을 풀러 온 자는.",
+          "text_en": "It's been long since someone came to break this seal."
+        },
+        {
+          "id": "ch6_006_004",
+          "speaker": "arion",
+          "mood": "wary",
+          "text": "넌... 망각의 화신?",
+          "text_en": "You're... the Incarnation of Oblivion?"
+        },
+        {
+          "id": "ch6_006_005",
+          "speaker": "oblivion",
+          "mood": "explaining",
+          "text": "나는 세계의 '잊음'이다. 선도 악도 아니다.",
+          "text_en": "I am the world's 'forgetting'. Neither good nor evil."
+        },
+        {
+          "id": "ch6_006_006",
+          "speaker": "oblivion",
+          "mood": "matter_of_fact",
+          "text": "단지 균형을 유지할 뿐.",
+          "text_en": "I merely maintain balance."
+        },
+        {
+          "id": "ch6_006_007",
+          "speaker": "arion",
+          "mood": "demanding",
+          "text": "리리아나의 봉인을 풀어줘.",
+          "text_en": "Release Liliana's seal."
+        },
+        {
+          "id": "ch6_006_008",
+          "speaker": "oblivion",
+          "mood": "conditional",
+          "text": "대가를 치른다면.",
+          "text_en": "If you pay the price."
+        },
+        {
+          "id": "ch6_006_009",
+          "speaker": "oblivion",
+          "mood": "testing",
+          "text": "하지만 먼저... 네 자격을 보여라.",
+          "text_en": "But first... show me your worthiness."
+        }
+      ]
+    },
+
+    "final_boss_battle": {
+      "id": "ch6_scene_007",
+      "location": "공허",
+      "background": "bg_oblivion_void",
+
+      "boss": {
+        "name": "망각의 화신",
+        "name_en": "Incarnation of Oblivion",
+        "type": "final_boss"
+      },
+
+      "phase_1": {
+        "hp_range": "100%~70%",
+        "theme": "과거의 망각",
+        "bgm": "bgm_oblivion_boss_p1",
+        "mechanic": "기억 디버프, 스탯 감소",
+
+        "battle_dialogues": [
+          {
+            "trigger": "phase_start",
+            "speaker": "oblivion",
+            "text": "과거를 잊어라. 그녀와의 기억을.",
+            "text_en": "Forget the past. Your memories with her."
+          },
+          {
+            "trigger": "80%_hp",
+            "speaker": "oblivion",
+            "text": "처음 만난 날. 함께한 시간. 전부 잊어라.",
+            "text_en": "The day you met. The time you shared. Forget it all."
+          },
+          {
+            "trigger": "75%_hp",
+            "speaker": "arion",
+            "text": "첫 번째 심장이... 기억을 지켜준다!",
+            "text_en": "The First Heart... protects my memories!"
+          }
+        ]
+      },
+
+      "phase_2": {
+        "hp_range": "70%~40%",
+        "theme": "현재의 망각",
+        "bgm": "bgm_oblivion_boss_p2",
+        "mechanic": "존재 희석, 투명화, 공격 빗나감",
+
+        "battle_dialogues": [
+          {
+            "trigger": "phase_start",
+            "speaker": "oblivion",
+            "text": "현재를 잊어라. 네 존재 자체를.",
+            "text_en": "Forget the present. Your very existence."
+          },
+          {
+            "trigger": "55%_hp",
+            "speaker": "oblivion",
+            "text": "네가 누구인지 잊어라. 이름도. 정체성도.",
+            "text_en": "Forget who you are. Your name. Your identity."
+          },
+          {
+            "trigger": "45%_hp",
+            "speaker": "arion",
+            "text": "나는 아리온! 두 번째 심장이 나를 지킨다!",
+            "text_en": "I am Arion! The Second Heart protects me!"
+          }
+        ]
+      },
+
+      "phase_3": {
+        "hp_range": "40%~10%",
+        "theme": "미래의 망각",
+        "bgm": "bgm_oblivion_boss_p3",
+        "mechanic": "스킬 봉인, 가능성 제한",
+
+        "battle_dialogues": [
+          {
+            "trigger": "phase_start",
+            "speaker": "oblivion",
+            "text": "미래를 잊어라. 너의 가능성을.",
+            "text_en": "Forget the future. Your possibilities."
+          },
+          {
+            "trigger": "25%_hp",
+            "speaker": "oblivion",
+            "text": "희망을 잊어라. 구원을 잊어라.",
+            "text_en": "Forget hope. Forget salvation."
+          },
+          {
+            "trigger": "20%_hp",
+            "speaker": "arion",
+            "text": "...안 돼. 포기하지 않아!",
+            "text_en": "...No. I won't give up!"
+          },
+          {
+            "trigger": "15%_hp",
+            "speaker": "arion",
+            "text": "리리아나를 구한다. 그게 내 미래야!",
+            "text_en": "I will save Liliana. That's my future!"
+          },
+          {
+            "trigger": "12%_hp",
+            "speaker": "system",
+            "text": "세 개의 심장이 공명한다!",
+            "text_en": "The Three Hearts resonate!",
+            "effect": "hearts_awakening"
+          },
+          {
+            "trigger": "hearts_awakening",
+            "speaker": "arion",
+            "text": "세 번째 심장... 미래의 심장이 답한다!",
+            "text_en": "The Third Heart... the Heart of the Future answers!"
+          }
+        ]
+      },
+
+      "phase_4": {
+        "hp_range": "10%~0%",
+        "theme": "최후의 거래",
+        "bgm": "bgm_oblivion_boss_p4",
+        "mechanic": "전투 중지, 대화 이벤트",
+
+        "dialogues": [
+          {
+            "id": "ch6_007_f01",
+            "speaker": "oblivion",
+            "mood": "acknowledging",
+            "text": "...인정한다. 네 의지를.",
+            "text_en": "...I acknowledge it. Your resolve."
+          },
+          {
+            "id": "ch6_007_f02",
+            "speaker": "oblivion",
+            "mood": "negotiating",
+            "text": "봉인을 풀어주지. 대가를 치른다면.",
+            "text_en": "I'll release the seal. If you pay the price."
+          },
+          {
+            "id": "ch6_007_f03",
+            "speaker": "arion",
+            "mood": "accepting",
+            "text": "...알았어. 내가 대가가 되겠어.",
+            "text_en": "...I understand. I'll become the price."
+          }
+        ]
+      }
+    },
+
+    "ending_branch": {
+      "id": "ch6_scene_008",
+      "location": "공허",
+      "background": "bg_oblivion_void",
+      "bgm": "bgm_oblivion_boss_p4",
+
+      "trigger": "phase_4_dialogue_complete",
+
+      "branch_check": {
+        "true_ending_items": ["promise_ring", "first_memory_crystal"],
+        "note": "두 아이템 모두 소지 시 트루 엔딩 선택지 활성화"
+      },
+
+      "normal_ending_route": {
+        "id": "normal_route",
+        "condition": "히든 아이템 미소지",
+
+        "dialogues": [
+          {
+            "id": "ch6_008_n01",
+            "speaker": "oblivion",
+            "mood": "confirming",
+            "text": "그렇다면 네가 잊혀지는 것이다.",
+            "text_en": "Then you shall be forgotten."
+          },
+          {
+            "id": "ch6_008_n02",
+            "speaker": "oblivion",
+            "mood": "explaining",
+            "text": "세계가 너를 잊는다. 리리아나를 포함해서.",
+            "text_en": "The world will forget you. Including Liliana."
+          },
+          {
+            "id": "ch6_008_n03",
+            "speaker": "arion",
+            "mood": "accepting",
+            "text": "...알아. 그래도 괜찮아.",
+            "text_en": "...I know. It's okay."
+          },
+          {
+            "id": "ch6_008_n04",
+            "speaker": "arion",
+            "mood": "peaceful",
+            "text": "그녀가 살 수 있다면. 행복할 수 있다면.",
+            "text_en": "If she can live. If she can be happy."
+          }
+        ],
+
+        "leads_to": "normal_ending"
+      },
+
+      "true_ending_route": {
+        "id": "true_route",
+        "condition": "약속의 반지 + 최초의 기억 결정 소지",
+
+        "dialogues": [
+          {
+            "id": "ch6_008_t01",
+            "speaker": "system",
+            "mood": "mystical",
+            "text": "약속의 반지가 빛난다. 최초의 기억 결정이 공명한다.",
+            "text_en": "The Ring of Promise glows. The Crystal of First Memory resonates."
+          },
+          {
+            "id": "ch6_008_t02",
+            "speaker": "oblivion",
+            "mood": "surprised",
+            "text": "...이것은?",
+            "text_en": "...What is this?"
+          },
+          {
+            "id": "ch6_008_t03",
+            "speaker": "oblivion",
+            "mood": "recognizing",
+            "text": "윤회의 실... 여러 생에 걸친 인연.",
+            "text_en": "The thread of reincarnation... A bond spanning multiple lives."
+          },
+          {
+            "id": "ch6_008_t04",
+            "speaker": "oblivion",
+            "mood": "offering",
+            "text": "...또 다른 방법이 있다.",
+            "text_en": "...There is another way."
+          },
+          {
+            "id": "ch6_008_t05",
+            "speaker": "arion",
+            "mood": "hopeful",
+            "text": "뭐야? 말해!",
+            "text_en": "What? Tell me!"
+          },
+          {
+            "id": "ch6_008_t06",
+            "speaker": "oblivion",
+            "mood": "explaining",
+            "text": "너희의 인연. 윤회하는 실.",
+            "text_en": "Your bond. The thread that reincarnates."
+          },
+          {
+            "id": "ch6_008_t07",
+            "speaker": "oblivion",
+            "mood": "serious",
+            "text": "그것을 대가로 바치면 둘 다 살 수 있다.",
+            "text_en": "Offer that as the price, and both of you can live."
+          },
+          {
+            "id": "ch6_008_t08",
+            "speaker": "oblivion",
+            "mood": "warning",
+            "text": "하지만 그 연결을 끊으면...",
+            "text_en": "But if that connection is severed..."
+          },
+          {
+            "id": "ch6_008_t09",
+            "speaker": "oblivion",
+            "mood": "final",
+            "text": "다음 생에서는 영원히 만나지 못한다.",
+            "text_en": "You will never meet in the next life. Forever."
+          }
+        ],
+
+        "choice": {
+          "prompt": "어떤 대가를 치를 것인가?",
+          "prompt_en": "What price will you pay?",
+          "options": [
+            {
+              "id": "choice_self",
+              "text": "[내가 잊혀지겠다]",
+              "text_en": "[I will be forgotten]",
+              "leads_to": "normal_ending"
+            },
+            {
+              "id": "choice_bond",
+              "text": "[윤회의 인연을 바치겠다]",
+              "text_en": "[I will offer our reincarnating bond]",
+              "leads_to": "true_ending"
+            }
+          ]
+        }
+      }
+    },
+
+    "normal_ending": {
+      "id": "ch6_scene_009_normal",
+      "location": "망각의 옥좌",
+      "background": "bg_oblivion_throne",
+      "bgm": "bgm_ending_normal",
+
+      "trigger": "choice_self",
+
+      "dialogues": [
+        {
+          "id": "ch6_009_n01",
+          "speaker": "arion",
+          "mood": "resolute",
+          "text": "내가 대가가 되겠어. 나를 잊어도 돼.",
+          "text_en": "I'll be the price. Forget me."
+        },
+        {
+          "id": "ch6_009_n02",
+          "speaker": "system",
+          "mood": "action",
+          "text": "아리온이 봉인에 손을 댄다.",
+          "text_en": "Arion touches the seal."
+        },
+        {
+          "id": "ch6_009_n03",
+          "speaker": "liliana",
+          "mood": "awakening",
+          "text": "...응...?",
+          "text_en": "...Mm...?"
+        },
+        {
+          "id": "ch6_009_n04",
+          "speaker": "system",
+          "mood": "bittersweet",
+          "text": "리리아나가 눈을 뜬다. 동시에 아리온이 흐려지기 시작한다.",
+          "text_en": "Liliana opens her eyes. At the same time, Arion begins to fade."
+        },
+        {
+          "id": "ch6_009_n05",
+          "speaker": "liliana",
+          "mood": "confused",
+          "text": "...여기가 어디지? 내가 왜...?",
+          "text_en": "...Where am I? Why am I...?"
+        },
+        {
+          "id": "ch6_009_n06",
+          "speaker": "arion",
+          "mood": "tearful",
+          "text": "리리아나...",
+          "text_en": "Liliana..."
+        },
+        {
+          "id": "ch6_009_n07",
+          "speaker": "system",
+          "mood": "tragic",
+          "text": "리리아나의 눈이 아리온을 스쳐 지나간다. 보이지 않는다.",
+          "text_en": "Liliana's eyes pass through Arion. She cannot see him."
+        },
+        {
+          "id": "ch6_009_n08",
+          "speaker": "liliana",
+          "mood": "puzzled",
+          "text": "...이상해. 누군가 있는 것 같은데...",
+          "text_en": "...Strange. I feel like someone is here..."
+        },
+        {
+          "id": "ch6_009_n09",
+          "speaker": "arion",
+          "mood": "loving",
+          "text": "괜찮아. 이게 맞아.",
+          "text_en": "It's okay. This is right."
+        },
+        {
+          "id": "ch6_009_n10",
+          "speaker": "arion",
+          "mood": "farewell",
+          "text": "잘 살아, 리리아나. 행복하게.",
+          "text_en": "Live well, Liliana. Be happy."
+        },
+        {
+          "id": "ch6_009_n11",
+          "speaker": "arion",
+          "mood": "eternal",
+          "text": "이번엔... 진짜로.",
+          "text_en": "This time... for real."
+        }
+      ],
+
+      "epilogue": {
+        "text_kr": "[시간이 흐른다]\n\n리리아나는 새로운 삶을 살았다.\n저주에서 해방되어, 평범하게, 행복하게.\n\n하지만 가끔...\n창밖을 바라보며 이상한 그리움을 느꼈다.\n\n\"왜 이렇게 그리운 걸까...\"\n\"뭔가를 잊은 것 같아...\"\n\"누군가... 소중한 누군가를...\"\n\n그녀의 곁에는 항상 보이지 않는 그림자가 서있었다.\n그녀를 지키며. 영원히.\n\n[THE END]\n\n\"잊혀진 영웅\"",
+        "text_en": "[Time passes]\n\nLiliana lived a new life.\nFreed from the curse, ordinary, happy.\n\nBut sometimes...\nShe'd gaze out the window, feeling a strange longing.\n\n\"Why do I feel such longing...\"\n\"I feel like I've forgotten something...\"\n\"Someone... someone precious...\"\n\nAn invisible shadow always stood beside her.\nWatching over her. Forever.\n\n[THE END]\n\n\"The Forgotten Hero\""
+      }
+    },
+
+    "true_ending": {
+      "id": "ch6_scene_009_true",
+      "location": "망각의 옥좌",
+      "background": "bg_oblivion_throne",
+      "bgm": "bgm_ending_true",
+
+      "trigger": "choice_bond",
+
+      "dialogues": [
+        {
+          "id": "ch6_009_t01",
+          "speaker": "arion",
+          "mood": "deciding",
+          "text": "윤회의 인연을... 바치겠어.",
+          "text_en": "I'll offer... our reincarnating bond."
+        },
+        {
+          "id": "ch6_009_t02",
+          "speaker": "system",
+          "mood": "mystical",
+          "text": "약속의 반지와 최초의 기억 결정이 빛난다.",
+          "text_en": "The Ring of Promise and Crystal of First Memory shine."
+        },
+        {
+          "id": "ch6_009_t03",
+          "speaker": "system",
+          "mood": "revealing",
+          "text": "수많은 전생의 장면이 스쳐 지나간다. 다른 세계, 다른 시대의 두 사람.",
+          "text_en": "Countless scenes of past lives flash by. The two in different worlds, different eras."
+        },
+        {
+          "id": "ch6_009_t04",
+          "speaker": "arion",
+          "mood": "awed",
+          "text": "이게... 우리의 인연...?",
+          "text_en": "This is... our bond...?"
+        },
+        {
+          "id": "ch6_009_t05",
+          "speaker": "oblivion",
+          "mood": "confirming",
+          "text": "여러 생에 걸친 사랑. 윤회해도 다시 만나는 인연.",
+          "text_en": "Love spanning multiple lives. A bond that reunites through reincarnation."
+        },
+        {
+          "id": "ch6_009_t06",
+          "speaker": "oblivion",
+          "mood": "final_warning",
+          "text": "이것을 끊으면 이번 생의 기억은 유지된다. 하지만...",
+          "text_en": "Sever this, and your memories of this life will remain. But..."
+        },
+        {
+          "id": "ch6_009_t07",
+          "speaker": "oblivion",
+          "mood": "solemn",
+          "text": "다음 생에서는 절대 만나지 못한다. 영원히.",
+          "text_en": "In the next life, you will never meet. Forever."
+        },
+        {
+          "id": "ch6_009_t08",
+          "speaker": "system",
+          "mood": "action",
+          "text": "리리아나가 깨어난다.",
+          "text_en": "Liliana awakens."
+        },
+        {
+          "id": "ch6_009_t09",
+          "speaker": "liliana",
+          "mood": "seeing",
+          "text": "...아리온?",
+          "text_en": "...Arion?"
+        },
+        {
+          "id": "ch6_009_t10",
+          "speaker": "arion",
+          "mood": "relieved",
+          "text": "리리아나...! 날 알아봐...!",
+          "text_en": "Liliana...! You recognize me...!"
+        },
+        {
+          "id": "ch6_009_t11",
+          "speaker": "liliana",
+          "mood": "understanding",
+          "text": "...들었어. 전부.",
+          "text_en": "...I heard everything."
+        },
+        {
+          "id": "ch6_009_t12",
+          "speaker": "liliana",
+          "mood": "tearful",
+          "text": "다음 생에서 못 만난다는 거...",
+          "text_en": "That we won't meet in the next life..."
+        },
+        {
+          "id": "ch6_009_t13",
+          "speaker": "arion",
+          "mood": "conflicted",
+          "text": "...리리아나.",
+          "text_en": "...Liliana."
+        },
+        {
+          "id": "ch6_009_t14",
+          "speaker": "liliana",
+          "mood": "resolute",
+          "text": "...이번 생만으로 충분해.",
+          "text_en": "...This life alone is enough."
+        },
+        {
+          "id": "ch6_009_t15",
+          "speaker": "liliana",
+          "mood": "loving",
+          "text": "다음 생에서 널 못 만나도... 지금 네가 있으니까.",
+          "text_en": "Even if I can't meet you in the next life... you're here now."
+        },
+        {
+          "id": "ch6_009_t16",
+          "speaker": "arion",
+          "mood": "emotional",
+          "text": "...그래. 이번 생을 영원처럼 살자.",
+          "text_en": "...Yes. Let's live this life as if it were eternity."
+        },
+        {
+          "id": "ch6_009_t17",
+          "speaker": "system",
+          "mood": "action",
+          "text": "두 사람이 함께 윤회의 실을 끊는다.",
+          "text_en": "Together, they sever the thread of reincarnation."
+        },
+        {
+          "id": "ch6_009_t18",
+          "speaker": "system",
+          "mood": "brilliant",
+          "text": "빛이 퍼진다. 봉인이 완전히 해제된다.",
+          "text_en": "Light spreads. The seal is completely broken."
+        },
+        {
+          "id": "ch6_009_t19",
+          "speaker": "system",
+          "mood": "peaceful",
+          "text": "두 사람이 서로를 안는다.",
+          "text_en": "The two embrace each other."
+        }
+      ],
+
+      "epilogue": {
+        "text_kr": "[시간이 흐른다]\n\n피의 정원은 다시 흰 장미가 피었다.\n리리아나가 가장 좋아했던 색.\n\n\"있잖아, 아리온.\"\n\"응?\"\n\"다음 생이 없다는 거... 조금 무섭기도 해.\"\n\n아리온이 웃는다.\n\n\"나도. 하지만...\"\n\"지금이 있으니까.\"\n\n두 사람이 손을 잡고 정원을 걷는다.\n\n\"다음 생은 없어도...\"\n\"이번 생이 있으니까.\"\n\n\"...그거면 충분해.\"\n\n[THE END]\n\n\"이번 생의 사랑\"",
+        "text_en": "[Time passes]\n\nThe Garden of Blood bloomed with white roses again.\nLiliana's favorite color.\n\n\"Hey, Arion.\"\n\"Hmm?\"\n\"The fact that there's no next life... it's a little scary.\"\n\nArion smiles.\n\n\"For me too. But...\"\n\"We have now.\"\n\nThe two walk through the garden, hand in hand.\n\n\"Even without a next life...\"\n\"We have this life.\"\n\n\"...That's enough.\"\n\n[THE END]\n\n\"Love of This Life\""
+      }
+    },
+
+    "post_credits": {
+      "normal_ending_post": {
+        "id": "post_credits_normal",
+        "trigger": "after_normal_ending_credits",
+
+        "dialogues": [
+          {
+            "id": "post_n01",
+            "speaker": "arion",
+            "mood": "whisper",
+            "text": "...다음 생에서는, 내가 널 기억할게.",
+            "text_en": "...In the next life, I'll remember you."
+          },
+          {
+            "id": "post_n02",
+            "speaker": "arion",
+            "mood": "promise",
+            "text": "그때는... 제대로 지킬게.",
+            "text_en": "Then... I'll protect you properly."
+          },
+          {
+            "id": "post_n03",
+            "speaker": "system",
+            "mood": "mysterious",
+            "text": "어둠 속에서 희미하게 빛나는 무언가.",
+            "text_en": "Something glowing faintly in the darkness."
+          },
+          {
+            "id": "post_n04",
+            "speaker": "arion",
+            "mood": "eternal",
+            "text": "...약속해.",
+            "text_en": "...I promise."
+          }
+        ]
+      },
+
+      "true_ending_post": {
+        "id": "post_credits_true",
+        "trigger": "after_true_ending_credits",
+
+        "dialogues": [
+          {
+            "id": "post_t01",
+            "speaker": "liliana",
+            "mood": "gentle",
+            "text": "있잖아, 아리온.",
+            "text_en": "Hey, Arion."
+          },
+          {
+            "id": "post_t02",
+            "speaker": "arion",
+            "mood": "content",
+            "text": "응?",
+            "text_en": "Hmm?"
+          },
+          {
+            "id": "post_t03",
+            "speaker": "liliana",
+            "mood": "curious",
+            "text": "다음 생이 없다는 거... 조금 무섭기도 해.",
+            "text_en": "The fact that there's no next life... it's a little scary."
+          },
+          {
+            "id": "post_t04",
+            "speaker": "arion",
+            "mood": "honest",
+            "text": "나도.",
+            "text_en": "Me too."
+          },
+          {
+            "id": "post_t05",
+            "speaker": "arion",
+            "mood": "peaceful",
+            "text": "하지만...",
+            "text_en": "But..."
+          },
+          {
+            "id": "post_t06",
+            "speaker": "arion_liliana",
+            "mood": "together",
+            "text": "지금이 있으니까.",
+            "text_en": "We have now."
+          },
+          {
+            "id": "post_t07",
+            "speaker": "system",
+            "mood": "final",
+            "text": "두 손이 맞잡힌다. 따뜻한 빛.",
+            "text_en": "Two hands clasp together. Warm light."
+          },
+          {
+            "id": "post_t08",
+            "speaker": "liliana",
+            "mood": "loving",
+            "text": "충분해.",
+            "text_en": "That's enough."
+          }
+        ]
+      }
+    }
+  }
+}

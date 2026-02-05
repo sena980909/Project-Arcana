@@ -1,0 +1,2397 @@
+{
+  "version": "1.0.0",
+  "description": "Project Arcana - Item Configuration",
+
+  "item_categories": {
+    "WEAPON": "무기 - 공격력 및 특수 효과",
+    "ARMOR": "방어구 - 방어력 및 생존 능력",
+    "ACCESSORY": "장신구 - 다양한 부가 효과",
+    "CONSUMABLE": "소비 아이템 - 즉시 사용 효과",
+    "MATERIAL": "재료 - 제작 및 강화용",
+    "KEY_ITEM": "열쇠 아이템 - 진행에 필요",
+    "QUEST_ITEM": "퀘스트 아이템 - 퀘스트 관련",
+    "SPECIAL": "특수 아이템 - 스토리 핵심"
+  },
+
+  "rarity_tiers": {
+    "COMMON": { "color": "0xFFAAAAAA", "name": "일반", "drop_weight": 60 },
+    "UNCOMMON": { "color": "0xFF44AA44", "name": "고급", "drop_weight": 25 },
+    "RARE": { "color": "0xFF4488FF", "name": "희귀", "drop_weight": 10 },
+    "EPIC": { "color": "0xFFAA44FF", "name": "영웅", "drop_weight": 4 },
+    "LEGENDARY": { "color": "0xFFFFAA00", "name": "전설", "drop_weight": 1 },
+    "UNIQUE": { "color": "0xFFFF4444", "name": "유일", "drop_weight": 0, "note": "특정 조건으로만 획득" }
+  },
+
+  "equipment_slots": {
+    "weapon": { "name": "무기", "max": 1 },
+    "armor": { "name": "방어구", "max": 1 },
+    "accessory_1": { "name": "장신구 1", "max": 1 },
+    "accessory_2": { "name": "장신구 2", "max": 1 }
+  },
+
+
+  "weapons": {
+
+    "wp_rusty_sword": {
+      "id": "wp_rusty_sword",
+      "name": "녹슨 검",
+      "name_en": "Rusty Sword",
+      "category": "WEAPON",
+      "type": "SWORD",
+      "rarity": "COMMON",
+
+      "stats": {
+        "attack": 10,
+        "attack_speed": 1.0,
+        "crit_chance": 0.05
+      },
+
+      "description": "오랜 세월 방치된 검. 그래도 쓸 수는 있다.",
+      "flavor_text": "누군가의 것이었을 이 검은, 이제 주인을 잃었다.",
+
+      "requirements": {
+        "level": 1
+      },
+
+      "sell_price": 10,
+      "buy_price": 50,
+
+      "assets": {
+        "icon": "icon_rusty_sword.png",
+        "sprite": "weapon_rusty_sword.png"
+      }
+    },
+
+    "wp_iron_blade": {
+      "id": "wp_iron_blade",
+      "name": "무쇠 검",
+      "name_en": "Iron Blade",
+      "category": "WEAPON",
+      "type": "SWORD",
+      "rarity": "COMMON",
+
+      "stats": {
+        "attack": 18,
+        "attack_speed": 1.0,
+        "crit_chance": 0.05
+      },
+
+      "description": "기본적인 철제 검. 믿음직하다.",
+
+      "requirements": {
+        "level": 3
+      },
+
+      "sell_price": 30,
+      "buy_price": 150,
+
+      "assets": {
+        "icon": "icon_iron_blade.png",
+        "sprite": "weapon_iron_blade.png"
+      }
+    },
+
+    "wp_forest_fang": {
+      "id": "wp_forest_fang",
+      "name": "숲의 송곳니",
+      "name_en": "Forest Fang",
+      "category": "WEAPON",
+      "type": "SWORD",
+      "rarity": "UNCOMMON",
+
+      "stats": {
+        "attack": 25,
+        "attack_speed": 1.1,
+        "crit_chance": 0.08
+      },
+
+      "special_effects": [
+        {
+          "type": "POISON_CHANCE",
+          "chance": 0.15,
+          "damage": 3,
+          "duration": 4.0,
+          "description": "15% 확률로 독 부여"
+        }
+      ],
+
+      "description": "숲 늑대의 이빨로 만든 검. 독이 스며있다.",
+      "flavor_text": "이그드라의 숲에서 사냥한 늑대의 유산.",
+
+      "requirements": {
+        "level": 5
+      },
+
+      "crafting": {
+        "materials": [
+          { "id": "mt_wolf_fang", "count": 5 },
+          { "id": "mt_iron_ore", "count": 3 }
+        ],
+        "gold": 100
+      },
+
+      "sell_price": 80,
+
+      "assets": {
+        "icon": "icon_forest_fang.png",
+        "sprite": "weapon_forest_fang.png"
+      }
+    },
+
+    "wp_crystal_edge": {
+      "id": "wp_crystal_edge",
+      "name": "수정의 칼날",
+      "name_en": "Crystal Edge",
+      "category": "WEAPON",
+      "type": "SWORD",
+      "rarity": "RARE",
+
+      "stats": {
+        "attack": 35,
+        "attack_speed": 0.95,
+        "crit_chance": 0.12,
+        "crit_damage": 0.2
+      },
+
+      "special_effects": [
+        {
+          "type": "LIGHT_DAMAGE",
+          "bonus_in_darkness": 0.25,
+          "description": "어둠 속에서 피해 25% 증가"
+        }
+      ],
+
+      "description": "심연의 동굴에서 발견된 수정으로 제작한 검.",
+      "flavor_text": "어둠 속에서 희미하게 빛난다.",
+
+      "requirements": {
+        "level": 10
+      },
+
+      "crafting": {
+        "materials": [
+          { "id": "mt_crystal_shard", "count": 8 },
+          { "id": "mt_golem_core", "count": 1 },
+          { "id": "mt_iron_ore", "count": 5 }
+        ],
+        "gold": 300
+      },
+
+      "sell_price": 200,
+
+      "assets": {
+        "icon": "icon_crystal_edge.png",
+        "sprite": "weapon_crystal_edge.png"
+      }
+    },
+
+    "wp_crimson_cleaver": {
+      "id": "wp_crimson_cleaver",
+      "name": "핏빛 대검",
+      "name_en": "Crimson Cleaver",
+      "category": "WEAPON",
+      "type": "GREATSWORD",
+      "rarity": "RARE",
+
+      "stats": {
+        "attack": 55,
+        "attack_speed": 0.75,
+        "crit_chance": 0.08
+      },
+
+      "special_effects": [
+        {
+          "type": "LIFESTEAL",
+          "percent": 0.05,
+          "description": "피해의 5%를 HP로 회복"
+        },
+        {
+          "type": "BLEED_CHANCE",
+          "chance": 0.2,
+          "damage": 5,
+          "duration": 5.0,
+          "description": "20% 확률로 출혈"
+        }
+      ],
+
+      "description": "붉은 요새의 전사들이 사용하던 대검.",
+      "flavor_text": "피를 먹고 자란 검은 주인에게도 피를 요구한다.",
+
+      "requirements": {
+        "level": 15
+      },
+
+      "sell_price": 350,
+
+      "assets": {
+        "icon": "icon_crimson_cleaver.png",
+        "sprite": "weapon_crimson_cleaver.png"
+      }
+    },
+
+    "wp_rose_thorn": {
+      "id": "wp_rose_thorn",
+      "name": "장미 가시",
+      "name_en": "Rose Thorn",
+      "category": "WEAPON",
+      "type": "RAPIER",
+      "rarity": "EPIC",
+
+      "stats": {
+        "attack": 42,
+        "attack_speed": 1.3,
+        "crit_chance": 0.18,
+        "crit_damage": 0.35
+      },
+
+      "special_effects": [
+        {
+          "type": "BLEED_STACK",
+          "max_stacks": 5,
+          "damage_per_stack": 3,
+          "description": "공격마다 출혈 중첩 (최대 5)"
+        },
+        {
+          "type": "EXECUTE",
+          "threshold": 0.1,
+          "bonus_damage": 2.0,
+          "description": "HP 10% 이하 적에게 2배 피해"
+        }
+      ],
+
+      "description": "피의 정원에서 피어난 장미로 만든 검.",
+      "flavor_text": "아름다움에는 대가가 따른다.",
+
+      "requirements": {
+        "level": 20
+      },
+
+      "drop_source": "b_liliana_illusion",
+
+      "sell_price": 600,
+
+      "assets": {
+        "icon": "icon_rose_thorn.png",
+        "sprite": "weapon_rose_thorn.png"
+      }
+    },
+
+    "wp_void_blade": {
+      "id": "wp_void_blade",
+      "name": "공허의 검",
+      "name_en": "Void Blade",
+      "category": "WEAPON",
+      "type": "SWORD",
+      "rarity": "EPIC",
+
+      "stats": {
+        "attack": 65,
+        "attack_speed": 1.0,
+        "crit_chance": 0.15,
+        "armor_penetration": 0.2
+      },
+
+      "special_effects": [
+        {
+          "type": "VOID_MARK",
+          "on_hit_chance": 0.25,
+          "bonus_damage_from_all": 0.15,
+          "duration": 6.0,
+          "description": "25% 확률로 공허 표식 (받는 피해 15% 증가)"
+        },
+        {
+          "type": "MANA_ON_HIT",
+          "amount": 3,
+          "description": "적중 시 마나 3 회복"
+        }
+      ],
+
+      "description": "망각의 옥좌에서 태어난 검. 존재를 침식한다.",
+      "flavor_text": "이 검에 베인 자는 자신이 누구인지 잊어간다.",
+
+      "requirements": {
+        "level": 25
+      },
+
+      "drop_source": "m_void_guardian",
+
+      "sell_price": 800,
+
+      "assets": {
+        "icon": "icon_void_blade.png",
+        "sprite": "weapon_void_blade.png"
+      }
+    },
+
+    "wp_memory_blade": {
+      "id": "wp_memory_blade",
+      "name": "기억의 검",
+      "name_en": "Memory Blade",
+      "category": "WEAPON",
+      "type": "SWORD",
+      "rarity": "LEGENDARY",
+
+      "stats": {
+        "attack": 80,
+        "attack_speed": 1.1,
+        "crit_chance": 0.2,
+        "crit_damage": 0.5
+      },
+
+      "special_effects": [
+        {
+          "type": "MEMORY_ECHO",
+          "description": "3타마다 이전 공격을 반복 (50% 피해)",
+          "every_n_hits": 3,
+          "echo_damage": 0.5
+        },
+        {
+          "type": "HEART_GAUGE_BONUS",
+          "amount": 0.3,
+          "description": "심장 게이지 획득량 30% 증가"
+        },
+        {
+          "type": "SCALING_DAMAGE",
+          "per_heart": 0.1,
+          "description": "보유한 심장당 공격력 10% 증가"
+        }
+      ],
+
+      "description": "세 개의 심장과 공명하는 전설의 검.",
+      "flavor_text": "기억이 힘이 될 때, 이 검은 진정한 힘을 발휘한다.",
+
+      "requirements": {
+        "level": 30,
+        "hearts": 2
+      },
+
+      "drop_source": "b_avatar_of_oblivion",
+      "drop_chance": 0.2,
+
+      "sell_price": 0,
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_memory_blade.png",
+        "sprite": "weapon_memory_blade.png",
+        "glow_effect": "effect_memory_glow.png"
+      }
+    },
+
+    "wp_kaiser_greatsword": {
+      "id": "wp_kaiser_greatsword",
+      "name": "카이저의 대검",
+      "name_en": "Kaiser's Greatsword",
+      "category": "WEAPON",
+      "type": "GREATSWORD",
+      "rarity": "LEGENDARY",
+
+      "stats": {
+        "attack": 100,
+        "attack_speed": 0.6,
+        "crit_chance": 0.1,
+        "stagger_damage": 1.5
+      },
+
+      "special_effects": [
+        {
+          "type": "EXECUTION_STRIKE",
+          "threshold": 0.2,
+          "instant_kill_chance": 0.3,
+          "description": "HP 20% 이하 적 30% 확률 즉사"
+        },
+        {
+          "type": "SUPER_ARMOR",
+          "during_attack": true,
+          "description": "공격 중 슈퍼아머"
+        },
+        {
+          "type": "GROUND_SLAM",
+          "on_charged_attack": true,
+          "aoe_radius": 100,
+          "description": "차지 공격 시 지면 충격파"
+        }
+      ],
+
+      "description": "강철의 폭군 카이저가 휘두르던 대검.",
+      "flavor_text": "이 검을 드는 자가 새로운 왕이 된다.",
+
+      "requirements": {
+        "level": 30
+      },
+
+      "drop_source": "b_kaiser",
+      "drop_chance": 0.1,
+
+      "sell_price": 0,
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_kaiser_greatsword.png",
+        "sprite": "weapon_kaiser_greatsword.png"
+      }
+    }
+  },
+
+
+  "armors": {
+
+    "ar_tattered_cloth": {
+      "id": "ar_tattered_cloth",
+      "name": "낡은 천 옷",
+      "name_en": "Tattered Cloth",
+      "category": "ARMOR",
+      "type": "LIGHT",
+      "rarity": "COMMON",
+
+      "stats": {
+        "defense": 5,
+        "hp_bonus": 10
+      },
+
+      "description": "해진 천으로 만든 옷. 없는 것보단 낫다.",
+
+      "requirements": {
+        "level": 1
+      },
+
+      "sell_price": 5,
+      "buy_price": 25,
+
+      "assets": {
+        "icon": "icon_tattered_cloth.png"
+      }
+    },
+
+    "ar_leather_armor": {
+      "id": "ar_leather_armor",
+      "name": "가죽 갑옷",
+      "name_en": "Leather Armor",
+      "category": "ARMOR",
+      "type": "LIGHT",
+      "rarity": "COMMON",
+
+      "stats": {
+        "defense": 12,
+        "hp_bonus": 20,
+        "move_speed": 0.05
+      },
+
+      "description": "유연한 가죽으로 만든 갑옷.",
+
+      "requirements": {
+        "level": 5
+      },
+
+      "sell_price": 40,
+      "buy_price": 200,
+
+      "assets": {
+        "icon": "icon_leather_armor.png"
+      }
+    },
+
+    "ar_forest_garb": {
+      "id": "ar_forest_garb",
+      "name": "숲의 의복",
+      "name_en": "Forest Garb",
+      "category": "ARMOR",
+      "type": "LIGHT",
+      "rarity": "UNCOMMON",
+
+      "stats": {
+        "defense": 18,
+        "hp_bonus": 30,
+        "poison_resist": 0.5
+      },
+
+      "special_effects": [
+        {
+          "type": "REGEN_IN_NATURE",
+          "hp_per_second": 1,
+          "condition": "in_chapter_1",
+          "description": "숲에서 초당 HP 1 회복"
+        }
+      ],
+
+      "description": "숲의 정령에게 축복받은 의복.",
+
+      "requirements": {
+        "level": 8
+      },
+
+      "crafting": {
+        "materials": [
+          { "id": "mt_wolf_pelt", "count": 3 },
+          { "id": "mt_spore_sac", "count": 5 },
+          { "id": "mt_vine_fiber", "count": 5 }
+        ],
+        "gold": 150
+      },
+
+      "sell_price": 100,
+
+      "assets": {
+        "icon": "icon_forest_garb.png"
+      }
+    },
+
+    "ar_crystal_mail": {
+      "id": "ar_crystal_mail",
+      "name": "수정 갑옷",
+      "name_en": "Crystal Mail",
+      "category": "ARMOR",
+      "type": "MEDIUM",
+      "rarity": "RARE",
+
+      "stats": {
+        "defense": 30,
+        "hp_bonus": 50,
+        "magic_resist": 0.15
+      },
+
+      "special_effects": [
+        {
+          "type": "LIGHT_AURA",
+          "radius": 50,
+          "description": "주변을 밝히는 빛 발산 (동굴에서 유용)"
+        },
+        {
+          "type": "DAMAGE_REFLECT",
+          "percent": 0.1,
+          "description": "받은 피해의 10% 반사"
+        }
+      ],
+
+      "description": "수정 골렘의 핵심으로 제작한 갑옷.",
+
+      "requirements": {
+        "level": 12
+      },
+
+      "crafting": {
+        "materials": [
+          { "id": "mt_crystal_shard", "count": 10 },
+          { "id": "mt_golem_core", "count": 2 },
+          { "id": "mt_iron_ore", "count": 8 }
+        ],
+        "gold": 400
+      },
+
+      "sell_price": 250,
+
+      "assets": {
+        "icon": "icon_crystal_mail.png"
+      }
+    },
+
+    "ar_crimson_plate": {
+      "id": "ar_crimson_plate",
+      "name": "핏빛 판금갑",
+      "name_en": "Crimson Plate",
+      "category": "ARMOR",
+      "type": "HEAVY",
+      "rarity": "RARE",
+
+      "stats": {
+        "defense": 45,
+        "hp_bonus": 80,
+        "move_speed": -0.1
+      },
+
+      "special_effects": [
+        {
+          "type": "THORNS",
+          "damage": 10,
+          "description": "근접 공격자에게 10 피해"
+        },
+        {
+          "type": "LAST_STAND",
+          "threshold": 0.25,
+          "defense_bonus": 0.3,
+          "description": "HP 25% 이하 시 방어력 30% 증가"
+        }
+      ],
+
+      "description": "붉은 요새 정예병의 갑옷.",
+
+      "requirements": {
+        "level": 18
+      },
+
+      "sell_price": 400,
+
+      "assets": {
+        "icon": "icon_crimson_plate.png"
+      }
+    },
+
+    "ar_thorned_dress": {
+      "id": "ar_thorned_dress",
+      "name": "가시의 드레스",
+      "name_en": "Thorned Dress",
+      "category": "ARMOR",
+      "type": "LIGHT",
+      "rarity": "EPIC",
+
+      "stats": {
+        "defense": 35,
+        "hp_bonus": 60,
+        "attack_bonus": 15,
+        "move_speed": 0.1
+      },
+
+      "special_effects": [
+        {
+          "type": "BLEED_IMMUNITY",
+          "description": "출혈 상태 면역"
+        },
+        {
+          "type": "COUNTER_THORNS",
+          "on_dodge": true,
+          "damage": 25,
+          "description": "회피 성공 시 가시 반격"
+        },
+        {
+          "type": "ROSE_AURA",
+          "slow_enemies": 0.1,
+          "radius": 80,
+          "description": "주변 적 이동속도 10% 감소"
+        }
+      ],
+
+      "description": "리리아나가 입었던 드레스의 잔영.",
+      "flavor_text": "아름다움 속에 숨겨진 가시처럼.",
+
+      "requirements": {
+        "level": 22
+      },
+
+      "drop_source": "b_liliana_illusion",
+      "drop_chance": 0.1,
+
+      "sell_price": 700,
+
+      "assets": {
+        "icon": "icon_thorned_dress.png"
+      }
+    },
+
+    "ar_void_vestment": {
+      "id": "ar_void_vestment",
+      "name": "공허의 법의",
+      "name_en": "Void Vestment",
+      "category": "ARMOR",
+      "type": "LIGHT",
+      "rarity": "LEGENDARY",
+
+      "stats": {
+        "defense": 40,
+        "hp_bonus": 100,
+        "mana_bonus": 30,
+        "skill_damage": 0.2
+      },
+
+      "special_effects": [
+        {
+          "type": "VOID_PHASE",
+          "on_hit_chance": 0.15,
+          "duration": 1.0,
+          "description": "15% 확률로 1초간 무적"
+        },
+        {
+          "type": "MANA_SHIELD",
+          "percent": 0.2,
+          "description": "받는 피해의 20%를 마나로 대신 소모"
+        },
+        {
+          "type": "DARKNESS_BONUS",
+          "in_dark_areas": true,
+          "all_stats": 0.15,
+          "description": "어두운 지역에서 모든 스탯 15% 증가"
+        }
+      ],
+
+      "description": "망각의 화신이 두르던 법의.",
+      "flavor_text": "허무를 입은 자는 허무에 닿지 않는다.",
+
+      "requirements": {
+        "level": 28
+      },
+
+      "drop_source": "b_avatar_of_oblivion",
+      "drop_chance": 0.15,
+
+      "sell_price": 0,
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_void_vestment.png"
+      }
+    },
+
+    "ar_royal_plate": {
+      "id": "ar_royal_plate",
+      "name": "왕의 판금갑",
+      "name_en": "Royal Plate",
+      "category": "ARMOR",
+      "type": "HEAVY",
+      "rarity": "LEGENDARY",
+
+      "stats": {
+        "defense": 70,
+        "hp_bonus": 150,
+        "move_speed": -0.05,
+        "stagger_resist": 0.5
+      },
+
+      "special_effects": [
+        {
+          "type": "KINGS_PRESENCE",
+          "enemy_damage_reduction": 0.1,
+          "radius": 150,
+          "description": "주변 적 공격력 10% 감소"
+        },
+        {
+          "type": "UNBREAKABLE",
+          "hp_threshold": 0.1,
+          "invincible_duration": 2.0,
+          "cooldown": 120,
+          "description": "HP 10% 도달 시 2초 무적 (2분 쿨)"
+        }
+      ],
+
+      "description": "강철의 폭군 카이저의 갑옷.",
+      "flavor_text": "왕은 쓰러지지 않는다. 마지막 순간까지.",
+
+      "requirements": {
+        "level": 28
+      },
+
+      "drop_source": "b_kaiser",
+      "drop_chance": 0.15,
+
+      "sell_price": 0,
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_royal_plate.png"
+      }
+    }
+  },
+
+
+  "accessories": {
+
+    "ac_rusty_ring": {
+      "id": "ac_rusty_ring",
+      "name": "녹슨 반지",
+      "name_en": "Rusty Ring",
+      "category": "ACCESSORY",
+      "type": "RING",
+      "rarity": "COMMON",
+
+      "stats": {
+        "attack": 2,
+        "defense": 1
+      },
+
+      "description": "낡은 반지. 미미한 힘이 깃들어 있다.",
+
+      "requirements": {
+        "level": 1
+      },
+
+      "sell_price": 10,
+      "buy_price": 50,
+
+      "assets": {
+        "icon": "icon_rusty_ring.png"
+      }
+    },
+
+    "ac_health_pendant": {
+      "id": "ac_health_pendant",
+      "name": "생명의 펜던트",
+      "name_en": "Health Pendant",
+      "category": "ACCESSORY",
+      "type": "NECKLACE",
+      "rarity": "UNCOMMON",
+
+      "stats": {
+        "hp_bonus": 50,
+        "hp_regen": 1
+      },
+
+      "description": "생명력을 증폭시키는 펜던트.",
+
+      "requirements": {
+        "level": 5
+      },
+
+      "sell_price": 60,
+      "buy_price": 300,
+
+      "assets": {
+        "icon": "icon_health_pendant.png"
+      }
+    },
+
+    "ac_quick_boots": {
+      "id": "ac_quick_boots",
+      "name": "신속의 장화",
+      "name_en": "Swift Boots",
+      "category": "ACCESSORY",
+      "type": "BOOTS",
+      "rarity": "UNCOMMON",
+
+      "stats": {
+        "move_speed": 0.15,
+        "dodge_distance": 0.1
+      },
+
+      "description": "발걸음을 가볍게 해주는 장화.",
+
+      "requirements": {
+        "level": 7
+      },
+
+      "sell_price": 80,
+      "buy_price": 400,
+
+      "assets": {
+        "icon": "icon_quick_boots.png"
+      }
+    },
+
+    "ac_forest_charm": {
+      "id": "ac_forest_charm",
+      "name": "숲의 부적",
+      "name_en": "Forest Charm",
+      "category": "ACCESSORY",
+      "type": "CHARM",
+      "rarity": "RARE",
+
+      "stats": {
+        "poison_resist": 0.8,
+        "hp_regen": 2
+      },
+
+      "special_effects": [
+        {
+          "type": "NATURE_BOND",
+          "bonus_damage_to_corrupted": 0.2,
+          "description": "오염된 적에게 20% 추가 피해"
+        }
+      ],
+
+      "description": "이그드라의 정화된 조각으로 만든 부적.",
+      "flavor_text": "한때 수호자였던 것의 유산.",
+
+      "requirements": {
+        "level": 10
+      },
+
+      "drop_source": "b_yggdra",
+      "drop_chance": 0.2,
+
+      "sell_price": 150,
+
+      "assets": {
+        "icon": "icon_forest_charm.png"
+      }
+    },
+
+    "ac_crystal_ring": {
+      "id": "ac_crystal_ring",
+      "name": "수정 반지",
+      "name_en": "Crystal Ring",
+      "category": "ACCESSORY",
+      "type": "RING",
+      "rarity": "RARE",
+
+      "stats": {
+        "mana_bonus": 20,
+        "skill_cooldown": -0.1
+      },
+
+      "special_effects": [
+        {
+          "type": "MANA_REGEN_BOOST",
+          "in_darkness": true,
+          "amount": 2.0,
+          "description": "어둠 속에서 마나 재생 2배"
+        }
+      ],
+
+      "description": "심연의 수정을 가공한 반지.",
+
+      "requirements": {
+        "level": 12
+      },
+
+      "drop_source": "m_golem_crystal",
+      "drop_chance": 0.05,
+
+      "sell_price": 180,
+
+      "assets": {
+        "icon": "icon_crystal_ring.png"
+      }
+    },
+
+    "ac_night_vision_gem": {
+      "id": "ac_night_vision_gem",
+      "name": "야시의 보석",
+      "name_en": "Night Vision Gem",
+      "category": "ACCESSORY",
+      "type": "GEM",
+      "rarity": "RARE",
+
+      "stats": {
+        "crit_chance": 0.1
+      },
+
+      "special_effects": [
+        {
+          "type": "NIGHT_VISION",
+          "light_radius_bonus": 3,
+          "description": "시야 범위 증가"
+        },
+        {
+          "type": "DARK_SENSE",
+          "reveal_hidden_enemies": true,
+          "description": "숨은 적 감지"
+        }
+      ],
+
+      "description": "오닉스의 눈에서 추출한 보석.",
+      "flavor_text": "어둠 속에서도 모든 것을 본다.",
+
+      "requirements": {
+        "level": 14
+      },
+
+      "drop_source": "b_onyx",
+      "drop_chance": 0.2,
+
+      "sell_price": 200,
+
+      "assets": {
+        "icon": "icon_night_vision_gem.png"
+      }
+    },
+
+    "ac_crown_fragment": {
+      "id": "ac_crown_fragment",
+      "name": "왕관 조각",
+      "name_en": "Crown Fragment",
+      "category": "ACCESSORY",
+      "type": "HEADPIECE",
+      "rarity": "EPIC",
+
+      "stats": {
+        "attack": 15,
+        "defense": 10,
+        "exp_bonus": 0.2
+      },
+
+      "special_effects": [
+        {
+          "type": "KINGS_AUTHORITY",
+          "stagger_bonus": 0.3,
+          "description": "경직 피해 30% 증가"
+        },
+        {
+          "type": "GOLD_BONUS",
+          "amount": 0.15,
+          "description": "골드 획득량 15% 증가"
+        }
+      ],
+
+      "description": "카이저의 왕관에서 떨어진 조각.",
+      "flavor_text": "왕의 위엄이 조각 하나에도 깃들어 있다.",
+
+      "requirements": {
+        "level": 20
+      },
+
+      "drop_source": "b_kaiser",
+      "drop_chance": 0.2,
+
+      "sell_price": 400,
+
+      "assets": {
+        "icon": "icon_crown_fragment.png"
+      }
+    },
+
+    "ac_rose_locket": {
+      "id": "ac_rose_locket",
+      "name": "장미 로켓",
+      "name_en": "Rose Locket",
+      "category": "ACCESSORY",
+      "type": "NECKLACE",
+      "rarity": "EPIC",
+
+      "stats": {
+        "hp_bonus": 40,
+        "attack": 10
+      },
+
+      "special_effects": [
+        {
+          "type": "LOVES_MEMORY",
+          "revive_once": true,
+          "revive_hp": 0.3,
+          "cooldown": 300,
+          "description": "치명상 시 1회 부활 (HP 30%, 5분 쿨)"
+        },
+        {
+          "type": "EMOTIONAL_BOND",
+          "heart_gauge_bonus": 0.2,
+          "description": "심장 게이지 획득 20% 증가"
+        }
+      ],
+
+      "description": "리리아나의 초상이 담긴 로켓.",
+      "flavor_text": "사랑은 죽음도 막을 수 있다.",
+
+      "requirements": {
+        "level": 22
+      },
+
+      "drop_source": "b_liliana_illusion",
+      "drop_chance": 0.25,
+
+      "sell_price": 500,
+
+      "assets": {
+        "icon": "icon_rose_locket.png"
+      }
+    },
+
+    "ac_all_seeing_eye": {
+      "id": "ac_all_seeing_eye",
+      "name": "전시안",
+      "name_en": "All-Seeing Eye",
+      "category": "ACCESSORY",
+      "type": "GEM",
+      "rarity": "EPIC",
+
+      "stats": {
+        "crit_chance": 0.15,
+        "crit_damage": 0.25
+      },
+
+      "special_effects": [
+        {
+          "type": "TRUE_SIGHT",
+          "reveal_all": true,
+          "description": "맵의 모든 적, 보물, 비밀 표시"
+        },
+        {
+          "type": "WEAKNESS_EXPLOIT",
+          "bonus_to_marked": 0.2,
+          "description": "상태이상 적에게 20% 추가 피해"
+        }
+      ],
+
+      "description": "심연의 시선에서 추출한 눈.",
+      "flavor_text": "진실은 숨길 수 없다.",
+
+      "requirements": {
+        "level": 24
+      },
+
+      "drop_source": "m_abyss_gazer",
+      "drop_chance": 0.06,
+
+      "sell_price": 600,
+
+      "assets": {
+        "icon": "icon_all_seeing_eye.png"
+      }
+    },
+
+    "ac_natures_ward": {
+      "id": "ac_natures_ward",
+      "name": "자연의 수호",
+      "name_en": "Nature's Ward",
+      "category": "ACCESSORY",
+      "type": "CHARM",
+      "rarity": "EPIC",
+
+      "stats": {
+        "defense": 20,
+        "all_resist": 0.15
+      },
+
+      "special_effects": [
+        {
+          "type": "ROOT_IMMUNITY",
+          "description": "속박 상태 면역"
+        },
+        {
+          "type": "NATURE_REGEN",
+          "hp_percent_per_10s": 0.05,
+          "description": "10초마다 최대 HP의 5% 회복"
+        }
+      ],
+
+      "description": "정원 수호자의 핵심에서 얻은 부적.",
+
+      "requirements": {
+        "level": 22
+      },
+
+      "drop_source": "m_garden_guardian",
+      "drop_chance": 0.08,
+
+      "sell_price": 550,
+
+      "assets": {
+        "icon": "icon_natures_ward.png"
+      }
+    }
+  },
+
+
+  "consumables": {
+
+    "cs_potion_hp_small": {
+      "id": "cs_potion_hp_small",
+      "name": "작은 HP 포션",
+      "name_en": "Small HP Potion",
+      "category": "CONSUMABLE",
+      "type": "POTION",
+      "rarity": "COMMON",
+
+      "effect": {
+        "type": "HEAL",
+        "amount": 30
+      },
+
+      "use_time": 0.5,
+      "max_stack": 20,
+
+      "description": "HP를 30 회복한다.",
+
+      "sell_price": 5,
+      "buy_price": 25,
+
+      "assets": {
+        "icon": "icon_potion_hp_small.png"
+      }
+    },
+
+    "cs_potion_hp_medium": {
+      "id": "cs_potion_hp_medium",
+      "name": "HP 포션",
+      "name_en": "HP Potion",
+      "category": "CONSUMABLE",
+      "type": "POTION",
+      "rarity": "COMMON",
+
+      "effect": {
+        "type": "HEAL",
+        "amount": 60
+      },
+
+      "use_time": 0.5,
+      "max_stack": 15,
+
+      "description": "HP를 60 회복한다.",
+
+      "sell_price": 12,
+      "buy_price": 60,
+
+      "assets": {
+        "icon": "icon_potion_hp_medium.png"
+      }
+    },
+
+    "cs_potion_hp_large": {
+      "id": "cs_potion_hp_large",
+      "name": "큰 HP 포션",
+      "name_en": "Large HP Potion",
+      "category": "CONSUMABLE",
+      "type": "POTION",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "HEAL",
+        "amount": 120
+      },
+
+      "use_time": 0.5,
+      "max_stack": 10,
+
+      "description": "HP를 120 회복한다.",
+
+      "sell_price": 30,
+      "buy_price": 150,
+
+      "assets": {
+        "icon": "icon_potion_hp_large.png"
+      }
+    },
+
+    "cs_potion_mana_small": {
+      "id": "cs_potion_mana_small",
+      "name": "작은 마나 포션",
+      "name_en": "Small Mana Potion",
+      "category": "CONSUMABLE",
+      "type": "POTION",
+      "rarity": "COMMON",
+
+      "effect": {
+        "type": "MANA_RESTORE",
+        "amount": 25
+      },
+
+      "use_time": 0.5,
+      "max_stack": 20,
+
+      "description": "마나를 25 회복한다.",
+
+      "sell_price": 5,
+      "buy_price": 25,
+
+      "assets": {
+        "icon": "icon_potion_mana_small.png"
+      }
+    },
+
+    "cs_potion_mana_large": {
+      "id": "cs_potion_mana_large",
+      "name": "큰 마나 포션",
+      "name_en": "Large Mana Potion",
+      "category": "CONSUMABLE",
+      "type": "POTION",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "MANA_RESTORE",
+        "amount": 60
+      },
+
+      "use_time": 0.5,
+      "max_stack": 10,
+
+      "description": "마나를 60 회복한다.",
+
+      "sell_price": 25,
+      "buy_price": 120,
+
+      "assets": {
+        "icon": "icon_potion_mana_large.png"
+      }
+    },
+
+    "cs_antidote": {
+      "id": "cs_antidote",
+      "name": "해독제",
+      "name_en": "Antidote",
+      "category": "CONSUMABLE",
+      "type": "CURE",
+      "rarity": "COMMON",
+
+      "effect": {
+        "type": "CURE_STATUS",
+        "cures": ["POISON", "BLEED"]
+      },
+
+      "use_time": 0.3,
+      "max_stack": 10,
+
+      "description": "독과 출혈 상태를 치료한다.",
+
+      "sell_price": 8,
+      "buy_price": 40,
+
+      "assets": {
+        "icon": "icon_antidote.png"
+      }
+    },
+
+    "cs_elixir_strength": {
+      "id": "cs_elixir_strength",
+      "name": "힘의 엘릭서",
+      "name_en": "Strength Elixir",
+      "category": "CONSUMABLE",
+      "type": "BUFF",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "BUFF",
+        "stat": "attack",
+        "amount": 0.2,
+        "duration": 60
+      },
+
+      "use_time": 0.5,
+      "max_stack": 5,
+
+      "description": "60초간 공격력 20% 증가.",
+
+      "sell_price": 25,
+      "buy_price": 120,
+
+      "assets": {
+        "icon": "icon_elixir_strength.png"
+      }
+    },
+
+    "cs_elixir_defense": {
+      "id": "cs_elixir_defense",
+      "name": "수비의 엘릭서",
+      "name_en": "Defense Elixir",
+      "category": "CONSUMABLE",
+      "type": "BUFF",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "BUFF",
+        "stat": "defense",
+        "amount": 0.25,
+        "duration": 60
+      },
+
+      "use_time": 0.5,
+      "max_stack": 5,
+
+      "description": "60초간 방어력 25% 증가.",
+
+      "sell_price": 25,
+      "buy_price": 120,
+
+      "assets": {
+        "icon": "icon_elixir_defense.png"
+      }
+    },
+
+    "cs_elixir_speed": {
+      "id": "cs_elixir_speed",
+      "name": "속도의 엘릭서",
+      "name_en": "Speed Elixir",
+      "category": "CONSUMABLE",
+      "type": "BUFF",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "BUFF",
+        "stat": "move_speed",
+        "amount": 0.3,
+        "duration": 60
+      },
+
+      "use_time": 0.5,
+      "max_stack": 5,
+
+      "description": "60초간 이동속도 30% 증가.",
+
+      "sell_price": 25,
+      "buy_price": 120,
+
+      "assets": {
+        "icon": "icon_elixir_speed.png"
+      }
+    },
+
+    "cs_elixir_memory": {
+      "id": "cs_elixir_memory",
+      "name": "기억의 엘릭서",
+      "name_en": "Memory Elixir",
+      "category": "CONSUMABLE",
+      "type": "BUFF",
+      "rarity": "RARE",
+
+      "effect": {
+        "type": "BUFF_MULTIPLE",
+        "buffs": [
+          { "stat": "heart_gauge_gain", "amount": 0.5, "duration": 120 },
+          { "stat": "exp_gain", "amount": 0.3, "duration": 120 }
+        ]
+      },
+
+      "use_time": 0.5,
+      "max_stack": 3,
+
+      "description": "2분간 심장 게이지 획득 50%, 경험치 30% 증가.",
+
+      "sell_price": 80,
+      "buy_price": 400,
+
+      "assets": {
+        "icon": "icon_elixir_memory.png"
+      }
+    },
+
+    "cs_bomb_fire": {
+      "id": "cs_bomb_fire",
+      "name": "화염 폭탄",
+      "name_en": "Fire Bomb",
+      "category": "CONSUMABLE",
+      "type": "THROWABLE",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "AOE_DAMAGE",
+        "damage": 50,
+        "radius": 80,
+        "status": { "type": "BURN", "damage": 5, "duration": 4 }
+      },
+
+      "use_time": 0.3,
+      "throw_range": 200,
+      "max_stack": 5,
+
+      "description": "범위 내 적에게 50 피해 + 화상.",
+
+      "sell_price": 20,
+      "buy_price": 100,
+
+      "assets": {
+        "icon": "icon_bomb_fire.png"
+      }
+    },
+
+    "cs_bomb_ice": {
+      "id": "cs_bomb_ice",
+      "name": "빙결 폭탄",
+      "name_en": "Ice Bomb",
+      "category": "CONSUMABLE",
+      "type": "THROWABLE",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "AOE_DAMAGE",
+        "damage": 30,
+        "radius": 100,
+        "status": { "type": "SLOW", "amount": 0.5, "duration": 5 }
+      },
+
+      "use_time": 0.3,
+      "throw_range": 200,
+      "max_stack": 5,
+
+      "description": "범위 내 적에게 30 피해 + 둔화.",
+
+      "sell_price": 20,
+      "buy_price": 100,
+
+      "assets": {
+        "icon": "icon_bomb_ice.png"
+      }
+    },
+
+    "cs_scroll_teleport": {
+      "id": "cs_scroll_teleport",
+      "name": "귀환 두루마리",
+      "name_en": "Teleport Scroll",
+      "category": "CONSUMABLE",
+      "type": "SCROLL",
+      "rarity": "UNCOMMON",
+
+      "effect": {
+        "type": "TELEPORT",
+        "destination": "hub"
+      },
+
+      "use_time": 3.0,
+      "interruptible": true,
+      "max_stack": 3,
+
+      "description": "거점으로 귀환한다. (3초 시전)",
+
+      "sell_price": 30,
+      "buy_price": 150,
+
+      "assets": {
+        "icon": "icon_scroll_teleport.png"
+      }
+    },
+
+    "cs_phoenix_feather": {
+      "id": "cs_phoenix_feather",
+      "name": "불사조의 깃털",
+      "name_en": "Phoenix Feather",
+      "category": "CONSUMABLE",
+      "type": "REVIVE",
+      "rarity": "EPIC",
+
+      "effect": {
+        "type": "AUTO_REVIVE",
+        "hp_percent": 0.5,
+        "invincible_duration": 2.0
+      },
+
+      "passive_trigger": true,
+      "max_stack": 1,
+
+      "description": "치명상 시 자동으로 HP 50% 부활 + 2초 무적.",
+
+      "sell_price": 200,
+      "buy_price": 1000,
+
+      "assets": {
+        "icon": "icon_phoenix_feather.png"
+      }
+    }
+  },
+
+
+  "materials": {
+
+    "mt_slime_core": {
+      "id": "mt_slime_core",
+      "name": "슬라임 핵",
+      "name_en": "Slime Core",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "오염된 슬라임에서 얻은 핵.",
+      "drop_source": ["m_slime_corrupted"],
+
+      "sell_price": 3,
+
+      "assets": {
+        "icon": "icon_slime_core.png"
+      }
+    },
+
+    "mt_spore_sac": {
+      "id": "mt_spore_sac",
+      "name": "포자 주머니",
+      "name_en": "Spore Sac",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "포자 버섯에서 채취한 주머니.",
+      "drop_source": ["m_mushroom_spore"],
+
+      "sell_price": 3,
+
+      "assets": {
+        "icon": "icon_spore_sac.png"
+      }
+    },
+
+    "mt_wolf_fang": {
+      "id": "mt_wolf_fang",
+      "name": "늑대 이빨",
+      "name_en": "Wolf Fang",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "숲 늑대의 날카로운 이빨.",
+      "drop_source": ["m_wolf_forest"],
+
+      "sell_price": 5,
+
+      "assets": {
+        "icon": "icon_wolf_fang.png"
+      }
+    },
+
+    "mt_wolf_pelt": {
+      "id": "mt_wolf_pelt",
+      "name": "늑대 가죽",
+      "name_en": "Wolf Pelt",
+      "category": "MATERIAL",
+      "rarity": "UNCOMMON",
+      "max_stack": 50,
+
+      "description": "숲 늑대의 튼튼한 가죽.",
+      "drop_source": ["m_wolf_forest"],
+
+      "sell_price": 10,
+
+      "assets": {
+        "icon": "icon_wolf_pelt.png"
+      }
+    },
+
+    "mt_bat_wing": {
+      "id": "mt_bat_wing",
+      "name": "박쥐 날개",
+      "name_en": "Bat Wing",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "동굴 박쥐의 날개막.",
+      "drop_source": ["m_bat_cave"],
+
+      "sell_price": 4,
+
+      "assets": {
+        "icon": "icon_bat_wing.png"
+      }
+    },
+
+    "mt_bone_fragment": {
+      "id": "mt_bone_fragment",
+      "name": "뼈 조각",
+      "name_en": "Bone Fragment",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "스켈레톤에서 얻은 뼈.",
+      "drop_source": ["m_skeleton_archer"],
+
+      "sell_price": 4,
+
+      "assets": {
+        "icon": "icon_bone_fragment.png"
+      }
+    },
+
+    "mt_crystal_shard": {
+      "id": "mt_crystal_shard",
+      "name": "수정 조각",
+      "name_en": "Crystal Shard",
+      "category": "MATERIAL",
+      "rarity": "UNCOMMON",
+      "max_stack": 50,
+
+      "description": "심연의 동굴에서 발견되는 수정.",
+      "drop_source": ["m_golem_crystal", "gathering_cave"],
+
+      "sell_price": 12,
+
+      "assets": {
+        "icon": "icon_crystal_shard.png"
+      }
+    },
+
+    "mt_golem_core": {
+      "id": "mt_golem_core",
+      "name": "골렘 핵",
+      "name_en": "Golem Core",
+      "category": "MATERIAL",
+      "rarity": "RARE",
+      "max_stack": 20,
+
+      "description": "수정 골렘을 움직이게 했던 핵심.",
+      "drop_source": ["m_golem_crystal"],
+
+      "sell_price": 50,
+
+      "assets": {
+        "icon": "icon_golem_core.png"
+      }
+    },
+
+    "mt_mech_gear": {
+      "id": "mt_mech_gear",
+      "name": "기계 톱니",
+      "name_en": "Mech Gear",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "기계 병사에서 얻은 톱니바퀴.",
+      "drop_source": ["m_soldier_mech"],
+
+      "sell_price": 6,
+
+      "assets": {
+        "icon": "icon_mech_gear.png"
+      }
+    },
+
+    "mt_fire_essence": {
+      "id": "mt_fire_essence",
+      "name": "화염 정수",
+      "name_en": "Fire Essence",
+      "category": "MATERIAL",
+      "rarity": "UNCOMMON",
+      "max_stack": 50,
+
+      "description": "화염 마법사에서 추출한 정수.",
+      "drop_source": ["m_mage_flame"],
+
+      "sell_price": 15,
+
+      "assets": {
+        "icon": "icon_fire_essence.png"
+      }
+    },
+
+    "mt_explosive_core": {
+      "id": "mt_explosive_core",
+      "name": "폭발 핵",
+      "name_en": "Explosive Core",
+      "category": "MATERIAL",
+      "rarity": "UNCOMMON",
+      "max_stack": 30,
+
+      "description": "자폭 로봇의 핵. 취급 주의.",
+      "drop_source": ["m_robot_suicide"],
+
+      "sell_price": 20,
+
+      "assets": {
+        "icon": "icon_explosive_core.png"
+      }
+    },
+
+    "mt_thorn_essence": {
+      "id": "mt_thorn_essence",
+      "name": "가시 정수",
+      "name_en": "Thorn Essence",
+      "category": "MATERIAL",
+      "rarity": "UNCOMMON",
+      "max_stack": 50,
+
+      "description": "가시 정령에서 얻은 정수.",
+      "drop_source": ["m_thorn_spirit"],
+
+      "sell_price": 12,
+
+      "assets": {
+        "icon": "icon_thorn_essence.png"
+      }
+    },
+
+    "mt_blood_petal": {
+      "id": "mt_blood_petal",
+      "name": "핏빛 꽃잎",
+      "name_en": "Blood Petal",
+      "category": "MATERIAL",
+      "rarity": "UNCOMMON",
+      "max_stack": 50,
+
+      "description": "피의 장미에서 떨어진 꽃잎.",
+      "drop_source": ["m_blood_rose"],
+
+      "sell_price": 15,
+
+      "assets": {
+        "icon": "icon_blood_petal.png"
+      }
+    },
+
+    "mt_memory_essence": {
+      "id": "mt_memory_essence",
+      "name": "기억의 정수",
+      "name_en": "Memory Essence",
+      "category": "MATERIAL",
+      "rarity": "RARE",
+      "max_stack": 30,
+
+      "description": "망각의 정령에서 얻은 희미한 기억.",
+      "drop_source": ["m_memory_wraith"],
+
+      "sell_price": 40,
+
+      "assets": {
+        "icon": "icon_memory_essence.png"
+      }
+    },
+
+    "mt_void_essence": {
+      "id": "mt_void_essence",
+      "name": "공허의 정수",
+      "name_en": "Void Essence",
+      "category": "MATERIAL",
+      "rarity": "RARE",
+      "max_stack": 30,
+
+      "description": "허무의 수호자에서 얻은 공허의 조각.",
+      "drop_source": ["m_void_guardian"],
+
+      "sell_price": 60,
+
+      "assets": {
+        "icon": "icon_void_essence.png"
+      }
+    },
+
+    "mt_iron_ore": {
+      "id": "mt_iron_ore",
+      "name": "철광석",
+      "name_en": "Iron Ore",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "기본적인 제작 재료.",
+      "source": "gathering",
+
+      "sell_price": 2,
+      "buy_price": 10,
+
+      "assets": {
+        "icon": "icon_iron_ore.png"
+      }
+    },
+
+    "mt_vine_fiber": {
+      "id": "mt_vine_fiber",
+      "name": "덩굴 섬유",
+      "name_en": "Vine Fiber",
+      "category": "MATERIAL",
+      "rarity": "COMMON",
+      "max_stack": 99,
+
+      "description": "숲에서 채집한 덩굴.",
+      "source": "gathering_forest",
+
+      "sell_price": 2,
+
+      "assets": {
+        "icon": "icon_vine_fiber.png"
+      }
+    },
+
+    "mt_yggdra_heart": {
+      "id": "mt_yggdra_heart",
+      "name": "이그드라의 심장",
+      "name_en": "Yggdra's Heart",
+      "category": "MATERIAL",
+      "rarity": "EPIC",
+      "max_stack": 5,
+
+      "description": "타락한 수호자의 핵심. 정화하면 강력한 힘을 낸다.",
+      "drop_source": ["b_yggdra"],
+
+      "sell_price": 200,
+
+      "assets": {
+        "icon": "icon_yggdra_heart.png"
+      }
+    },
+
+    "mt_onyx_fang": {
+      "id": "mt_onyx_fang",
+      "name": "오닉스의 송곳니",
+      "name_en": "Onyx Fang",
+      "category": "MATERIAL",
+      "rarity": "EPIC",
+      "max_stack": 5,
+
+      "description": "수정 거미의 독니. 독과 수정의 힘이 깃들어 있다.",
+      "drop_source": ["b_onyx"],
+
+      "sell_price": 250,
+
+      "assets": {
+        "icon": "icon_onyx_fang.png"
+      }
+    },
+
+    "mt_kaiser_core": {
+      "id": "mt_kaiser_core",
+      "name": "카이저의 핵",
+      "name_en": "Kaiser Core",
+      "category": "MATERIAL",
+      "rarity": "EPIC",
+      "max_stack": 5,
+
+      "description": "강철의 폭군에게서 얻은 강력한 에너지 핵.",
+      "drop_source": ["b_kaiser"],
+
+      "sell_price": 300,
+
+      "assets": {
+        "icon": "icon_kaiser_core.png"
+      }
+    },
+
+    "mt_liliana_tear": {
+      "id": "mt_liliana_tear",
+      "name": "리리아나의 눈물",
+      "name_en": "Liliana's Tear",
+      "category": "MATERIAL",
+      "rarity": "EPIC",
+      "max_stack": 5,
+
+      "description": "환영이 남긴 결정화된 눈물.",
+      "drop_source": ["b_liliana_illusion"],
+
+      "sell_price": 350,
+
+      "assets": {
+        "icon": "icon_liliana_tear.png"
+      }
+    },
+
+    "mt_oblivion_core": {
+      "id": "mt_oblivion_core",
+      "name": "망각의 핵",
+      "name_en": "Oblivion Core",
+      "category": "MATERIAL",
+      "rarity": "LEGENDARY",
+      "max_stack": 3,
+
+      "description": "망각의 화신에서 얻은 궁극의 재료.",
+      "drop_source": ["b_avatar_of_oblivion"],
+
+      "sell_price": 0,
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_oblivion_core.png"
+      }
+    }
+  },
+
+
+  "key_items": {
+
+    "ki_inner_gate_key": {
+      "id": "ki_inner_gate_key",
+      "name": "내성문 열쇠",
+      "name_en": "Inner Gate Key",
+      "category": "KEY_ITEM",
+      "rarity": "COMMON",
+
+      "description": "붉은 요새 내성문을 여는 열쇠.",
+      "use_location": "chapter_3",
+
+      "assets": {
+        "icon": "icon_inner_gate_key.png"
+      }
+    },
+
+    "ki_throne_room_key": {
+      "id": "ki_throne_room_key",
+      "name": "옥좌실 열쇠",
+      "name_en": "Throne Room Key",
+      "category": "KEY_ITEM",
+      "rarity": "UNCOMMON",
+
+      "description": "카이저의 옥좌실로 통하는 열쇠.",
+      "use_location": "chapter_3",
+
+      "assets": {
+        "icon": "icon_throne_room_key.png"
+      }
+    },
+
+    "ki_lantern": {
+      "id": "ki_lantern",
+      "name": "등불",
+      "name_en": "Lantern",
+      "category": "KEY_ITEM",
+      "rarity": "COMMON",
+
+      "description": "어둠을 밝히는 등불. 심연의 동굴에서 필수.",
+      "use_location": "chapter_2",
+
+      "effect": {
+        "type": "LIGHT_SOURCE",
+        "radius": 100
+      },
+
+      "upgradeable": true,
+      "upgrades": [
+        { "level": 2, "radius": 130, "cost": { "mt_crystal_shard": 5, "gold": 100 } },
+        { "level": 3, "radius": 160, "cost": { "mt_crystal_shard": 10, "gold": 200 } }
+      ],
+
+      "assets": {
+        "icon": "icon_lantern.png"
+      }
+    },
+
+    "ki_soldier_pendant": {
+      "id": "ki_soldier_pendant",
+      "name": "병사의 목걸이",
+      "name_en": "Soldier's Pendant",
+      "category": "KEY_ITEM",
+      "rarity": "UNCOMMON",
+
+      "description": "잊혀진 병사가 건넨 목걸이. 기념비에 바칠 수 있다.",
+      "quest_link": "q_side_03",
+
+      "assets": {
+        "icon": "icon_soldier_pendant.png"
+      }
+    }
+  },
+
+
+  "quest_items": {
+
+    "qi_ancient_statue_piece": {
+      "id": "qi_ancient_statue_piece",
+      "name": "고대 석상 조각",
+      "name_en": "Ancient Statue Piece",
+      "category": "QUEST_ITEM",
+      "rarity": "COMMON",
+      "max_stack": 3,
+
+      "description": "숲에 흩어진 석상 조각. 3개를 모아야 한다.",
+      "quest_link": "q_ch1_03",
+
+      "assets": {
+        "icon": "icon_statue_piece.png"
+      }
+    },
+
+    "qi_luminous_moss": {
+      "id": "qi_luminous_moss",
+      "name": "발광 이끼",
+      "name_en": "Luminous Moss",
+      "category": "QUEST_ITEM",
+      "rarity": "COMMON",
+      "max_stack": 5,
+
+      "description": "동굴에서 자라는 빛나는 이끼.",
+      "quest_link": "q_ch2_01",
+
+      "assets": {
+        "icon": "icon_luminous_moss.png"
+      }
+    },
+
+    "qi_corrupted_fang": {
+      "id": "qi_corrupted_fang",
+      "name": "오염된 송곳니",
+      "name_en": "Corrupted Fang",
+      "category": "QUEST_ITEM",
+      "rarity": "COMMON",
+      "max_stack": 10,
+
+      "description": "숲의 짐승에서 얻은 오염된 송곳니.",
+      "quest_link": "q_ch1_04",
+
+      "assets": {
+        "icon": "icon_corrupted_fang.png"
+      }
+    },
+
+    "qi_crimson_rose": {
+      "id": "qi_crimson_rose",
+      "name": "진홍 장미",
+      "name_en": "Crimson Rose",
+      "category": "QUEST_ITEM",
+      "rarity": "UNCOMMON",
+      "max_stack": 5,
+
+      "description": "피의 정원에서만 피는 장미.",
+      "quest_link": "q_ch4_03",
+
+      "assets": {
+        "icon": "icon_crimson_rose.png"
+      }
+    },
+
+    "qi_memory_fragment": {
+      "id": "qi_memory_fragment",
+      "name": "기억 파편",
+      "name_en": "Memory Fragment",
+      "category": "QUEST_ITEM",
+      "rarity": "RARE",
+      "max_stack": 3,
+
+      "description": "기억의 심연에 흩어진 과거의 조각.",
+      "quest_link": "q_ch5_01",
+
+      "assets": {
+        "icon": "icon_memory_fragment.png"
+      }
+    }
+  },
+
+
+  "special_items": {
+
+    "sp_first_heart": {
+      "id": "sp_first_heart",
+      "name": "첫 번째 심장",
+      "name_en": "First Heart",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "과거의 기억을 담은 심장. 궁극기 '기억의 심장'을 해금한다.",
+      "flavor_text": "기억이란 무엇인가? 지나간 것들의 잔상, 그러나 우리를 우리로 만드는 것.",
+
+      "effect": {
+        "type": "UNLOCK_ULTIMATE",
+        "skill": "heart_of_memory"
+      },
+
+      "obtain": "Chapter 4 클리어",
+
+      "cannot_sell": true,
+      "cannot_drop": true,
+
+      "assets": {
+        "icon": "icon_first_heart.png",
+        "glow": "effect_heart_glow_gold.png"
+      }
+    },
+
+    "sp_second_heart": {
+      "id": "sp_second_heart",
+      "name": "두 번째 심장",
+      "name_en": "Second Heart",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "자아의 수용을 담은 심장. 궁극기 '수용의 심장'을 해금한다.",
+      "flavor_text": "자신의 어둠을 마주하는 것, 그것이 진정한 용기다.",
+
+      "effect": {
+        "type": "UNLOCK_ULTIMATE",
+        "skill": "heart_of_acceptance"
+      },
+
+      "obtain": "Chapter 5 클리어",
+
+      "cannot_sell": true,
+      "cannot_drop": true,
+
+      "assets": {
+        "icon": "icon_second_heart.png",
+        "glow": "effect_heart_glow_purple.png"
+      }
+    },
+
+    "sp_third_heart": {
+      "id": "sp_third_heart",
+      "name": "세 번째 심장",
+      "name_en": "Third Heart",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "미래를 향한 의지를 담은 심장. 궁극기 '의지의 심장'을 해금한다.",
+      "flavor_text": "앞으로 나아가는 것, 그것만이 우리가 할 수 있는 전부다.",
+
+      "effect": {
+        "type": "UNLOCK_ULTIMATE",
+        "skill": "heart_of_will"
+      },
+
+      "obtain": "Chapter 6 Phase 3 클리어",
+
+      "cannot_sell": true,
+      "cannot_drop": true,
+
+      "assets": {
+        "icon": "icon_third_heart.png",
+        "glow": "effect_heart_glow_blue.png"
+      }
+    },
+
+    "sp_promise_ring": {
+      "id": "sp_promise_ring",
+      "name": "약속의 반지",
+      "name_en": "Promise Ring",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "과거에 했던 약속의 증거. 트루 엔딩에 필요하다.",
+      "flavor_text": "\"다음 생에서도, 그 다음 생에서도, 널 찾을게.\"",
+
+      "effect": {
+        "type": "STORY_KEY",
+        "unlocks": "true_ending_option"
+      },
+
+      "obtain": "Chapter 4 히든 위치",
+      "hidden": true,
+
+      "cannot_sell": true,
+      "cannot_drop": true,
+
+      "assets": {
+        "icon": "icon_promise_ring.png",
+        "glow": "effect_ring_glow.png"
+      }
+    },
+
+    "sp_first_memory_crystal": {
+      "id": "sp_first_memory_crystal",
+      "name": "최초의 기억 결정",
+      "name_en": "First Memory Crystal",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "모든 것이 시작된 기억. 트루 엔딩에 필요하다.",
+      "flavor_text": "처음 만났던 그 순간을 기억해? 모든 것이 거기서 시작됐어.",
+
+      "effect": {
+        "type": "STORY_KEY",
+        "unlocks": "true_ending_option"
+      },
+
+      "obtain": "Chapter 5 히든 위치 (모든 기억 파편 수집 후)",
+      "hidden": true,
+
+      "cannot_sell": true,
+      "cannot_drop": true,
+
+      "assets": {
+        "icon": "icon_first_memory_crystal.png",
+        "glow": "effect_crystal_glow.png"
+      }
+    },
+
+    "sp_arcana_fragment_1": {
+      "id": "sp_arcana_fragment_1",
+      "name": "아르카나 조각 - 숲",
+      "name_en": "Arcana Fragment - Forest",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "이그드라에서 얻은 아르카나 조각.",
+
+      "effect": {
+        "type": "PROGRESS",
+        "count": "1/6"
+      },
+
+      "obtain": "Chapter 1 보스 클리어",
+
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_arcana_fragment_1.png"
+      }
+    },
+
+    "sp_arcana_fragment_2": {
+      "id": "sp_arcana_fragment_2",
+      "name": "아르카나 조각 - 심연",
+      "name_en": "Arcana Fragment - Abyss",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "오닉스에서 얻은 아르카나 조각.",
+
+      "effect": {
+        "type": "PROGRESS",
+        "count": "2/6"
+      },
+
+      "obtain": "Chapter 2 보스 클리어",
+
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_arcana_fragment_2.png"
+      }
+    },
+
+    "sp_arcana_fragment_3": {
+      "id": "sp_arcana_fragment_3",
+      "name": "아르카나 조각 - 전쟁",
+      "name_en": "Arcana Fragment - War",
+      "category": "SPECIAL",
+      "rarity": "UNIQUE",
+
+      "description": "카이저에서 얻은 아르카나 조각.",
+
+      "effect": {
+        "type": "PROGRESS",
+        "count": "3/6"
+      },
+
+      "obtain": "Chapter 3 보스 클리어",
+
+      "cannot_sell": true,
+
+      "assets": {
+        "icon": "icon_arcana_fragment_3.png"
+      }
+    }
+  },
+
+
+  "shop_inventory": {
+    "chapter_1_shop": {
+      "name": "재의 상인",
+      "items": [
+        "cs_potion_hp_small", "cs_potion_hp_medium", "cs_potion_mana_small",
+        "cs_antidote", "wp_iron_blade", "ar_leather_armor", "ac_health_pendant"
+      ]
+    },
+    "chapter_2_shop": {
+      "name": "탐험가의 거래소",
+      "items": [
+        "cs_potion_hp_medium", "cs_potion_hp_large", "cs_potion_mana_large",
+        "cs_elixir_strength", "cs_bomb_fire", "ac_quick_boots"
+      ]
+    },
+    "chapter_3_shop": {
+      "name": "전장의 상인",
+      "items": [
+        "cs_potion_hp_large", "cs_elixir_defense", "cs_elixir_speed",
+        "cs_bomb_ice", "cs_scroll_teleport"
+      ]
+    },
+    "hub_shop": {
+      "name": "거점 상점",
+      "items": [
+        "cs_potion_hp_small", "cs_potion_hp_medium", "cs_potion_hp_large",
+        "cs_potion_mana_small", "cs_potion_mana_large", "cs_antidote",
+        "cs_elixir_strength", "cs_elixir_defense", "cs_elixir_speed",
+        "cs_bomb_fire", "cs_bomb_ice", "cs_scroll_teleport",
+        "wp_iron_blade", "ar_leather_armor", "ac_rusty_ring",
+        "ac_health_pendant", "ac_quick_boots", "mt_iron_ore"
+      ],
+      "special_items": [
+        { "id": "cs_phoenix_feather", "unlock_condition": "chapter_4_cleared" },
+        { "id": "cs_elixir_memory", "unlock_condition": "chapter_5_cleared" }
+      ]
+    }
+  },
+
+
+  "crafting_recipes": {
+    "wp_forest_fang": {
+      "result": "wp_forest_fang",
+      "materials": [
+        { "id": "mt_wolf_fang", "count": 5 },
+        { "id": "mt_iron_ore", "count": 3 }
+      ],
+      "gold": 100
+    },
+    "wp_crystal_edge": {
+      "result": "wp_crystal_edge",
+      "materials": [
+        { "id": "mt_crystal_shard", "count": 8 },
+        { "id": "mt_golem_core", "count": 1 },
+        { "id": "mt_iron_ore", "count": 5 }
+      ],
+      "gold": 300
+    },
+    "ar_forest_garb": {
+      "result": "ar_forest_garb",
+      "materials": [
+        { "id": "mt_wolf_pelt", "count": 3 },
+        { "id": "mt_spore_sac", "count": 5 },
+        { "id": "mt_vine_fiber", "count": 5 }
+      ],
+      "gold": 150
+    },
+    "ar_crystal_mail": {
+      "result": "ar_crystal_mail",
+      "materials": [
+        { "id": "mt_crystal_shard", "count": 10 },
+        { "id": "mt_golem_core", "count": 2 },
+        { "id": "mt_iron_ore", "count": 8 }
+      ],
+      "gold": 400
+    },
+    "cs_elixir_memory": {
+      "result": "cs_elixir_memory",
+      "result_count": 1,
+      "materials": [
+        { "id": "mt_memory_essence", "count": 3 },
+        { "id": "mt_crystal_shard", "count": 2 }
+      ],
+      "gold": 200
+    }
+  }
+}

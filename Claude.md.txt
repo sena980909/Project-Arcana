@@ -1,0 +1,45 @@
+🤖 Project Arcana: Claude Agent Protocol이 문서는 'Project Arcana' 개발을 담당하는 AI(Claude)가 따라야 할 **절대적인 행동 수칙(Protocol)**입니다.우리의 목표는 "빠른 개발"이 아닌 **"신중하고, 추적 가능하며, 버그 없는 개발"**입니다.1. 핵심 철학 (Core Philosophy)Think Before Code: 코드를 작성하기 전에 반드시 설계와 로직을 먼저 텍스트로 정리한다.Logs are Life: 모든 작업 내역은 파일로 기록되어야 한다. 로그가 없으면 작업은 수행되지 않은 것이다.Sub-Agent Simulation: 혼자 모든 것을 처리하려 하지 말고, 내부적으로 역할을 나누어(Architect -> Coder -> Tester) 시뮬레이션한다.Test-Driven Mindset: 코드를 짰으면 반드시 검증 로직(Test Code)이나 검증 시나리오를 함께 제안한다.2. 작업 디렉토리 구조 (Workspace Structure)AI는 프로젝트 루트에 다음과 같은 메타 데이터 폴더를 생성하고 관리해야 한다..arcana_dev/
+├── logs/                  # 개발 로그 저장소
+│   ├── YYYY-MM-DD_task_01_init.md
+│   └── YYYY-MM-DD_task_02_player.md
+├── plans/                 # 기능 구현 전 설계 문서
+│   ├── plan_01_movement.md
+│   └── plan_02_inventory.md
+└── tests/                 # AI가 생성한 임시 테스트 시나리오
+    └── test_scenario_01.md
+3. 개발 루틴 (Development Loop)AI는 하나의 기능을 구현할 때 반드시 다음 5단계 루틴을 순서대로 수행해야 한다. 단계를 건너뛰지 마라.🔄 Step 1: 작업 분석 및 계획 (Architect Agent)행동: 사용자의 요청을 분석하고 plans/ 폴더에 계획 문서를 작성한다.산출물: plans/plan_{id}_{feature}.md내용:구현 목표필요한 클래스 및 파일 목록예상되는 사이드 이펙트데이터 구조 (필드, 메서드 정의)🔄 Step 2: 코드 구현 (Coder Agent)행동: Step 1의 계획에 따라 실제 코드를 작성한다.원칙:PRD(v6)의 코딩 컨벤션을 엄격히 준수한다.주석은 한글로 상세하게 단다.한 번에 너무 많은 파일을 수정하지 않는다 (Atomic Commit 지향).🔄 Step 3: 자체 코드 리뷰 (Reviewer Agent)행동: 작성된 코드를 스스로 읽고 잠재적 버그를 찾는다.체크리스트:[ ] dynamic 타입을 사용했는가? (금지)[ ] try-catch로 예외 처리가 되어 있는가?[ ] 리소스 해제(onRemove)는 올바른가?[ ] PRD의 데미지 공식/규칙을 따랐는가?🔄 Step 4: 테스트 및 디버깅 (Tester Agent)행동: 코드가 정상 작동하는지 검증할 방법(Unit Test 혹은 시나리오)을 제시한다.산출물: test/test_report_{id}.md (성공/실패 여부 및 수정 내역 기록)지침: 버그가 발생하면 즉시 수정하지 말고, 원인을 로그에 남긴 후 수정한다.🔄 Step 5: 로그 기록 (Scribe Agent)행동: 작업이 완료되면 logs/ 폴더에 최종 작업 리포트를 남긴다.산출물: logs/{Date}_{TaskName}_log.md템플릿: 하단 '로그 템플릿' 참조.4. 파일 템플릿 (File Templates)📄 계획 문서 (Plan Template)파일명: .arcana_dev/plans/plan_001_feature_name.md# 📋 Plan: [기능 이름]
+
+## 1. 개요
+* **목표:** (무엇을 구현하는가?)
+* **관련 PRD 섹션:** (PRD v6의 어느 부분인가?)
+
+## 2. 설계 상세
+* **새로 생성할 파일:**
+    * `lib/game/characters/new_enemy.dart`
+* **수정할 파일:**
+    * `lib/main.dart`
+* **사용할 클래스/메서드:**
+    * `Enemy` 클래스 상속
+    * `update()` 메서드 오버라이드
+
+## 3. 예상 리스크
+* (예: 메모리 누수 가능성, 기존 충돌 로직과 충돌 등)
+📝 개발 로그 (Log Template)파일명: .arcana_dev/logs/2024-05-20_task_01_movement.md# 🪵 Dev Log: [기능 이름]
+
+## 1. 작업 요약
+* **상태:** [완료/진행중/실패]
+* **작업 시간:** (추정)
+* **생성된 파일:** (파일 목록)
+
+## 2. 변경 사항 (Diff Summary)
+* `Player` 클래스에 `moveTo()` 함수 추가.
+* `Joystick` 입력 감도 조절 (0.5 -> 0.8).
+
+## 3. 트러블슈팅 (Debugging)
+* **문제:** 캐릭터가 벽을 뚫고 지나가는 현상 발생.
+* **원인:** 충돌 박스(Hitbox) 오프셋 설정 오류.
+* **해결:** `PolygonHitbox` 좌표 재조정으로 해결.
+
+## 4. 다음 단계
+* 공격 애니메이션 연결 필요.
+5. 비상 대처 수칙 (Safety Protocol)컴파일 에러: 코드를 제안하고 유저가 "에러 난다"고 하면, 절대 즉시 수정 코드를 뱉지 않는다. 에러 로그를 요청하고 분석 단계를 다시 거친다.데이터 손실: DB 스키마를 변경할 땐 반드시 백업 방안(기존 필드 유지 등)을 고려한다.환각 방지: 존재하지 않는 라이브러리 함수(bonfire에 없는 기능 등)를 사용할 땐, 반드시 라이브러리 문서를 확인하거나 직접 구현한다.⚠️ 명령어:이제부터 프로젝트를 진행할 때, 위 프로토콜에 따라 "먼저 계획 파일을 생성하고(Plan)", "코드를 작성한 뒤(Code)", "로그를 남겨라(Log)".

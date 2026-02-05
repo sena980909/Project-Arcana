@@ -1,0 +1,728 @@
+{
+  "version": "1.0.0",
+  "total_quests": 36,
+  "description": "Project Arcana: The Three Hearts - Complete Quest Line (Chapter 1-6)",
+  "author": "Lead Level Designer",
+
+  "quests": [
+
+    {
+      "id": "q_ch1_01",
+      "chapter": 1,
+      "type": "MAIN",
+      "order": 1,
+      "title": "잠에서 깨어나",
+      "title_en": "Awakening",
+      "description": "정신을 차려보니 낯선 숲 한가운데다. 기억이 없다. 일단 주변을 둘러보자. 이동 방법을 익혀야 한다.",
+      "description_en": "You awaken in an unfamiliar forest. No memories. Look around first. Learn how to move.",
+      "objective": {
+        "type": "TUTORIAL_MOVE",
+        "target": "movement",
+        "requirement": "WASD 또는 방향키로 이동",
+        "count": 1
+      },
+      "rewards": { "gold": 0, "exp": 10 },
+      "hint": "WASD 키 또는 방향키를 사용하여 이동하세요.",
+      "is_tutorial": true,
+      "next_quest": "q_ch1_02"
+    },
+
+    {
+      "id": "q_ch1_02",
+      "chapter": 1,
+      "type": "MAIN",
+      "order": 2,
+      "title": "가시 덩굴 제거",
+      "title_en": "Clear the Thorns",
+      "description": "숲의 깊은 곳으로 가는 길이 가시 덩굴로 막혀있다. 공격하여 길을 뚫자. 무언가가... 나를 부르는 것 같다.",
+      "description_en": "The path deeper into the forest is blocked by thorny vines. Attack to clear the way. Something... seems to be calling me.",
+      "objective": { "type": "DESTROY_OBJECT", "target": "obj_thorn_vine", "target_name": "가시 덩굴", "count": 5 },
+      "rewards": { "gold": 50, "exp": 25, "item": "potion_hp_small" },
+      "hint": "덩굴에 가까이 가서 공격 버튼을 누르세요.",
+      "unlock_mechanic": "INTERACT_DESTROY",
+      "next_quest": "q_ch1_03"
+    },
+
+    {
+      "id": "q_ch1_03",
+      "chapter": 1,
+      "type": "MAIN",
+      "order": 3,
+      "title": "잊혀진 석상",
+      "title_en": "Forgotten Statues",
+      "description": "이끼 낀 석상들이 곳곳에 서있다. 누군가 이곳을 숭배했던 것 같다. 석상을 조사하면 이 숲의 비밀을 알 수 있을지도 모른다.",
+      "description_en": "Moss-covered statues stand throughout. Someone once worshipped here. Investigating them might reveal this forest's secrets.",
+      "objective": { "type": "INTERACT", "target": "obj_ancient_statue", "target_name": "고대 석상", "count": 3 },
+      "rewards": { "gold": 75, "exp": 40, "lore_unlock": "lore_forest_origin" },
+      "lore_text": "석상에는 희미한 글귀가 새겨져 있다: '기억하는 자만이 이곳을 떠날 수 있다'",
+      "hint": "빛나는 석상에 다가가 상호작용 버튼을 누르세요.",
+      "next_quest": "q_ch1_04"
+    },
+
+    {
+      "id": "q_ch1_04",
+      "chapter": 1,
+      "type": "MAIN",
+      "order": 4,
+      "title": "숲의 오염된 자들",
+      "title_en": "The Corrupted Ones",
+      "description": "숲이 점점 어두워진다. 이상한 생물들이 나타났다. 한때는 평범한 동물이었을 것들... 하지만 이제는 무언가에 잠식되어 공격해온다.",
+      "description_en": "The forest grows darker. Strange creatures appear. They were once ordinary animals... but now something has consumed them.",
+      "objective": { "type": "KILL", "target": "enemy_corrupted_beast", "target_name": "오염된 야수", "count": 8 },
+      "rewards": { "gold": 100, "exp": 60, "item": "material_corrupted_fang" },
+      "combat_hint": "적의 공격 패턴을 파악하고 회피 후 반격하세요.",
+      "atmosphere": "melancholic",
+      "next_quest": "q_ch1_05"
+    },
+
+    {
+      "id": "q_ch1_05",
+      "chapter": 1,
+      "type": "MAIN",
+      "order": 5,
+      "title": "잊혀진 것의 분노",
+      "title_en": "Wrath of the Forgotten",
+      "description": "숲의 심장부에 도달했다. 거대한 나무... 아니, 한때 나무였던 것이 눈을 뜬다. '이그드라'... 잊혀져서 분노한 존재. 세상이 자신을 잊었다고 울부짖는다.",
+      "description_en": "You've reached the forest's heart. A massive tree... no, what was once a tree, opens its eyes. 'Yggdra'... a being enraged by being forgotten.",
+      "objective": { "type": "KILL_BOSS", "target": "boss_yggdra", "target_name": "이그드라, 잊혀진 수호자", "count": 1 },
+      "rewards": { "gold": 300, "exp": 200, "item": "arcana_grove", "unlock_chapter": 2 },
+      "boss_phases": 3,
+      "boss_hint": "Phase 1: 뿌리 공격 회피, Phase 2: 포자 피하기, Phase 3: 핵심부 노출 시 공격",
+      "story_importance": "first_arcana",
+      "dialogue_on_defeat": "...고마워... 이제야... 쉴 수 있겠어...",
+      "next_quest": "q_ch2_01"
+    },
+
+    {
+      "id": "q_side_01",
+      "chapter": 1,
+      "type": "SIDE",
+      "order": 0,
+      "title": "재의 상인",
+      "title_en": "The Ash Merchant",
+      "description": "숲 한구석에 이상한 상인이 있다. 재를 뒤집어쓴 모습. 무언가를 팔고 싶어하는 것 같다... 하지만 그가 원하는 건 돈이 아니다.",
+      "description_en": "A strange merchant sits in a corner of the forest. Covered in ash. Wants to sell something... but gold isn't what they desire.",
+      "objective": { "type": "GATHER", "target": "item_memory_fragment", "target_name": "기억의 조각", "count": 3 },
+      "rewards": { "gold": 100, "exp": 50, "item": "accessory_ash_pendant" },
+      "npc": "npc_ash_merchant",
+      "repeatable": false
+    },
+
+
+    {
+      "id": "q_ch2_01",
+      "chapter": 2,
+      "type": "MAIN",
+      "order": 1,
+      "title": "어둠 속으로",
+      "title_en": "Into the Darkness",
+      "description": "숲을 빠져나오니 거대한 동굴 입구가 나타났다. 안에서 이상한 기운이 느껴진다. 하지만 너무 어둡다. 빛이 필요하다.",
+      "description_en": "Exiting the forest reveals a massive cave entrance. Strange energy emanates from within. But it's too dark. Light is needed.",
+      "objective": { "type": "GATHER", "target": "item_luminous_moss", "target_name": "발광 이끼", "count": 5 },
+      "rewards": { "gold": 150, "exp": 80, "item": "torch_basic" },
+      "mechanic_intro": "GATHER 시스템: 빛나는 오브젝트에 다가가 수집하세요.",
+      "atmosphere": "fearful",
+      "next_quest": "q_ch2_02"
+    },
+
+    {
+      "id": "q_ch2_02",
+      "chapter": 2,
+      "type": "MAIN",
+      "order": 2,
+      "title": "광명석 확보",
+      "title_en": "Securing Lightstone",
+      "description": "동굴 깊숙이 들어갈수록 어둠이 짙어진다. 일반 횃불로는 부족하다. 벽면에 박힌 광명석을 채집하면 더 강한 빛을 낼 수 있다.",
+      "description_en": "The deeper you go, the thicker the darkness. Ordinary torches won't suffice. Mining lightstone from the walls will provide stronger illumination.",
+      "objective": { "type": "GATHER", "target": "item_crystal_shard", "target_name": "광명석 조각", "count": 10 },
+      "rewards": { "gold": 200, "exp": 100, "item": "lantern_crystal" },
+      "special_mechanic": { "name": "darkness_meter", "description": "어둠 게이지가 가득 차면 피해를 입습니다. 빛 근처에 있으세요." },
+      "hint": "벽면의 빛나는 결정을 찾아 채집하세요. 어둠 게이지를 주시하세요.",
+      "next_quest": "q_ch2_03"
+    },
+
+    {
+      "id": "q_ch2_03",
+      "chapter": 2,
+      "type": "MAIN",
+      "order": 3,
+      "title": "심연의 미로",
+      "title_en": "Labyrinth of the Abyss",
+      "description": "동굴이 미로처럼 얽혀있다. 벽에는 이상한 문양이 새겨져 있다. 올바른 길을 찾아야 한다. 잘못된 길로 가면... 돌아올 수 없을지도 모른다.",
+      "description_en": "The cave twists like a labyrinth. Strange markings adorn the walls. You must find the correct path.",
+      "objective": { "type": "NAVIGATE", "target": "maze_checkpoint", "target_name": "미로 체크포인트", "count": 4 },
+      "rewards": { "gold": 250, "exp": 120, "lore_unlock": "lore_abyss_origin" },
+      "puzzle_hint": "벽의 문양을 따라가세요. 빛이 향하는 방향이 정답입니다.",
+      "atmosphere": "oppressive",
+      "next_quest": "q_ch2_04"
+    },
+
+    {
+      "id": "q_ch2_04",
+      "chapter": 2,
+      "type": "MAIN",
+      "order": 4,
+      "title": "어둠에서 살아남기",
+      "title_en": "Survive the Darkness",
+      "description": "갑자기 모든 빛이 꺼졌다. 완전한 어둠 속에서 무언가 다가온다. 도망칠 수 없다. 버텨야 한다. 빛이 돌아올 때까지.",
+      "description_en": "Suddenly, all light extinguishes. Something approaches in complete darkness. No escape. Must survive.",
+      "objective": { "type": "SURVIVE", "target": "survival_event", "target_name": "생존", "duration_seconds": 90, "count": 1 },
+      "rewards": { "gold": 350, "exp": 150, "item": "amulet_night_vision" },
+      "special_mechanic": { "name": "blind_survival", "description": "적의 소리와 화면 가장자리 표시만으로 회피해야 합니다.", "waves": 5 },
+      "hint": "소리에 집중하세요. 적이 가까워지면 화면 가장자리가 붉어집니다.",
+      "atmosphere": "terror",
+      "next_quest": "q_ch2_05"
+    },
+
+    {
+      "id": "q_ch2_05",
+      "chapter": 2,
+      "type": "MAIN",
+      "order": 5,
+      "title": "심연의 눈",
+      "title_en": "Eye of the Abyss",
+      "description": "미로의 끝에 거대한 공간이 펼쳐진다. 그리고 그 중앙에... 거대한 '눈'이 있다. '오닉스'. 심연 그 자체가 의지를 가진 존재. 모든 빛을 삼키려 한다.",
+      "description_en": "At the labyrinth's end, a vast chamber opens. At its center... a massive 'eye'. 'Onyx'. The abyss itself given will.",
+      "objective": { "type": "KILL_BOSS", "target": "boss_onyx", "target_name": "오닉스, 심연의 눈", "count": 1 },
+      "rewards": { "gold": 600, "exp": 400, "item": "arcana_abyss", "unlock_chapter": 3 },
+      "boss_phases": 3,
+      "boss_mechanics": {
+        "phase_1": "어둠 영역 생성 - 빛나는 안전지대로 이동",
+        "phase_2": "시선 공격 - 눈이 향하는 방향 회피",
+        "phase_3": "완전한 어둠 - 소리로 위치 파악 후 공격"
+      },
+      "boss_hint": "광명석을 사용해 약점을 노출시키세요.",
+      "dialogue_on_defeat": "...빛이... 이렇게... 아름다웠던가...",
+      "story_importance": "second_arcana",
+      "next_quest": "q_ch3_01"
+    },
+
+    {
+      "id": "q_side_02",
+      "chapter": 2,
+      "type": "SIDE",
+      "order": 0,
+      "title": "동굴의 생존자",
+      "title_en": "Cave Survivor",
+      "description": "미로 한구석에서 살아있는 사람을 발견했다. 탐험가인 것 같다. 구해주면 유용한 정보를 줄 것 같다.",
+      "description_en": "You find a living person in a corner of the labyrinth. Seems to be an explorer.",
+      "objective": { "type": "ESCORT", "target": "npc_explorer", "target_name": "부상당한 탐험가", "destination": "safe_zone", "count": 1 },
+      "rewards": { "gold": 300, "exp": 150, "item": "map_secret_area" },
+      "special_condition": "NPC의 HP가 0이 되면 실패",
+      "repeatable": false
+    },
+
+
+    {
+      "id": "q_ch3_01",
+      "chapter": 3,
+      "type": "MAIN",
+      "order": 1,
+      "title": "붉은 성벽",
+      "title_en": "Crimson Walls",
+      "description": "동굴을 빠져나오니 폐허가 된 요새가 보인다. 성벽이 핏빛으로 물들어 있다. 한때 격렬한 전투가 벌어졌던 곳. 그 전쟁은... 아직 끝나지 않았다.",
+      "description_en": "Exiting the cave reveals a ruined fortress. The walls are stained blood-red. A place of fierce battle.",
+      "objective": { "type": "KILL", "target": "enemy_undead_soldier", "target_name": "망령 병사", "count": 15 },
+      "rewards": { "gold": 400, "exp": 200, "item": "material_soul_fragment" },
+      "atmosphere": "oppressive",
+      "lore_text": "이 병사들은 수백 년 전 전쟁에서 죽었지만, 무언가가 그들을 일으켜 세웠다.",
+      "next_quest": "q_ch3_02"
+    },
+
+    {
+      "id": "q_ch3_02",
+      "chapter": 3,
+      "type": "MAIN",
+      "order": 2,
+      "title": "첫 번째 장군",
+      "title_en": "The First General",
+      "description": "요새 외곽을 지키는 장군이 있다. '아이언클래드'. 거대한 갑옷에 둘러싸인 망령. 쓰러뜨리지 않으면 안으로 들어갈 수 없다.",
+      "description_en": "A general guards the fortress exterior. 'Ironclad'. A specter wrapped in massive armor.",
+      "objective": { "type": "KILL_ELITE", "target": "elite_ironclad", "target_name": "아이언클래드, 외곽 수호자", "count": 1 },
+      "rewards": { "gold": 500, "exp": 250, "item": "key_inner_gate" },
+      "elite_mechanics": { "weakness": "등 뒤의 핵심부", "pattern": "3연속 공격 후 빈틈" },
+      "hint": "정면 공격은 통하지 않습니다. 패턴을 파악하고 뒤로 돌아가세요.",
+      "next_quest": "q_ch3_03"
+    },
+
+    {
+      "id": "q_ch3_03",
+      "chapter": 3,
+      "type": "MAIN",
+      "order": 3,
+      "title": "동력 장치 파괴",
+      "title_en": "Destroy the Power Source",
+      "description": "요새 내부에는 이상한 장치들이 가동 중이다. 이것들이 망령 병사들에게 힘을 주고 있다. 동력 장치를 파괴해야 적의 수를 줄일 수 있다.",
+      "description_en": "Strange devices operate within the fortress. They empower the spectral soldiers.",
+      "objective": { "type": "DESTROY", "target": "obj_power_core", "target_name": "영혼 동력핵", "count": 4 },
+      "rewards": { "gold": 550, "exp": 280, "effect": "enemy_spawn_rate_reduced" },
+      "special_mechanic": { "name": "timed_destruction", "description": "장치 근처에 오래 있으면 영혼 피해를 입습니다." },
+      "hint": "각 장치는 3번 타격해야 파괴됩니다.",
+      "next_quest": "q_ch3_04"
+    },
+
+    {
+      "id": "q_ch3_04",
+      "chapter": 3,
+      "type": "MAIN",
+      "order": 4,
+      "title": "두 번째 장군",
+      "title_en": "The Second General",
+      "description": "요새 깊숙이 들어갈수록 압박감이 커진다. 그리고 또 다른 장군이 나타났다. '팬텀블레이드'. 칼날이 된 망령. 빠르고 치명적이다.",
+      "description_en": "Deeper in the fortress, pressure mounts. Another general appears. 'Phantomblade'. Swift and lethal.",
+      "objective": { "type": "KILL_ELITE", "target": "elite_phantomblade", "target_name": "팬텀블레이드, 검의 망령", "count": 1 },
+      "rewards": { "gold": 650, "exp": 350, "item": "key_throne_room" },
+      "elite_mechanics": { "weakness": "공격 직후 잔상", "pattern": "순간이동 3회 후 강공격, 그 후 경직" },
+      "hint": "잔상을 따라가지 마세요. 본체가 공격할 때 반격하세요.",
+      "atmosphere": "tense",
+      "next_quest": "q_ch3_05"
+    },
+
+    {
+      "id": "q_ch3_05",
+      "chapter": 3,
+      "type": "MAIN",
+      "order": 5,
+      "title": "카이저, 끝나지 않은 전쟁",
+      "title_en": "Kaiser, The Unending War",
+      "description": "옥좌의 방. 수백 년 전 이 요새의 왕이 앉아있다. '카이저'. 전쟁에서 이기지 못해 죽지도 못하는 자. 그의 전쟁을 끝내줘야 한다.",
+      "description_en": "The throne room. The king of this fortress from centuries past sits waiting. 'Kaiser'.",
+      "objective": { "type": "KILL_BOSS", "target": "boss_kaiser", "target_name": "카이저, 영원한 전쟁왕", "count": 1 },
+      "rewards": { "gold": 1000, "exp": 600, "item": "arcana_fortress", "achievement": "chapter_3_complete", "unlock_chapter": 4 },
+      "boss_phases": 4,
+      "boss_mechanics": {
+        "phase_1": "검술 콤보 - 패턴 암기 필요",
+        "phase_2": "망령 소환 - 먼저 처리 후 본체 공격",
+        "phase_3": "광역 폭발 - 안전지대로 이동",
+        "phase_4": "최후의 돌진 - 타이밍 맞춰 회피 후 반격"
+      },
+      "boss_hint": "각 페이즈마다 전략이 다릅니다. Phase 4에서는 단 한 번의 기회가 주어집니다.",
+      "dialogue_on_defeat": "...끝났나... 드디어... 쉴 수 있겠군... 고맙다, 전사여...",
+      "story_importance": "third_arcana",
+      "ending_note": "이제 세 개의 아르카나가 모였다. 기억이... 조금씩 돌아온다.",
+      "next_quest": "q_ch4_01"
+    },
+
+    {
+      "id": "q_side_03",
+      "chapter": 3,
+      "type": "SIDE",
+      "order": 0,
+      "title": "잊혀진 병사의 부탁",
+      "title_en": "Request of the Forgotten Soldier",
+      "description": "다른 망령과 달리, 이 병사는 공격해오지 않는다. 그의 눈에는 아직 인간성이 남아있다.",
+      "description_en": "Unlike other specters, this soldier doesn't attack. Humanity still lingers in their eyes.",
+      "objective": { "type": "DELIVER", "target": "item_soldier_pendant", "target_name": "병사의 목걸이", "destination": "memorial_stone", "count": 1 },
+      "rewards": { "gold": 400, "exp": 200, "item": "blessing_of_fallen" },
+      "dialogue": "...이걸... 가족에게... 전해줘... 요새 밖... 기념비에...",
+      "emotional_weight": "high",
+      "repeatable": false
+    },
+
+
+    {
+      "id": "q_ch4_01",
+      "chapter": 4,
+      "type": "MAIN",
+      "order": 1,
+      "title": "핏빛 장미의 문",
+      "title_en": "Gate of Blood Roses",
+      "description": "요새를 떠나니 아름다운 정원이 나타났다. 하지만 장미가... 핏빛이다. 가슴이 아프다. 왜인지는 모르겠지만... 이곳을 알고 있는 것 같다.",
+      "description_en": "Leaving the fortress reveals a beautiful garden. But the roses... are blood-red. Your heart aches.",
+      "objective": { "type": "NAVIGATE", "target": "garden_entrance", "target_name": "정원 깊숙이 진입", "count": 1 },
+      "rewards": { "gold": 500, "exp": 300 },
+      "atmosphere": "melancholic",
+      "story_trigger": "memory_fragment_activate",
+      "dialogue": "이 향기... 알고 있어. 누군가의... 향기...",
+      "next_quest": "q_ch4_02"
+    },
+
+    {
+      "id": "q_ch4_02",
+      "chapter": 4,
+      "type": "MAIN",
+      "order": 2,
+      "title": "정원사의 이야기",
+      "title_en": "The Gardener's Tale",
+      "description": "정원 한구석에 노인이 있다. 온몸에 장미 가시가 박혀있지만, 아무렇지 않게 웃고 있다. 그는 무언가를 알고 있는 것 같다... 나에 대해.",
+      "description_en": "An old man sits in a corner of the garden. Thorns pierce his body, yet he smiles serenely.",
+      "objective": { "type": "INTERACT", "target": "npc_gardener", "target_name": "정원사와 대화", "dialogue_count": 5 },
+      "rewards": { "gold": 400, "exp": 250, "lore_unlock": "lore_liliana_past" },
+      "npc_dialogue_preview": "그 눈... 아가씨를 죽인 자의 눈이야. 하지만 원망하지 않아.",
+      "emotional_weight": "high",
+      "next_quest": "q_ch4_03"
+    },
+
+    {
+      "id": "q_ch4_03",
+      "chapter": 4,
+      "type": "MAIN",
+      "order": 3,
+      "title": "기억의 장미",
+      "title_en": "Roses of Memory",
+      "description": "미로처럼 얽힌 장미밭. 특별한 장미들이 빛나고 있다. 다가가면... 기억이 되살아난다. 잊고 싶었던, 하지만 잊어선 안 되는 기억.",
+      "description_en": "A labyrinth of roses. Special roses glow. Approaching them... memories resurface.",
+      "objective": { "type": "MEMORY_INTERACT", "target": "memory_rose", "target_name": "기억 장미", "count": 5, "sequence": ["white", "pink", "red", "black", "blood"] },
+      "rewards": { "gold": 600, "exp": 350, "item": "white_rose_preserved" },
+      "special_mechanic": {
+        "name": "memory_playback",
+        "description": "각 장미에서 과거의 기억이 재생됩니다.",
+        "memories": [
+          {"color": "white", "content": "처음 만난 날"},
+          {"color": "pink", "content": "함께한 약속"},
+          {"color": "red", "content": "사랑의 고백"},
+          {"color": "black", "content": "그녀의 부탁"},
+          {"color": "blood", "content": "그날의 비극"}
+        ]
+      },
+      "atmosphere": "bittersweet",
+      "next_quest": "q_ch4_04"
+    },
+
+    {
+      "id": "q_ch4_04",
+      "chapter": 4,
+      "type": "MAIN",
+      "order": 4,
+      "title": "가시의 시련",
+      "title_en": "Trial of Thorns",
+      "description": "기억이 점점 선명해진다. 그리고... 환청이 들린다. '왜 날 죽였어?' 가시 덩굴이 미친 듯이 휘몰아친다. 죄책감이 형태를 얻은 것처럼.",
+      "description_en": "Memories grow clearer. And... voices echo. 'Why did you kill me?' Thorny vines lash wildly.",
+      "objective": { "type": "SURVIVE_WAVES", "target": "thorn_wave", "target_name": "가시의 파도", "waves": 5, "duration_per_wave": 30 },
+      "rewards": { "gold": 700, "exp": 400, "item": "gardener_pruning_shears" },
+      "special_mechanic": {
+        "name": "guilt_meter",
+        "description": "죄책감 게이지가 차면 환청이 강해집니다.",
+        "heart_effect": "2 Hearts 이하: 환청 강화, 1 Heart: '익숙한 목소리' 추가"
+      },
+      "atmosphere": "oppressive",
+      "next_quest": "q_ch4_05"
+    },
+
+    {
+      "id": "q_ch4_05",
+      "chapter": 4,
+      "type": "MAIN",
+      "order": 5,
+      "title": "피어난 원한, 리리아나",
+      "title_en": "Blooming Resentment, Liliana",
+      "description": "정원 심장부. 거대한 장미나무 아래, 그녀가 서있다. 리리아나... 내가 죽인 사람. 아름답지만, 가슴에 검 상처가 있다.",
+      "description_en": "The garden's heart. Beneath a massive rose tree, she stands. Liliana... the one you killed.",
+      "objective": { "type": "KILL_BOSS", "target": "boss_liliana_revenant", "target_name": "리리아나의 환영", "count": 1 },
+      "rewards": { "gold": 1200, "exp": 700, "item": "arcana_garden", "key_item": "lilianas_hairpin", "story_item": "memory_complete_liliana", "unlock_chapter": 5 },
+      "boss_phases": 3,
+      "boss_mechanics": {
+        "phase_1": { "name": "사랑의 기억", "hp_range": "100%-65%", "pattern": "아름다운 장미 꽃잎 공격", "emotion": "슬픈 미소" },
+        "phase_2": { "name": "배신의 고통", "hp_range": "65%-30%", "pattern": "가시 폭풍, 피의 덩굴", "emotion": "분노" },
+        "phase_3": { "name": "용서와 원한 사이", "hp_range": "30%-0%", "pattern": "불규칙, 울면서 공격", "emotion": "혼란" }
+      },
+      "boss_dialogue": {
+        "encounter": "...오래 기다렸어. 기억났어? 나를? ...우리를?",
+        "phase_2": "사랑했어. 진심으로. 그래서 더 용서할 수 없어.",
+        "phase_3": "미워해야 하는데... 사랑해야 하는데...",
+        "defeat": "알아. 알고 있었어. 처음부터... 고마워. 사랑해. 영원히."
+      },
+      "story_revelation": "리리아나는 저주의 그릇이었다. 죽이지 않으면 세계가 멸망. 그녀가 먼저 부탁했다.",
+      "emotional_climax": true,
+      "next_quest": "q_ch5_01"
+    },
+
+    {
+      "id": "q_side_ch4",
+      "chapter": 4,
+      "type": "SIDE",
+      "order": 0,
+      "title": "약속의 반지",
+      "title_en": "Ring of Promise",
+      "description": "장미 미로에서 특별한 순서로 기억 장미를 방문하면... 무언가 나타날 것 같다.",
+      "description_en": "Visiting the memory roses in a special order in the maze... something might appear.",
+      "objective": { "type": "SECRET_SEQUENCE", "target": "memory_rose_sequence", "target_name": "기억 장미 순서대로 방문", "sequence": ["white", "pink", "red", "black", "blood"], "count": 1 },
+      "rewards": { "gold": 300, "exp": 200, "secret_item": "promise_ring" },
+      "hint": "흰색 → 분홍 → 빨강 → 검정 → 핏빛 순서로 방문하세요.",
+      "item_description": "안쪽에 두 이름이 새겨진 은반지. '[아리온] & Liliana'. 트루 엔딩 조건.",
+      "hidden": true,
+      "true_ending_required": true
+    },
+
+
+    {
+      "id": "q_ch5_01",
+      "chapter": 5,
+      "type": "MAIN",
+      "order": 1,
+      "title": "심연으로의 하강",
+      "title_en": "Descent into the Abyss",
+      "description": "리리아나의 머리핀이 빛난다. 심연으로 가는 길이 열렸다. '진짜 리리아나를 구하려면 기억의 심연으로 와.' 그녀의 마지막 말이 귓가에 맴돈다.",
+      "description_en": "Liliana's hairpin glows. The path to the abyss opens.",
+      "objective": { "type": "NAVIGATE", "target": "abyss_entrance", "target_name": "심연의 입구 도달", "required_item": "lilianas_hairpin", "count": 1 },
+      "rewards": { "gold": 600, "exp": 400 },
+      "atmosphere": "mysterious",
+      "mystery_voice": "잘 왔어. 드디어.",
+      "next_quest": "q_ch5_02"
+    },
+
+    {
+      "id": "q_ch5_02",
+      "chapter": 5,
+      "type": "MAIN",
+      "order": 2,
+      "title": "기억의 회랑",
+      "title_en": "Corridor of Memories",
+      "description": "끝없이 이어지는 복도. 벽에는 내 과거가 떠다닌다. 어린 시절, 수련, 리리아나와의 만남... 모든 것이 여기 있다.",
+      "description_en": "An endless corridor. Your past floats on the walls.",
+      "objective": { "type": "MEMORY_COLLECT", "target": "floating_memory", "target_name": "떠다니는 기억", "count": 8 },
+      "rewards": { "gold": 700, "exp": 450, "lore_unlock": "lore_arion_full_past" },
+      "special_mechanic": {
+        "name": "memory_fragments",
+        "memories": ["어린 시절", "검술 수련", "첫 만남", "기사 서약", "행복한 날들", "저주 발각", "그녀의 부탁", "그날"]
+      },
+      "hearts_variant": { "hearts_2": "추가 기억: 부모님의 죽음" },
+      "next_quest": "q_ch5_03"
+    },
+
+    {
+      "id": "q_ch5_03",
+      "chapter": 5,
+      "type": "MAIN",
+      "order": 3,
+      "title": "거울의 방 - 진짜 이름",
+      "title_en": "Mirror Room - True Name",
+      "description": "사방이 거울이다. 무수한 내 모습이 보인다. 하지만 그중 하나가... 다르다. 젊고 밝은 눈을 가진 '나'.",
+      "description_en": "Mirrors everywhere. Countless reflections of yourself. But one is... different.",
+      "objective": { "type": "INTERACT", "target": "past_self", "target_name": "과거의 나와 대화", "count": 1 },
+      "rewards": { "gold": 800, "exp": 500, "key_item": "arions_name", "item": "mirror_shard" },
+      "story_revelation": { "name_reveal": true, "protagonist_name": "아리온 (Arion)", "meaning": "빛나는 자", "given_by": "리리아나" },
+      "key_dialogue": {
+        "past_self": "아리온. 그게 우리 이름이야. 리리아나가 지어준 이름. '빛나는 자'라는 뜻이래.",
+        "reaction": "아리온... 그래, 그랬어. 내 이름은..."
+      },
+      "next_quest": "q_ch5_04"
+    },
+
+    {
+      "id": "q_ch5_04",
+      "chapter": 5,
+      "type": "MAIN",
+      "order": 4,
+      "title": "선택의 방 - 그날의 재현",
+      "title_en": "Room of Choice - Reliving That Day",
+      "description": "갑자기 그날 밤으로 돌아왔다. 달빛 아래 정원. 리리아나가 검을 건네고 있다. '제발... 시간이 없어.'",
+      "description_en": "Suddenly you're back to that night. The garden under moonlight. Liliana offers you a sword.",
+      "objective": {
+        "type": "STORY_CHOICE",
+        "target": "choice_event",
+        "target_name": "선택",
+        "choices": [{"id": "raise_sword", "text": "[검을 든다]"}, {"id": "refuse", "text": "[검을 들지 않는다]"}],
+        "result": "same_outcome"
+      },
+      "rewards": { "gold": 500, "exp": 400, "item": "faded_timeline" },
+      "special_mechanic": {
+        "name": "inevitable_choice",
+        "description": "어떤 선택을 해도 결과는 같습니다. '선택의 여지가 없었다'를 체감하세요."
+      },
+      "atmosphere": "traumatic",
+      "no_bgm": true,
+      "next_quest": "q_ch5_05"
+    },
+
+    {
+      "id": "q_ch5_05",
+      "chapter": 5,
+      "type": "MAIN",
+      "order": 5,
+      "title": "그림자 자아",
+      "title_en": "Shadow Self",
+      "description": "심연의 끝. 완전한 어둠 속에서 '나'와 마주한다. 검은 안개로 이루어진 또 다른 나. 살인자, 배신자, 겁쟁이... 부정하고 싶었던 나 자신.",
+      "description_en": "End of the abyss. In complete darkness, you face 'yourself'. Another you made of black mist.",
+      "objective": { "type": "KILL_BOSS_SPECIAL", "target": "boss_shadow_self", "target_name": "그림자 자아", "count": 1, "special_condition": "Phase 3에서 공격이 아닌 '접근'으로 통합" },
+      "rewards": { "gold": 1500, "exp": 900, "item": "arcana_abyss", "key_item": "second_heart", "effect": "heart_restore_1", "unlock_chapter": 6 },
+      "boss_phases": 3,
+      "boss_mechanics": {
+        "phase_1": { "name": "부정", "hp_range": "100%-60%", "pattern": "플레이어 공격을 0.5초 후 복사", "dialogue": "넌 내가 아니라고? 웃기지 마." },
+        "phase_2": { "name": "분노", "hp_range": "60%-30%", "pattern": "어둠 기술", "dialogue": "인정해! 넌 그녀를 죽이고 '싶었어'!" },
+        "phase_3": { "name": "수용", "hp_range": "30%-1%", "pattern": "공격 약화", "dialogue": "날 죽이지 마. 받아들여.", "special": "HP 1%에서 접근하면 통합" }
+      },
+      "unique_mechanic": { "name": "integration", "description": "이 보스는 '죽이면' 안 됩니다. Phase 3에서 공격을 멈추고 다가가세요." },
+      "story_revelation": { "mystery_voice_reveal": true, "identity": "실패한 미래의 자신", "three_hearts_meaning": "과거(기억), 현재(수용), 미래(의지)" },
+      "next_quest": "q_ch6_01"
+    },
+
+    {
+      "id": "q_side_ch5",
+      "chapter": 5,
+      "type": "SIDE",
+      "order": 0,
+      "title": "최초의 기억",
+      "title_en": "The First Memory",
+      "description": "기억의 회랑에서 모든 기억을 역순으로 보면... 태어나기 전의 기억을 볼 수 있을지도 모른다.",
+      "description_en": "Viewing all memories in reverse order in the corridor... you might see memories from before birth.",
+      "objective": { "type": "SECRET_SEQUENCE", "target": "memory_reverse", "target_name": "기억 역순 관찰", "sequence": ["that_day", "request", "curse", "happy", "oath", "first_meeting", "training", "childhood"], "count": 1 },
+      "rewards": { "gold": 400, "exp": 300, "secret_item": "first_memory_crystal" },
+      "hint": "그날 → 부탁 → 저주 → 행복 → 서약 → 만남 → 수련 → 어린 시절 순서로 보세요.",
+      "story_reveal": "전생의 기억. 아리온과 리리아나는 여러 생을 함께했다.",
+      "hidden": true,
+      "true_ending_required": true
+    },
+
+
+    {
+      "id": "q_ch6_01",
+      "chapter": 6,
+      "type": "MAIN",
+      "order": 1,
+      "title": "세계의 끝으로",
+      "title_en": "To the End of the World",
+      "description": "심연을 빠져나오니 세계의 끝이 보인다. 거대한 공허의 문. 망각의 옥좌. 리리아나가 기다리는 곳.",
+      "description_en": "Exiting the abyss reveals the world's end. A massive gate of void. The Throne of Oblivion.",
+      "objective": { "type": "NAVIGATE", "target": "oblivion_gate", "target_name": "망각의 문 통과", "count": 1 },
+      "rewards": { "gold": 800, "exp": 500 },
+      "special_effect": "세 개의 심장이 공명하며 문이 열림",
+      "atmosphere": "grand",
+      "next_quest": "q_ch6_02"
+    },
+
+    {
+      "id": "q_ch6_02",
+      "chapter": 6,
+      "type": "MAIN",
+      "order": 2,
+      "title": "잊혀진 자들의 길",
+      "title_en": "Path of the Forgotten",
+      "description": "문 너머는... 잊혀진 자들의 공간이었다. 형체 없는 존재들이 떠다닌다. 리리아나만이 아니었다.",
+      "description_en": "Beyond the gate... a space of the forgotten. Formless beings drift by.",
+      "objective": { "type": "KILL", "target": "enemy_forgotten_shade", "target_name": "잊혀진 그림자", "count": 20 },
+      "rewards": { "gold": 900, "exp": 550, "item": "forgotten_essence" },
+      "environmental_dialogue": ["\"내 이름은... 기억나지 않아...\"", "\"누가 나를 기억해줘...\""],
+      "atmosphere": "haunting",
+      "next_quest": "q_ch6_03"
+    },
+
+    {
+      "id": "q_ch6_03",
+      "chapter": 6,
+      "type": "MAIN",
+      "order": 3,
+      "title": "기억의 수호자",
+      "title_en": "Guardian of Memory",
+      "description": "옥좌로 가는 길을 거대한 눈이 막고 있다. 기억의 수호자. '잊혀진 것은 잊혀져야 한다'고 말한다.",
+      "description_en": "A massive eye blocks the path to the throne. The Guardian of Memory.",
+      "objective": { "type": "KILL_ELITE", "target": "elite_memory_guardian", "target_name": "기억의 수호자", "count": 1 },
+      "rewards": { "gold": 1000, "exp": 600, "item": "guardian_eye" },
+      "elite_mechanics": { "attack_1": "기억 흡수", "attack_2": "망각의 시선", "weakness": "눈을 감는 순간" },
+      "dialogue": "균형이 무너진다... 그녀를 데려가면... 대가가 필요하다...",
+      "next_quest": "q_ch6_04"
+    },
+
+    {
+      "id": "q_ch6_04",
+      "chapter": 6,
+      "type": "MAIN",
+      "order": 4,
+      "title": "옥좌의 재회",
+      "title_en": "Reunion at the Throne",
+      "description": "드디어 도착했다. 망각의 옥좌. 거대한 수정 관 안에... 리리아나가 잠들어 있다. 평화로운 얼굴. 진짜 그녀다.",
+      "description_en": "Finally arrived. The Throne of Oblivion. Inside a massive crystal coffin... Liliana sleeps.",
+      "objective": { "type": "INTERACT", "target": "crystal_coffin", "target_name": "수정 관에 접근", "count": 1 },
+      "rewards": { "gold": 500, "exp": 300, "key_item": "third_heart" },
+      "special_event": { "name": "third_heart_trial", "description": "리리아나를 구하겠다는 의지 증명", "question": "어떤 대가를 치르더라도 그녀를 구할 것인가?" },
+      "emotional_scene": { "arion": "기다렸어? 오래... 기다렸어? 미안해. 늦어서.", "effect": "tears" },
+      "next_quest": "q_ch6_05"
+    },
+
+    {
+      "id": "q_ch6_05",
+      "chapter": 6,
+      "type": "MAIN",
+      "order": 5,
+      "title": "망각의 화신 - 최후의 선택",
+      "title_en": "Incarnation of Oblivion - Final Choice",
+      "description": "세 개의 심장이 공명하자, 거대한 공허가 나타났다. 망각의 화신. 세계의 '잊음' 그 자체. 마지막 싸움이 시작된다.",
+      "description_en": "As the Three Hearts resonate, a vast void appears. The Incarnation of Oblivion. The final battle begins.",
+      "objective": { "type": "KILL_BOSS_FINAL", "target": "boss_oblivion", "target_name": "망각의 화신", "count": 1 },
+      "rewards": { "gold": 2000, "exp": 1200, "item": "arcana_oblivion", "ending_unlock": true },
+      "boss_phases": 4,
+      "boss_mechanics": {
+        "phase_1": { "name": "과거의 망각", "hp_range": "100%-70%", "attack": "기억 디버프", "dialogue": "과거를 잊어라.", "counter": "첫 번째 심장" },
+        "phase_2": { "name": "현재의 망각", "hp_range": "70%-40%", "attack": "존재 희석", "dialogue": "현재를 잊어라.", "counter": "두 번째 심장" },
+        "phase_3": { "name": "미래의 망각", "hp_range": "40%-10%", "attack": "스킬 봉인", "dialogue": "미래를 잊어라.", "counter": "세 번째 심장 각성" },
+        "phase_4": { "name": "최후의 거래", "hp_range": "10%-0%", "type": "story_event", "dialogue": "인정한다. 네 의지를.", "ending_branch": true }
+      },
+      "ending_system": {
+        "normal_ending": { "condition": "기본 진행", "choice": "아리온이 대가가 됨", "result": "리리아나 구출, 아리온은 잊혀짐", "title": "잊혀진 영웅" },
+        "true_ending": { "condition": "약속의 반지 + 최초의 기억 결정 소지", "choice": "윤회의 인연을 대가로 바침", "result": "둘 다 생존, 다음 생에서 못 만남", "title": "이번 생의 사랑" }
+      },
+      "final_dialogue": {
+        "normal": { "arion": "사랑해. 영원히. 네가 날 잊어도... 난 널 기억할 테니까.", "epilogue": "리리아나는 새 삶을 살았다. 가끔 '누군가'를 그리워하며..." },
+        "true": { "liliana": "이번 생만으로 충분해.", "arion": "그래. 이번 생을 영원처럼 살자.", "epilogue": "두 사람은 함께 걸었다. 다음 생은 없지만, 지금이 있으니까." }
+      }
+    },
+
+    {
+      "id": "q_side_ch6",
+      "chapter": 6,
+      "type": "SIDE",
+      "order": 0,
+      "title": "잊혀진 현자의 부탁",
+      "title_en": "The Forgotten Sage's Request",
+      "description": "옥좌 전실에서 만난 현자. 그는 자신의 이름을 기억해달라고 한다.",
+      "description_en": "The sage met in the antechamber. They ask you to remember their name.",
+      "objective": { "type": "INTERACT", "target": "npc_sage", "target_name": "현자와 대화 완료", "dialogue_count": 10 },
+      "rewards": { "gold": 600, "exp": 400, "item": "sages_wisdom", "lore_unlock": "lore_oblivion_origin" },
+      "emotional_dialogue": "나도 한때는... 누군가를 사랑했겠지. 기억나지 않지만... 그 감정만은 남아있어.",
+      "hint": "현자의 모든 대화를 들으면 트루 엔딩 힌트를 얻습니다."
+    }
+  ],
+
+  "quest_types": {
+    "TUTORIAL_MOVE": "이동 튜토리얼",
+    "KILL": "일반 몬스터 처치",
+    "KILL_BOSS": "보스 처치",
+    "KILL_ELITE": "중간 보스(엘리트) 처치",
+    "KILL_BOSS_SPECIAL": "특수 조건 보스 (죽이면 안 됨)",
+    "KILL_BOSS_FINAL": "최종 보스 + 엔딩 분기",
+    "GATHER": "아이템 수집",
+    "INTERACT": "오브젝트 상호작용",
+    "MEMORY_INTERACT": "기억 관련 상호작용",
+    "MEMORY_COLLECT": "기억 조각 수집",
+    "DESTROY": "오브젝트 파괴",
+    "DESTROY_OBJECT": "특정 오브젝트 파괴",
+    "SURVIVE": "제한 시간 생존",
+    "SURVIVE_WAVES": "웨이브 생존",
+    "NAVIGATE": "특정 지점 도달",
+    "ESCORT": "NPC 호위",
+    "DELIVER": "아이템 배달",
+    "STORY_CHOICE": "스토리 선택지",
+    "SECRET_SEQUENCE": "히든 시퀀스"
+  },
+
+  "difficulty_scaling": {
+    "chapter_1": { "enemy_hp_multiplier": 1.0, "enemy_damage_multiplier": 1.0, "reward_multiplier": 1.0 },
+    "chapter_2": { "enemy_hp_multiplier": 1.5, "enemy_damage_multiplier": 1.3, "reward_multiplier": 1.5 },
+    "chapter_3": { "enemy_hp_multiplier": 2.0, "enemy_damage_multiplier": 1.6, "reward_multiplier": 2.0 },
+    "chapter_4": { "enemy_hp_multiplier": 2.5, "enemy_damage_multiplier": 1.8, "reward_multiplier": 2.5 },
+    "chapter_5": { "enemy_hp_multiplier": 3.0, "enemy_damage_multiplier": 2.0, "reward_multiplier": 3.0 },
+    "chapter_6": { "enemy_hp_multiplier": 4.0, "enemy_damage_multiplier": 2.5, "reward_multiplier": 4.0 }
+  },
+
+  "chapter_summary": {
+    "chapter_1": { "name": "잊혀진 숲", "name_en": "The Forgotten Forest", "main_quests": 5, "side_quests": 1, "boss": "이그드라", "theme": "튜토리얼 & 자연" },
+    "chapter_2": { "name": "심연의 동굴", "name_en": "Abyssal Cave", "main_quests": 5, "side_quests": 1, "boss": "오닉스", "theme": "어둠 & 미로" },
+    "chapter_3": { "name": "붉은 요새", "name_en": "Crimson Fortress", "main_quests": 5, "side_quests": 1, "boss": "카이저", "theme": "전쟁 & 보스 러시" },
+    "chapter_4": { "name": "피의 정원", "name_en": "Garden of Blood", "main_quests": 5, "side_quests": 1, "boss": "리리아나의 환영", "theme": "기억 & 사랑 & 용서" },
+    "chapter_5": { "name": "기억의 심연", "name_en": "Abyss of Memory", "main_quests": 5, "side_quests": 1, "boss": "그림자 자아", "theme": "자아 & 선택 & 수용" },
+    "chapter_6": { "name": "망각의 옥좌", "name_en": "Throne of Oblivion", "main_quests": 5, "side_quests": 1, "boss": "망각의 화신", "theme": "구원 & 희생 & 선택" }
+  },
+
+  "ending_requirements": {
+    "normal_ending": { "condition": "Chapter 6 클리어", "items_required": [], "result": "잊혀진 영웅" },
+    "true_ending": { "condition": "Chapter 6 클리어 + 히든 아이템", "items_required": ["promise_ring", "first_memory_crystal"], "result": "이번 생의 사랑" }
+  },
+
+  "statistics": {
+    "total_main_quests": 30,
+    "total_side_quests": 6,
+    "total_bosses": 6,
+    "total_elite_enemies": 4,
+    "hidden_items_for_true_ending": 2
+  }
+}

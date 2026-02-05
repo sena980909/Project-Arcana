@@ -1,0 +1,1000 @@
+{
+  "chapter": "ch5_abyss_of_memory",
+  "title": "기억의 심연",
+  "title_en": "The Abyss of Memory",
+
+  "scenes": {
+    "entrance": {
+      "id": "ch5_scene_001",
+      "location": "심연의 입구",
+      "background": "bg_abyss_entrance",
+      "bgm": "bgm_abyss_ambient",
+
+      "trigger": "chapter_start",
+      "required_item": "lilianas_hairpin",
+
+      "dialogues": [
+        {
+          "id": "ch5_001_001",
+          "speaker": "system",
+          "mood": "mysterious",
+          "text": "리리아나의 머리핀이 희미하게 빛난다.",
+          "text_en": "Liliana's hairpin glows faintly."
+        },
+        {
+          "id": "ch5_001_002",
+          "speaker": "protagonist",
+          "mood": "determined",
+          "text": "여기야... 기억의 심연.",
+          "text_en": "This is it... The Abyss of Memory."
+        },
+        {
+          "id": "ch5_001_003",
+          "speaker": "???",
+          "mood": "guiding",
+          "text": "잘 왔어. 드디어.",
+          "text_en": "You've come. Finally."
+        },
+        {
+          "id": "ch5_001_004",
+          "speaker": "protagonist",
+          "mood": "questioning",
+          "text": "넌 누구야? 계속 날 인도했던 목소리...",
+          "text_en": "Who are you? The voice that's been guiding me..."
+        },
+        {
+          "id": "ch5_001_005",
+          "speaker": "???",
+          "mood": "cryptic",
+          "text": "곧 알게 돼. 심연의 끝에서.",
+          "text_en": "You'll know soon. At the end of the abyss."
+        },
+        {
+          "id": "ch5_001_006",
+          "speaker": "???",
+          "mood": "serious",
+          "text": "하지만 먼저... 네 자신을 마주해야 해.",
+          "text_en": "But first... you must face yourself."
+        }
+      ]
+    },
+
+    "corridor_of_memory": {
+      "id": "ch5_scene_002",
+      "location": "기억의 회랑",
+      "background": "bg_abyss_corridor",
+      "bgm": "bgm_abyss_memory",
+
+      "trigger": "enter_corridor",
+
+      "environment_memories": [
+        {
+          "id": "mem_001",
+          "type": "childhood",
+          "visual": "어린 아이가 비를 맞으며 울고 있다",
+          "text": "부모님은... 없었다. 처음부터.",
+          "text_en": "Parents... I never had them. From the start."
+        },
+        {
+          "id": "mem_002",
+          "type": "training",
+          "visual": "목검을 휘두르는 소년",
+          "text": "강해져야 했다. 누군가를 지키기 위해.",
+          "text_en": "I had to become strong. To protect someone."
+        },
+        {
+          "id": "mem_003",
+          "type": "first_meeting",
+          "visual": "장미 정원에서 우는 소녀",
+          "text": "\"왜 울어요?\" \"곧 죽을 거라서요.\"",
+          "text_en": "\"Why are you crying?\" \"Because I'm going to die soon.\""
+        },
+        {
+          "id": "mem_004",
+          "type": "oath",
+          "visual": "무릎 꿇고 맹세하는 청년",
+          "text": "\"당신을 지키겠습니다. 무슨 일이 있어도.\"",
+          "text_en": "\"I will protect you. No matter what.\""
+        },
+        {
+          "id": "mem_005",
+          "type": "happy_days",
+          "visual": "정원에서 춤추는 두 사람",
+          "text": "행복했다. 짧았지만... 영원처럼 느껴졌다.",
+          "text_en": "We were happy. Brief... but it felt like eternity."
+        },
+        {
+          "id": "mem_006",
+          "type": "curse_revealed",
+          "visual": "고서를 읽는 두 사람, 절망하는 표정",
+          "text": "\"22번째 생일에... 세계가 끝나.\"",
+          "text_en": "\"On my 22nd birthday... the world will end.\""
+        },
+        {
+          "id": "mem_007",
+          "type": "request",
+          "visual": "리리아나가 검을 건네는 장면",
+          "text": "\"날 죽여줘. 제발. 그게 유일한 방법이야.\"",
+          "text_en": "\"Kill me. Please. It's the only way.\""
+        },
+        {
+          "id": "mem_008",
+          "type": "that_day",
+          "visual": "검을 드는 손, 피",
+          "text": "\"...미안해.\"",
+          "text_en": "\"...I'm sorry.\""
+        }
+      ],
+
+      "hearts_variant": {
+        "hearts_2": {
+          "extra_memory": {
+            "id": "mem_secret_001",
+            "type": "parents_death",
+            "visual": "불타는 집, 아이의 비명",
+            "text": "부모님은... 날 지키려다 죽었다. 그것도 내 탓이야.",
+            "text_en": "My parents... died protecting me. That was my fault too."
+          }
+        }
+      }
+    },
+
+    "mirror_room": {
+      "id": "ch5_scene_003",
+      "location": "거울의 방",
+      "background": "bg_abyss_mirror",
+      "bgm": "bgm_abyss_memory",
+
+      "trigger": "enter_first_door",
+
+      "dialogues": [
+        {
+          "id": "ch5_003_001",
+          "speaker": "system",
+          "mood": "eerie",
+          "text": "사방이 거울이다. 무수한 자신의 모습이 보인다.",
+          "text_en": "Mirrors everywhere. Countless reflections of yourself."
+        },
+        {
+          "id": "ch5_003_002",
+          "speaker": "past_self",
+          "mood": "warm",
+          "text": "오랜만이야... 아니, 처음 보는 건가?",
+          "text_en": "It's been a while... or is this our first meeting?"
+        },
+        {
+          "id": "ch5_003_003",
+          "speaker": "protagonist",
+          "mood": "confused",
+          "text": "...나야? 하지만 달라. 눈이...",
+          "text_en": "...Me? But different. Your eyes..."
+        },
+        {
+          "id": "ch5_003_004",
+          "speaker": "past_self",
+          "mood": "nostalgic",
+          "text": "아직 빛이 있지? 난 네가 기억하지 못하는 '나'야.",
+          "text_en": "Still have light in them, right? I'm the 'you' that you don't remember."
+        },
+        {
+          "id": "ch5_003_005",
+          "speaker": "past_self",
+          "mood": "gentle",
+          "text": "아리온. 그게 우리 이름이야. 기억나?",
+          "text_en": "Arion. That's our name. Do you remember?",
+          "effect": "name_reveal"
+        },
+        {
+          "id": "ch5_003_006",
+          "speaker": "protagonist",
+          "mood": "shocked",
+          "text": "아리온... 그래, 그랬어. 내 이름은...",
+          "text_en": "Arion... Yes, that's right. My name is..."
+        },
+        {
+          "id": "ch5_003_007",
+          "speaker": "past_self",
+          "mood": "bittersweet",
+          "text": "리리아나가 지어준 이름이야. '빛나는 자'라는 뜻이래.",
+          "text_en": "Liliana gave you that name. It means 'the radiant one.'"
+        },
+        {
+          "id": "ch5_003_008",
+          "speaker": "past_self",
+          "mood": "sad",
+          "text": "웃기지? 빛나는 자가 어둠 속에서 헤매고 있으니.",
+          "text_en": "Ironic, isn't it? The radiant one, wandering in darkness."
+        },
+        {
+          "id": "ch5_003_009",
+          "speaker": "past_self",
+          "mood": "hopeful",
+          "text": "하지만 괜찮아. 넌 다시 빛날 수 있어.",
+          "text_en": "But it's okay. You can shine again."
+        },
+        {
+          "id": "ch5_003_010",
+          "speaker": "past_self",
+          "mood": "fading",
+          "text": "그녀를 구하면.",
+          "text_en": "When you save her."
+        }
+      ]
+    },
+
+    "choice_room": {
+      "id": "ch5_scene_004",
+      "location": "선택의 방",
+      "background": "bg_abyss_choice",
+      "bgm": null,
+      "bgm_note": "이 장면은 완전한 정적",
+
+      "trigger": "enter_second_door",
+
+      "sequence": [
+        {
+          "id": "ch5_004_001",
+          "type": "narration",
+          "text": "그날의 기억이 재현된다.",
+          "text_en": "The memory of that day is recreated."
+        },
+        {
+          "id": "ch5_004_002",
+          "type": "scene",
+          "visual": "정원, 달빛, 리리아나가 서있다",
+          "text": "달빛 아래 정원. 리리아나가 검을 건네고 있다.",
+          "text_en": "The garden under moonlight. Liliana offers a sword."
+        },
+        {
+          "id": "ch5_004_003",
+          "speaker": "memory_liliana",
+          "mood": "pleading",
+          "text": "제발... 아리온. 시간이 없어.",
+          "text_en": "Please... Arion. There's no time."
+        },
+        {
+          "id": "ch5_004_004",
+          "speaker": "memory_liliana",
+          "mood": "desperate",
+          "text": "저주가 깨어나고 있어. 내가... 내가 아닌 것이 되어가고 있어.",
+          "text_en": "The curse is awakening. I'm... becoming something that isn't me."
+        },
+        {
+          "id": "ch5_004_005",
+          "speaker": "memory_arion",
+          "mood": "anguished",
+          "text": "다른 방법이 있을 거야. 분명히...",
+          "text_en": "There must be another way. There has to be..."
+        },
+        {
+          "id": "ch5_004_006",
+          "speaker": "memory_liliana",
+          "mood": "accepting",
+          "text": "없어. 수천 년 동안 찾았지만... 없었어.",
+          "text_en": "There isn't. They searched for thousands of years... There was nothing."
+        },
+        {
+          "id": "ch5_004_007",
+          "speaker": "memory_liliana",
+          "mood": "tearful",
+          "text": "나로 죽게 해줘. 괴물이 아니라... 리리아나로.",
+          "text_en": "Let me die as myself. Not as a monster... but as Liliana."
+        }
+      ],
+
+      "choice_event": {
+        "prompt": "검을 들 것인가?",
+        "prompt_en": "Will you raise the sword?",
+        "options": [
+          {
+            "id": "choice_raise",
+            "text": "[검을 든다]",
+            "text_en": "[Raise the sword]",
+            "leads_to": "inevitable_result"
+          },
+          {
+            "id": "choice_refuse",
+            "text": "[검을 들지 않는다]",
+            "text_en": "[Refuse to raise the sword]",
+            "leads_to": "inevitable_result"
+          }
+        ]
+      },
+
+      "inevitable_result": {
+        "id": "ch5_004_inevitable",
+        "note": "어느 쪽을 선택해도 같은 결과",
+
+        "if_refuse": [
+          {
+            "id": "ch5_004_r01",
+            "speaker": "memory_arion",
+            "mood": "refusing",
+            "text": "안 돼. 난 못해.",
+            "text_en": "No. I can't do it."
+          },
+          {
+            "id": "ch5_004_r02",
+            "speaker": "memory_liliana",
+            "mood": "pained",
+            "text": "아리온... 봐.",
+            "text_en": "Arion... Look."
+          },
+          {
+            "id": "ch5_004_r03",
+            "type": "scene",
+            "visual": "리리아나의 눈이 검게 물들기 시작",
+            "text": "리리아나의 눈이 검게 물들고 있다. 저주가 깨어나고 있다.",
+            "text_en": "Liliana's eyes are turning black. The curse is awakening."
+          },
+          {
+            "id": "ch5_004_r04",
+            "speaker": "memory_liliana",
+            "mood": "desperate",
+            "text": "지금이야... 제발... 나를 기억해줘...",
+            "text_en": "It's now... Please... Remember me..."
+          }
+        ],
+
+        "final_sequence": [
+          {
+            "id": "ch5_004_f01",
+            "type": "slow_motion",
+            "visual": "검을 드는 손",
+            "text": "...결국, 검을 들었다.",
+            "text_en": "...In the end, you raised the sword."
+          },
+          {
+            "id": "ch5_004_f02",
+            "speaker": "memory_liliana",
+            "mood": "smiling",
+            "text": "고마워... 사랑해...",
+            "text_en": "Thank you... I love you..."
+          },
+          {
+            "id": "ch5_004_f03",
+            "type": "blackout",
+            "sound": "sword_strike",
+            "text": "...",
+            "text_en": "..."
+          },
+          {
+            "id": "ch5_004_f04",
+            "type": "sound_only",
+            "sound": "arion_scream",
+            "text": "[비명]",
+            "text_en": "[Scream]"
+          },
+          {
+            "id": "ch5_004_f05",
+            "speaker": "protagonist",
+            "mood": "broken",
+            "text": "...선택의 여지가 없었어.",
+            "text_en": "...There was no choice."
+          },
+          {
+            "id": "ch5_004_f06",
+            "speaker": "protagonist",
+            "mood": "realizing",
+            "text": "어떤 결정을 해도... 결국 같은 결말이었어.",
+            "text_en": "No matter what I decided... the ending was the same."
+          }
+        ]
+      }
+    },
+
+    "truth_room": {
+      "id": "ch5_scene_005",
+      "location": "진실의 방",
+      "background": "bg_abyss_truth",
+      "bgm": "bgm_abyss_truth",
+
+      "trigger": "enter_third_door",
+
+      "dialogues": [
+        {
+          "id": "ch5_005_001",
+          "speaker": "system",
+          "mood": "bright",
+          "text": "하얀 빛으로 가득한 공간. 중앙에 후드를 쓴 인물이 서있다.",
+          "text_en": "A space filled with white light. A hooded figure stands in the center."
+        },
+        {
+          "id": "ch5_005_002",
+          "speaker": "???",
+          "mood": "solemn",
+          "text": "...드디어 여기까지 왔구나.",
+          "text_en": "...You've finally made it here."
+        },
+        {
+          "id": "ch5_005_003",
+          "speaker": "protagonist",
+          "mood": "demanding",
+          "text": "이제 말해. 넌 대체 누구야?",
+          "text_en": "Tell me now. Who are you?"
+        },
+        {
+          "id": "ch5_005_004",
+          "speaker": "???",
+          "mood": "resigned",
+          "text": "...그래. 더 이상 숨길 필요도 없지.",
+          "text_en": "...Alright. There's no need to hide anymore."
+        },
+        {
+          "id": "ch5_005_005",
+          "type": "animation",
+          "visual": "후드를 벗는다",
+          "text": "[후드를 벗는다]",
+          "text_en": "[Removes the hood]",
+          "effect": "mystery_reveal"
+        },
+        {
+          "id": "ch5_005_006",
+          "speaker": "system",
+          "mood": "shocking",
+          "text": "...주인공과 같은 얼굴. 하지만 더 지치고, 더 늙은.",
+          "text_en": "...The same face as the protagonist. But more weary, more aged."
+        },
+        {
+          "id": "ch5_005_007",
+          "speaker": "future_self",
+          "mood": "bitter",
+          "text": "난 '아리온'이야. 네가 될 뻔한.",
+          "text_en": "I'm 'Arion'. The one you almost became."
+        },
+        {
+          "id": "ch5_005_008",
+          "speaker": "future_self",
+          "mood": "explaining",
+          "text": "다른 시간선에서 온 나. 리리아나를 구하지 못한 나.",
+          "text_en": "Me from another timeline. The me who failed to save Liliana."
+        },
+        {
+          "id": "ch5_005_009",
+          "speaker": "protagonist",
+          "mood": "disbelief",
+          "text": "다른 시간선...? 그런 게 가능해?",
+          "text_en": "Another timeline...? Is that even possible?"
+        },
+        {
+          "id": "ch5_005_010",
+          "speaker": "future_self",
+          "mood": "sad",
+          "text": "세 개의 심장. 그게 가능하게 했어.",
+          "text_en": "The Three Hearts. They made it possible."
+        },
+        {
+          "id": "ch5_005_011",
+          "speaker": "future_self",
+          "mood": "serious",
+          "text": "세 개의 심장을 모으지 못했어. 그래서 실패했지.",
+          "text_en": "I couldn't gather the Three Hearts. That's why I failed."
+        },
+        {
+          "id": "ch5_005_012",
+          "speaker": "future_self",
+          "mood": "determined",
+          "text": "내가 여기서 널 인도한 건... 같은 실수를 막기 위해서야.",
+          "text_en": "I've been guiding you here... to prevent the same mistake."
+        }
+      ],
+
+      "three_hearts_explanation": [
+        {
+          "id": "ch5_005_h01",
+          "speaker": "future_self",
+          "mood": "teaching",
+          "text": "세 개의 심장. 그 의미를 알려줄게.",
+          "text_en": "The Three Hearts. Let me tell you their meaning."
+        },
+        {
+          "id": "ch5_005_h02",
+          "speaker": "future_self",
+          "mood": "explaining",
+          "text": "첫 번째 심장 - 과거의 심장. 리리아나와의 기억이 담긴 심장.",
+          "text_en": "The First Heart - Heart of the Past. The heart containing memories with Liliana."
+        },
+        {
+          "id": "ch5_005_h03",
+          "speaker": "future_self",
+          "mood": "confirming",
+          "text": "넌 이미 가지고 있어. 피의 정원에서 기억을 되찾았으니까.",
+          "text_en": "You already have it. You recovered your memories in the Garden of Blood."
+        },
+        {
+          "id": "ch5_005_h04",
+          "speaker": "future_self",
+          "mood": "explaining",
+          "text": "두 번째 심장 - 현재의 심장. 네 자신을 받아들이는 심장.",
+          "text_en": "The Second Heart - Heart of the Present. The heart of accepting yourself."
+        },
+        {
+          "id": "ch5_005_h05",
+          "speaker": "future_self",
+          "mood": "warning",
+          "text": "살인자인 자신을 부정하면 안 돼. 그것도 '너'니까.",
+          "text_en": "You cannot deny the murderer within. Because that is also 'you'."
+        },
+        {
+          "id": "ch5_005_h06",
+          "speaker": "future_self",
+          "mood": "explaining",
+          "text": "세 번째 심장 - 미래의 심장. 리리아나를 구하겠다는 의지.",
+          "text_en": "The Third Heart - Heart of the Future. The will to save Liliana."
+        },
+        {
+          "id": "ch5_005_h07",
+          "speaker": "future_self",
+          "mood": "serious",
+          "text": "망각의 옥좌에서 증명해야 해. 어떤 대가를 치르더라도.",
+          "text_en": "You must prove it at the Throne of Oblivion. No matter the cost."
+        }
+      ],
+
+      "salvation_method": [
+        {
+          "id": "ch5_005_s01",
+          "speaker": "protagonist",
+          "mood": "urgent",
+          "text": "리리아나는... 어디 있어?",
+          "text_en": "Where is Liliana...?"
+        },
+        {
+          "id": "ch5_005_s02",
+          "speaker": "future_self",
+          "mood": "solemn",
+          "text": "망각의 옥좌. 세계의 끝에 있는 곳.",
+          "text_en": "The Throne of Oblivion. At the end of the world."
+        },
+        {
+          "id": "ch5_005_s03",
+          "speaker": "future_self",
+          "mood": "explaining",
+          "text": "세계가 그녀를 '잊음'으로써 봉인한 곳이야.",
+          "text_en": "The place where the world sealed her by 'forgetting' her."
+        },
+        {
+          "id": "ch5_005_s04",
+          "speaker": "future_self",
+          "mood": "hopeful",
+          "text": "세 개의 심장으로 봉인을 풀 수 있어.",
+          "text_en": "The Three Hearts can break the seal."
+        },
+        {
+          "id": "ch5_005_s05",
+          "speaker": "future_self",
+          "mood": "grave",
+          "text": "하지만 대가가 있어.",
+          "text_en": "But there's a price."
+        },
+        {
+          "id": "ch5_005_s06",
+          "speaker": "future_self",
+          "mood": "pained",
+          "text": "세계가 무언가를 잊어야 해. 그녀 대신.",
+          "text_en": "The world must forget something. In her place."
+        },
+        {
+          "id": "ch5_005_s07",
+          "speaker": "future_self",
+          "mood": "bitter",
+          "text": "...난 나 자신을 대가로 바쳤지만, 부족했어.",
+          "text_en": "...I offered myself as the price, but it wasn't enough."
+        },
+        {
+          "id": "ch5_005_s08",
+          "speaker": "future_self",
+          "mood": "pleading",
+          "text": "넌 더 나은 방법을 찾아. 반드시.",
+          "text_en": "You must find a better way. You must."
+        }
+      ]
+    },
+
+    "boss_encounter": {
+      "id": "ch5_scene_006",
+      "location": "심연의 핵심",
+      "background": "bg_abyss_core",
+      "bgm": null,
+      "bgm_note": "정적 후 보스전 BGM",
+
+      "trigger": "exit_truth_room",
+
+      "dialogues": [
+        {
+          "id": "ch5_006_001",
+          "speaker": "system",
+          "mood": "ominous",
+          "text": "완전한 어둠. 그 속에서 무언가가 다가온다.",
+          "text_en": "Complete darkness. Something approaches from within."
+        },
+        {
+          "id": "ch5_006_002",
+          "speaker": "system",
+          "mood": "shocking",
+          "text": "...자신의 모습. 하지만 온몸이 검은 안개로 이루어져 있다.",
+          "text_en": "...Your own form. But made entirely of black mist."
+        },
+        {
+          "id": "ch5_006_003",
+          "speaker": "shadow_self",
+          "mood": "mocking",
+          "text": "또 왔어. 또 도망치려고?",
+          "text_en": "You're here again. Trying to run again?"
+        },
+        {
+          "id": "ch5_006_004",
+          "speaker": "protagonist",
+          "mood": "wary",
+          "text": "...넌 뭐야?",
+          "text_en": "...What are you?"
+        },
+        {
+          "id": "ch5_006_005",
+          "speaker": "shadow_self",
+          "mood": "bitter",
+          "text": "난 네가 인정하지 않는 너야.",
+          "text_en": "I'm the you that you refuse to acknowledge."
+        },
+        {
+          "id": "ch5_006_006",
+          "speaker": "shadow_self",
+          "mood": "accusing",
+          "text": "살인자. 배신자. 겁쟁이.",
+          "text_en": "Murderer. Traitor. Coward."
+        },
+        {
+          "id": "ch5_006_007",
+          "speaker": "shadow_self",
+          "mood": "cruel",
+          "text": "리리아나를 죽인 손. 그게 바로 너야.",
+          "text_en": "The hands that killed Liliana. That's you."
+        },
+        {
+          "id": "ch5_006_008",
+          "speaker": "protagonist",
+          "mood": "defensive",
+          "text": "그건... 어쩔 수 없었어!",
+          "text_en": "That was... I had no choice!"
+        },
+        {
+          "id": "ch5_006_009",
+          "speaker": "shadow_self",
+          "mood": "laughing",
+          "text": "하하... 아직도 그런 말을 해?",
+          "text_en": "Haha... Still saying that?"
+        },
+        {
+          "id": "ch5_006_010",
+          "speaker": "shadow_self",
+          "mood": "threatening",
+          "text": "그럼 증명해봐. 네가 '영웅'이라는 걸.",
+          "text_en": "Then prove it. That you're a 'hero'."
+        }
+      ]
+    },
+
+    "boss_battle": {
+      "id": "ch5_scene_007",
+      "location": "심연의 핵심",
+      "background": "bg_abyss_core",
+
+      "boss": {
+        "name": "그림자 자아",
+        "name_en": "Shadow Self",
+        "type": "mirror_boss"
+      },
+
+      "phase_1": {
+        "hp_range": "100%~60%",
+        "theme": "부정",
+        "bgm": "bgm_abyss_boss_p1",
+        "mechanic": "플레이어 공격을 0.5초 후 복사",
+
+        "battle_dialogues": [
+          {
+            "trigger": "phase_start",
+            "speaker": "shadow_self",
+            "text": "넌 내가 아니라고? 웃기지 마.",
+            "text_en": "You say I'm not you? Don't make me laugh."
+          },
+          {
+            "trigger": "50%_hp",
+            "speaker": "shadow_self",
+            "text": "네가 강할수록 나도 강해. 우린 하나니까.",
+            "text_en": "The stronger you are, the stronger I am. Because we are one."
+          }
+        ]
+      },
+
+      "phase_2": {
+        "hp_range": "60%~30%",
+        "theme": "분노",
+        "bgm": "bgm_abyss_boss_p2",
+        "mechanic": "플레이어가 쓸 수 없는 어둠 기술",
+
+        "battle_dialogues": [
+          {
+            "trigger": "phase_start",
+            "speaker": "shadow_self",
+            "text": "인정해! 넌 그녀를 죽이고 '싶었어'!",
+            "text_en": "Admit it! You WANTED to kill her!"
+          },
+          {
+            "trigger": "40%_hp",
+            "speaker": "shadow_self",
+            "text": "저주 때문이 아니야. 네가 약해서 죽인 거야!",
+            "text_en": "It wasn't because of the curse. You killed her because you were weak!"
+          },
+          {
+            "trigger": "35%_hp",
+            "speaker": "shadow_self",
+            "text": "구한다고? 웃기지 마. 또 죽일 거잖아.",
+            "text_en": "Save her? Don't make me laugh. You'll just kill her again."
+          }
+        ],
+
+        "hearts_variant": {
+          "hearts_1": {
+            "enhanced": true,
+            "extra_dialogue": {
+              "speaker": "shadow_self",
+              "text": "봐. 인간성마저 잃어가고 있잖아. 넌 이미 괴물이야.",
+              "text_en": "Look. You're even losing your humanity. You're already a monster."
+            }
+          }
+        }
+      },
+
+      "phase_3": {
+        "hp_range": "30%~0%",
+        "theme": "수용",
+        "bgm": "bgm_abyss_boss_p3",
+        "mechanic": "공격이 점점 약해짐. 접근 시 통합",
+
+        "battle_dialogues": [
+          {
+            "trigger": "phase_start",
+            "speaker": "shadow_self",
+            "mood": "weakening",
+            "text": "...왜 계속 싸워?",
+            "text_en": "...Why do you keep fighting?"
+          },
+          {
+            "trigger": "20%_hp",
+            "speaker": "shadow_self",
+            "mood": "vulnerable",
+            "text": "날 죽여봤자 넌 완전해지지 않아.",
+            "text_en": "Even if you kill me, you won't be complete."
+          },
+          {
+            "trigger": "10%_hp",
+            "speaker": "shadow_self",
+            "mood": "pleading",
+            "text": "난... 네 일부야. 네 슬픔. 네 죄책감.",
+            "text_en": "I'm... part of you. Your sorrow. Your guilt."
+          },
+          {
+            "trigger": "5%_hp",
+            "speaker": "shadow_self",
+            "mood": "accepting",
+            "text": "날 죽이지 마. 받아들여.",
+            "text_en": "Don't kill me. Accept me."
+          },
+          {
+            "trigger": "1%_hp",
+            "speaker": "shadow_self",
+            "mood": "final",
+            "text": "...그래야 진짜 리리아나를 구할 수 있어.",
+            "text_en": "...Only then can you truly save Liliana."
+          }
+        ],
+
+        "special_mechanic": {
+          "condition": "hp_at_1%",
+          "options": [
+            {
+              "action": "attack",
+              "result": "loop_back_to_5%",
+              "dialogue": {
+                "speaker": "shadow_self",
+                "text": "...날 받아들여. 제발.",
+                "text_en": "...Accept me. Please."
+              }
+            },
+            {
+              "action": "approach",
+              "result": "trigger_integration",
+              "note": "플레이어가 공격을 멈추고 다가가면 통합 컷씬"
+            }
+          ]
+        }
+      }
+    },
+
+    "integration": {
+      "id": "ch5_scene_008",
+      "location": "심연의 핵심",
+      "background": "bg_abyss_core",
+      "bgm": "bgm_abyss_integration",
+
+      "trigger": "approach_shadow_at_1hp",
+
+      "dialogues": [
+        {
+          "id": "ch5_008_001",
+          "speaker": "protagonist",
+          "mood": "accepting",
+          "text": "...알았어.",
+          "text_en": "...I understand."
+        },
+        {
+          "id": "ch5_008_002",
+          "speaker": "protagonist",
+          "mood": "honest",
+          "text": "넌 나야.",
+          "text_en": "You are me."
+        },
+        {
+          "id": "ch5_008_003",
+          "speaker": "protagonist",
+          "mood": "embracing",
+          "text": "살인자인 나. 겁쟁이인 나. 약한 나.",
+          "text_en": "The murderer me. The coward me. The weak me."
+        },
+        {
+          "id": "ch5_008_004",
+          "speaker": "protagonist",
+          "mood": "tearful",
+          "text": "하지만 그래도...",
+          "text_en": "But even so..."
+        },
+        {
+          "id": "ch5_008_005",
+          "speaker": "protagonist",
+          "mood": "loving",
+          "text": "리리아나를 사랑했던 나.",
+          "text_en": "The me who loved Liliana."
+        },
+        {
+          "id": "ch5_008_006",
+          "speaker": "shadow_self",
+          "mood": "relieved",
+          "text": "...그래. 그게 전부야. 그게 '우리'야.",
+          "text_en": "...Yes. That's everything. That's 'us'."
+        },
+        {
+          "id": "ch5_008_007",
+          "type": "animation",
+          "visual": "그림자가 주인공과 합쳐진다",
+          "text": "[그림자가 빛으로 변하며 주인공과 하나가 된다]",
+          "text_en": "[The shadow transforms into light and merges with the protagonist]",
+          "effect": "heart_restore"
+        },
+        {
+          "id": "ch5_008_008",
+          "speaker": "system",
+          "mood": "triumphant",
+          "text": "두 번째 심장 - 현재의 심장을 획득했다.",
+          "text_en": "You have obtained the Second Heart - Heart of the Present.",
+          "effect": "obtain_second_heart"
+        },
+        {
+          "id": "ch5_008_009",
+          "speaker": "protagonist",
+          "mood": "enlightened",
+          "text": "이제 알겠어. 세 개의 심장.",
+          "text_en": "Now I understand. The Three Hearts."
+        },
+        {
+          "id": "ch5_008_010",
+          "speaker": "protagonist",
+          "mood": "determined",
+          "text": "과거를 기억하는 심장. 현재를 받아들이는 심장.",
+          "text_en": "The heart that remembers the past. The heart that accepts the present."
+        },
+        {
+          "id": "ch5_008_011",
+          "speaker": "protagonist",
+          "mood": "resolute",
+          "text": "그리고... 미래를 선택하는 심장.",
+          "text_en": "And... the heart that chooses the future."
+        }
+      ]
+    },
+
+    "epilogue": {
+      "id": "ch5_scene_009",
+      "location": "심연의 핵심",
+      "background": "bg_abyss_core",
+      "bgm": "bgm_abyss_integration",
+
+      "trigger": "after_integration",
+
+      "dialogues": [
+        {
+          "id": "ch5_009_001",
+          "speaker": "future_self",
+          "mood": "proud",
+          "text": "...잘했어.",
+          "text_en": "...Well done."
+        },
+        {
+          "id": "ch5_009_002",
+          "speaker": "future_self",
+          "mood": "relieved",
+          "text": "난 그걸 하지 못했거든. 끝까지 나 자신을 부정했어.",
+          "text_en": "I couldn't do that. I denied myself until the end."
+        },
+        {
+          "id": "ch5_009_003",
+          "speaker": "protagonist",
+          "mood": "understanding",
+          "text": "...넌 이제 어떻게 돼?",
+          "text_en": "...What happens to you now?"
+        },
+        {
+          "id": "ch5_009_004",
+          "speaker": "future_self",
+          "mood": "peaceful",
+          "text": "사라지겠지. 네가 나와 다른 길을 갈 테니까.",
+          "text_en": "I'll disappear. Since you'll walk a different path from mine."
+        },
+        {
+          "id": "ch5_009_005",
+          "speaker": "future_self",
+          "mood": "hopeful",
+          "text": "이제 갈 수 있어. 망각의 옥좌로. 리리아나에게로.",
+          "text_en": "Now you can go. To the Throne of Oblivion. To Liliana."
+        },
+        {
+          "id": "ch5_009_006",
+          "speaker": "future_self",
+          "mood": "fading",
+          "text": "대가에 대해서... 더 나은 방법을 찾길 바라.",
+          "text_en": "About the price... I hope you find a better way."
+        },
+        {
+          "id": "ch5_009_007",
+          "type": "animation",
+          "visual": "미래의 자신이 빛으로 사라진다",
+          "text": "[미래의 아리온이 빛의 입자로 흩어진다]",
+          "text_en": "[The future Arion scatters into particles of light]"
+        },
+        {
+          "id": "ch5_009_008",
+          "speaker": "future_self",
+          "mood": "final_words",
+          "text": "...다음 생에서는, 그녀와 행복하길.",
+          "text_en": "...In the next life, may you be happy with her."
+        },
+        {
+          "id": "ch5_009_009",
+          "speaker": "protagonist",
+          "mood": "determined",
+          "text": "...",
+          "text_en": "..."
+        },
+        {
+          "id": "ch5_009_010",
+          "speaker": "protagonist",
+          "mood": "resolute",
+          "text": "가자. 이번엔 진짜로 구하러.",
+          "text_en": "Let's go. This time, to truly save her."
+        },
+        {
+          "id": "ch5_009_011",
+          "speaker": "system",
+          "mood": "chapter_end",
+          "text": "심연이 길을 연다. 그 끝에 망각의 옥좌가 기다린다.",
+          "text_en": "The abyss opens a path. The Throne of Oblivion awaits at its end."
+        }
+      ],
+
+      "chapter_end_text": {
+        "kr": "Chapter 5 - 기억의 심연 [완료]\n\n\"나는 아리온. 빛나는 자.\n살인자이자, 사랑하는 자.\n그리고... 구원자가 될 자.\"\n\nTo be continued in Chapter 6: 망각의 옥좌",
+        "en": "Chapter 5 - The Abyss of Memory [Complete]\n\n\"I am Arion. The Radiant One.\nA murderer, and one who loved.\nAnd... one who will become a savior.\"\n\nTo be continued in Chapter 6: The Throne of Oblivion"
+      }
+    }
+  }
+}

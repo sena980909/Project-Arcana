@@ -1,0 +1,1106 @@
+{
+  "chapter": {
+    "id": "ch3_silent_cathedral",
+    "title": "침묵의 성당",
+    "title_en": "The Silent Cathedral"
+  },
+
+  "chapter_intro": {
+    "type": "narration",
+    "trigger": "onChapterStart",
+    "background": "bg_cathedral_entrance",
+    "lines": [
+      {
+        "speaker": "Narrator",
+        "text": "안개 속에서 첨탑들이 모습을 드러낸다.",
+        "effect": "fog_clear"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "버려진 성당. 한때는 수천 명의 신자가 기도를 올렸을 곳."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "지금은... 오직 침묵만이 가득하다."
+      },
+      {
+        "speaker": "Player",
+        "text": "여기서 첫 번째 기억을 되찾을 수 있다고 했지.",
+        "mood": "determined"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "성당 문이 저절로 열린다. 마치 기다렸다는 듯이.",
+        "effect": "door_open_slow"
+      },
+      {
+        "speaker": "???",
+        "text": "어서 와, 길 잃은 양이여...",
+        "style": "distant_echo",
+        "sfx": "whisper_female_ethereal"
+      },
+      {
+        "speaker": "Player",
+        "text": "......",
+        "mood": "cautious",
+        "hearts_variant": {
+          "3": "(누구지. 조심해야겠어.)",
+          "2": "(또 목소리가... 환청인가?)",
+          "1": "(다 죽여버릴 거야. 누구든.)"
+        }
+      }
+    ]
+  },
+
+  "npc_voiceless_nun": {
+    "id": "npc_003",
+    "name": "말 없는 수녀",
+    "name_en": "The Voiceless Nun",
+    "portrait": "npc_voiceless_nun",
+    "location": "cathedral_nave",
+    "special_note": "모든 대화가 필담으로 진행됨",
+
+    "dialogues": {
+      "first_encounter": {
+        "trigger": "onFirstMeet",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "예배당 구석에 누군가 웅크리고 있다. 수녀복을 입은 여성."
+          },
+          {
+            "speaker": "Narrator",
+            "text": "그녀가 고개를 든다. 입술이... 실로 꿰매져 있다.",
+            "mood": "horror_reveal"
+          },
+          {
+            "speaker": "Player",
+            "text": "...!",
+            "mood": "shock"
+          },
+          {
+            "speaker": "Narrator",
+            "text": "수녀가 손짓으로 '괜찮다'고 표현한다. 그리고 낡은 종이와 펜을 꺼낸다."
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 놀라게 해서 미안해요.",
+            "mood": "apologetic",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 여기서 살아있는 사람을 본 건 오랜만이에요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Player",
+            "text": "당신은... 어떻게 된 거야?",
+            "mood": "concerned"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 진실을 말하려 했어요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 마더 실렌시아가... 변해가고 있다고.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그 벌이에요. 다시는 말하지 못하도록.",
+            "display": "handwritten",
+            "mood": "sad_acceptance"
+          }
+        ],
+        "choices": [
+          {
+            "text": "실렌시아가 누구지?",
+            "next": "about_silencia"
+          },
+          {
+            "text": "이 성당에 무슨 일이 있었어?",
+            "next": "about_cathedral"
+          },
+          {
+            "text": "고해실은 어디 있지?",
+            "next": "confessional_direction"
+          }
+        ]
+      },
+
+      "about_silencia": {
+        "sequence": [
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 마더 실렌시아... 우리의 성녀였어요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 병자를 고치고, 굶주린 자를 먹이고, 모두를 사랑했죠.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그런데 전염병이 왔어요. 수천 명이 죽어갔어요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 성녀님은 밤낮없이 기도했어요. 신에게 구원을 빌었죠.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Narrator",
+            "text": "수녀의 펜이 잠시 멈춘다. 손이 떨린다."
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 신은 대답하지 않았어요.",
+            "display": "handwritten",
+            "mood": "trembling"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그날 이후... 성녀님의 눈이 변했어요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] '내가 신이 되겠다'고 했어요.",
+            "display": "handwritten",
+            "mood": "fear"
+          }
+        ]
+      },
+
+      "about_cathedral": {
+        "sequence": [
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 이 성당은 저주받았어요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 성녀님이 '신'이 된 후, 이곳의 모든 것이 변했죠.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 소리가 사라졌어요. 점점.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 지금은 성소 근처에선 아무 소리도 들을 수 없어요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그리고... 이 성당은 죄를 찾아내요.",
+            "display": "handwritten",
+            "mood": "warning"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 고백하지 않은 죄를. 숨긴 진실을.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 조심하세요. 당신의 죄도 찾아낼 거예요.",
+            "display": "handwritten",
+            "mood": "ominous"
+          }
+        ]
+      },
+
+      "confessional_direction": {
+        "sequence": [
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 고해실은 예배당 오른쪽이에요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 하지만... 추천하지 않아요.",
+            "display": "handwritten",
+            "mood": "worried"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그곳에선 죽은 자들의 고백이 들려요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그리고 가끔... 자기 자신의 목소리도.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Player",
+            "text": "...내 목소리?",
+            "mood": "confused"
+          },
+          {
+            "speaker": "Narrator",
+            "text": "수녀가 천천히 고개를 끄덕인다."
+          }
+        ]
+      },
+
+      "farewell": {
+        "trigger": "onLeave",
+        "sequence": [
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 조심하세요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그리고... 성녀님을 너무 미워하지 마세요.",
+            "display": "handwritten"
+          },
+          {
+            "speaker": "Voiceless Nun",
+            "text": "[필담] 그분도... 피해자예요. 침묵의.",
+            "display": "handwritten",
+            "mood": "compassion"
+          }
+        ]
+      }
+    }
+  },
+
+  "environmental_story": {
+    "confessional_voices": {
+      "trigger": "onEnterConfessional",
+      "location": "confessional",
+      "type": "audio_sequence",
+      "intro": {
+        "speaker": "Narrator",
+        "text": "고해실에 들어서자, 속삭임이 들리기 시작한다. 죽은 자들의 고백.",
+        "effect": "whisper_ambient_start"
+      },
+      "confessions": [
+        {
+          "speaker": "Voice 1 (Male, Old)",
+          "text": "...용서해주세요. 아내에게 거짓말했습니다. 평생...",
+          "style": "ghostly_whisper"
+        },
+        {
+          "speaker": "Voice 2 (Female, Young)",
+          "text": "...저는... 동생을 질투했어요. 죽기를 바랐어요...",
+          "style": "ghostly_whisper"
+        },
+        {
+          "speaker": "Voice 3 (Male, Middle)",
+          "text": "...돈 때문에 친구를 배신했습니다. 그 후 그는...",
+          "style": "ghostly_whisper"
+        },
+        {
+          "speaker": "Voice 4 (Child)",
+          "text": "...엄마 말 안 들었어요. 그래서 엄마가 간 거예요...",
+          "style": "ghostly_whisper"
+        }
+      ],
+      "player_voice": {
+        "trigger": "afterConfessions",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "...그리고 또 다른 목소리가 들린다. 익숙한 목소리.",
+            "effect": "heartbeat"
+          },
+          {
+            "speaker": "??? (Player's Voice)",
+            "text": "...나는... 죽였습니다.",
+            "style": "player_echo",
+            "sfx": "voice_player_distorted"
+          },
+          {
+            "speaker": "Player",
+            "text": "...!",
+            "mood": "shock"
+          },
+          {
+            "speaker": "??? (Player's Voice)",
+            "text": "...사랑하는 사람을...",
+            "style": "player_echo"
+          },
+          {
+            "speaker": "Player",
+            "text": "(이 목소리... 나야?)",
+            "mood": "horror"
+          },
+          {
+            "speaker": "??? (Player's Voice)",
+            "text": "...지키려고 했는데...",
+            "style": "player_echo"
+          },
+          {
+            "speaker": "??? (Player's Voice)",
+            "text": "...결국 내 손으로...",
+            "style": "player_echo",
+            "effect": "voice_fade"
+          },
+          {
+            "speaker": "Player",
+            "text": "잠깐...! 뭘 죽였다는 거야...!",
+            "mood": "desperate"
+          },
+          {
+            "speaker": "Narrator",
+            "text": "목소리는 끊겼다. 하지만 가슴의 문양이 뜨겁게 달아오른다.",
+            "effect": "heart_burn"
+          },
+          {
+            "speaker": "Narrator",
+            "text": "'기억의 단편'을 획득했다.",
+            "item_get": "memory_fragment_1"
+          }
+        ]
+      }
+    },
+
+    "catacombs_hallucination": {
+      "trigger": "onPlayerHeartsBelow3",
+      "location": "catacombs",
+      "type": "hallucination",
+      "sequence": [
+        {
+          "speaker": "???",
+          "text": "고백해라...",
+          "style": "choir_whisper"
+        },
+        {
+          "speaker": "???",
+          "text": "네 죄를 말해라...",
+          "style": "choir_whisper"
+        },
+        {
+          "speaker": "???",
+          "text": "숨길 수 없다... 여기선...",
+          "style": "choir_whisper"
+        },
+        {
+          "speaker": "Player",
+          "text": "(머리가... 울린다...)",
+          "mood": "pain",
+          "hearts_variant": {
+            "2": "(고백? 내가 뭘 고백해...)",
+            "1": "(닥쳐!! 난 아무 죄도 없어!!)"
+          }
+        }
+      ]
+    },
+
+    "catacombs_1heart_special": {
+      "trigger": "onPlayerHeartsEqual1",
+      "location": "catacombs",
+      "type": "hallucination_intense",
+      "sequence": [
+        {
+          "speaker": "Narrator",
+          "text": "갑자기 시야가 붉게 물든다.",
+          "effect": "screen_red"
+        },
+        {
+          "speaker": "???",
+          "text": "살인자...",
+          "style": "accusation"
+        },
+        {
+          "speaker": "???",
+          "text": "살인자...",
+          "style": "accusation"
+        },
+        {
+          "speaker": "???",
+          "text": "네가 죽였어... 네가...",
+          "style": "accusation"
+        },
+        {
+          "speaker": "Player",
+          "text": "닥쳐!! 난 아무것도 기억 안 나!!",
+          "mood": "rage"
+        },
+        {
+          "speaker": "??? (Familiar Voice)",
+          "text": "...왜?",
+          "style": "sad_whisper"
+        },
+        {
+          "speaker": "Player",
+          "text": "...!!",
+          "mood": "frozen"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그 목소리에... 심장이 멈추는 것 같다.",
+          "effect": "screen_normalize"
+        }
+      ]
+    }
+  },
+
+  "npc_apostate_priest": {
+    "id": "npc_004",
+    "name": "배교한 사제",
+    "name_en": "The Apostate Priest",
+    "portrait": "npc_apostate_priest",
+    "location": "belltower",
+
+    "dialogues": {
+      "first_encounter": {
+        "trigger": "onFirstMeet",
+        "sequence": [
+          {
+            "speaker": "Narrator",
+            "text": "종탑 아래에 남자가 주저앉아 있다. 찢어진 사제복. 한쪽 눈이 멀었다."
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "하... 또 왔어. 죽으러 온 바보가.",
+            "mood": "bitter_laugh"
+          },
+          {
+            "speaker": "Player",
+            "text": "당신은?",
+            "mood": "wary"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "신을 버린 사제. 아니, 신한테 버림받은 사제라고 해야 하나.",
+            "mood": "self_deprecating"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "둘 다 맞는 것 같기도 하고. 하하.",
+            "mood": "hollow_laugh"
+          }
+        ],
+        "choices": [
+          {
+            "text": "실렌시아에 대해 알려줘.",
+            "next": "about_silencia"
+          },
+          {
+            "text": "왜 여기 있어?",
+            "next": "why_here"
+          },
+          {
+            "text": "성소로 가는 길은?",
+            "next": "sanctum_direction"
+          }
+        ]
+      },
+
+      "about_silencia": {
+        "sequence": [
+          {
+            "speaker": "Apostate Priest",
+            "text": "실렌시아... 아, 성녀님.",
+            "mood": "complicated"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "신을 믿었어. 평생을. 기도하고, 금식하고, 모든 걸 바쳤지.",
+            "mood": "nostalgic"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "전염병이 왔을 때, 그녀는 마지막까지 환자들 곁에 있었어.",
+            "mood": "respect"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "밤새 기도했지. '제발 이 아이들을 살려주세요.'",
+            "mood": "pain"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "신은 뭘 했을까?",
+            "mood": "bitter"
+          },
+          {
+            "speaker": "Player",
+            "text": "......",
+            "mood": "silent"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "아무것도. 아무것도 안 했어.",
+            "mood": "rage"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "아이들은 죽었고, 성녀님의 눈에서 빛이 사라졌어.",
+            "mood": "hollow"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "'신이 대답 안 하면 내가 신이 되겠다.'",
+            "mood": "quoting"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "...미친 소리 같지? 하지만 난 이해해. 진심으로.",
+            "mood": "empathy"
+          }
+        ]
+      },
+
+      "why_here": {
+        "sequence": [
+          {
+            "speaker": "Apostate Priest",
+            "text": "왜 여기 있냐고?",
+            "mood": "self_questioning"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "도망쳤거든. 성녀님이 변할 때.",
+            "mood": "shame"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "무서웠어. 그녀의 눈이. 더 이상 인간의 눈이 아니었거든.",
+            "mood": "fear_memory"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "그래서 도망쳤어. 사제라는 자가. 하하.",
+            "mood": "self_loathing"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "근데 이상하지. 어디로 가도 이 성당이 보여.",
+            "mood": "haunted"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "결국 돌아왔어. 도망칠 수 없더라고. 죄에서는.",
+            "mood": "resignation"
+          }
+        ]
+      },
+
+      "sanctum_direction": {
+        "sequence": [
+          {
+            "speaker": "Apostate Priest",
+            "text": "성소? 이 종탑 위야.",
+            "mood": "direct"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "하지만 거기 가면... 소리가 사라져.",
+            "mood": "warning"
+          },
+          {
+            "speaker": "Player",
+            "text": "소리가 사라진다고?",
+            "mood": "confused"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "말 그대로야. 네 발소리도, 숨소리도, 심장 소리도.",
+            "mood": "grim"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "침묵... 그게 성녀님이 신에게 받은 대답이니까.",
+            "mood": "philosophical"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "그 침묵을 온 세상에 퍼뜨리려는 거야. 자기가 느낀 걸.",
+            "mood": "understanding"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "...가려면 가. 말리진 않을게.",
+            "mood": "defeated"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "어차피 난 겁쟁이니까. 같이 갈 용기도 없어.",
+            "mood": "self_deprecating"
+          }
+        ]
+      },
+
+      "after_boss_optional": {
+        "trigger": "onBossDefeated_returnToPriest",
+        "sequence": [
+          {
+            "speaker": "Apostate Priest",
+            "text": "...끝났어?",
+            "mood": "disbelief"
+          },
+          {
+            "speaker": "Player",
+            "text": "......응.",
+            "mood": "exhausted"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "성녀님이... 해방됐구나.",
+            "mood": "relief_tears"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "...고마워. 내가 하지 못한 일을.",
+            "mood": "gratitude"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "이제 난... 어떻게 해야 할까.",
+            "mood": "lost"
+          },
+          {
+            "speaker": "Player",
+            "text": "살아. 그게 속죄야.",
+            "mood": "quiet_wisdom"
+          },
+          {
+            "speaker": "Apostate Priest",
+            "text": "...그래. 그렇겠지.",
+            "mood": "contemplative"
+          }
+        ],
+        "reward": {
+          "item": "priest_rosary",
+          "description": "배교한 사제가 자신의 묵주를 건넸다."
+        }
+      }
+    }
+  },
+
+  "boss_silencia": {
+    "id": "boss_003",
+    "name": "마더 실렌시아",
+    "name_en": "Mother Silencia, The Silent Saint",
+    "subtitle": "침묵의 성녀",
+
+    "encounter": {
+      "trigger": "onEnterBossRoom",
+      "sequence": [
+        {
+          "speaker": "Narrator",
+          "text": "성소. 황금 제단 위에 여섯 개의 부러진 날개가 장식되어 있다.",
+          "effect": "camera_pan_up"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그리고 그 앞에... 기도하는 여인.",
+          "effect": "boss_reveal"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "얼굴 절반이 황금 가면으로 덮여 있다. 등 뒤에는 부러진 날개 여섯 개."
+        },
+        {
+          "speaker": "Silencia",
+          "text": "...기도가 끝났나 보군.",
+          "mood": "serene"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "어서 와, 길 잃은 양이여.",
+          "mood": "welcoming"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "고백하러 왔니? 아니면 구원받으러?",
+          "mood": "gentle_malice"
+        },
+        {
+          "speaker": "Player",
+          "text": "아르카나를 내놔.",
+          "mood": "direct"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "아르카나... 아.",
+          "mood": "amused"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "네가 찾는 건 기억이지? 잃어버린 것들.",
+          "mood": "knowing"
+        },
+        {
+          "speaker": "Player",
+          "text": "...뭘 알아.",
+          "mood": "defensive"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "이 성당은 모든 죄를 알아. 네 죄도.",
+          "mood": "ominous"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "넌 죽였어. 사랑하는 사람을. 네 손으로.",
+          "mood": "accusation"
+        },
+        {
+          "speaker": "Player",
+          "text": "...!",
+          "mood": "shock"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "하지만 걱정 마. 내가 구원해줄게.",
+          "mood": "twisted_mercy"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "영원한 침묵 속에서... 죄책감도 사라질 테니.",
+          "mood": "dark"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "자, 신의 자비를 받아라.",
+          "mood": "final",
+          "effect": "boss_battle_start"
+        }
+      ]
+    },
+
+    "phase_transition_1": {
+      "trigger": "onBossHealthBelow70",
+      "sequence": [
+        {
+          "speaker": "Silencia",
+          "text": "...거부하는군.",
+          "mood": "disappointed"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "자비를 거부하면... 심판만 남아.",
+          "mood": "hardening",
+          "effect": "boss_power_up"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "신의 이름으로 너를 심판한다!",
+          "mood": "righteous_fury"
+        }
+      ]
+    },
+
+    "phase_transition_2": {
+      "trigger": "onBossHealthBelow35",
+      "sequence": [
+        {
+          "speaker": "Silencia",
+          "text": "...왜지.",
+          "mood": "confusion"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "왜 신의 힘이... 통하지 않는 거야...",
+          "mood": "doubt"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그녀의 눈에서 처음으로 두려움이 보인다."
+        },
+        {
+          "speaker": "Silencia",
+          "text": "...아니. 내가 신이야. 내가!",
+          "mood": "denial"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "신이 대답하지 않았으니까... 내가 신이 됐어...!",
+          "mood": "desperation"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "갑자기 모든 소리가 사라진다.",
+          "effect": "audio_fade_to_silence",
+          "sfx_stop": true,
+          "bgm_stop": true
+        },
+        {
+          "speaker": "Silencia",
+          "text": "[자막만 표시] 이것이... 진정한 침묵...",
+          "mood": "transcendence",
+          "display": "subtitle_only"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "[자막만 표시] 신이 우리에게 준 대답...",
+          "display": "subtitle_only"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "[자막만 표시] Phase 3: 침묵의 진실",
+          "effect": "phase3_start_silent"
+        }
+      ]
+    },
+
+    "defeat": {
+      "trigger": "onBossDefeated",
+      "sequence": [
+        {
+          "speaker": "Narrator",
+          "text": "소리가 천천히 돌아온다.",
+          "effect": "audio_fade_in"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "...들려.",
+          "mood": "wonder"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "신의... 목소리가...",
+          "mood": "awe"
+        },
+        {
+          "speaker": "Player",
+          "text": "......뭐라고?",
+          "mood": "confused"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "아... 신은... 침묵한 게 아니었어...",
+          "mood": "realization"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "우리가... 듣지 않았을 뿐...",
+          "mood": "regret"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그녀의 황금 가면이 떨어진다. 그 아래는... 눈물 자국투성이 얼굴."
+        },
+        {
+          "speaker": "Silencia",
+          "text": "용서해줘... 내 신이여...",
+          "mood": "repentance"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "그리고... 너도.",
+          "mood": "to_player"
+        },
+        {
+          "speaker": "Player",
+          "text": "...나한테?",
+          "mood": "surprised"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "네 죄를... 봤어. 이 성당에서.",
+          "mood": "compassion"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "넌... 괴물이 아니야.",
+          "mood": "gentle"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "지키려 했던 거잖아... 끝까지...",
+          "mood": "understanding"
+        },
+        {
+          "speaker": "Player",
+          "text": "......",
+          "mood": "emotional"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "기억을... 돌려줄게. 네가 감당할 수 있도록...",
+          "mood": "gift",
+          "effect": "memory_transfer"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "피의 정원에서... 그녀가 기다려...",
+          "mood": "fading"
+        },
+        {
+          "speaker": "Silencia",
+          "text": "...가서... 용서받아...",
+          "mood": "final_blessing",
+          "effect": "boss_dissolve"
+        }
+      ]
+    }
+  },
+
+  "memory_recovery": {
+    "trigger": "afterBossDefeat",
+    "type": "cutscene",
+    "sequence": [
+      {
+        "speaker": "Narrator",
+        "text": "눈앞이 하얗게 변한다.",
+        "effect": "white_out"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "기억이... 밀려온다.",
+        "effect": "memory_start"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 비 오는 밤."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 누군가의 손을 잡고 있다. 따뜻한 손."
+      },
+      {
+        "speaker": "??? (Past)",
+        "text": "...도망치지 마. 나랑 같이 있어.",
+        "mood": "pleading"
+      },
+      {
+        "speaker": "Player (Past)",
+        "text": "괜찮아. 내가 지켜줄게. 약속해.",
+        "mood": "determined"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 장면이 바뀐다. 피가 흐르고 있다."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 손에 검이 들려 있다. 피 묻은 검."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 그리고 눈앞에... 쓰러진 누군가."
+      },
+      {
+        "speaker": "??? (Past)",
+        "text": "...왜?",
+        "mood": "betrayed"
+      },
+      {
+        "speaker": "Player (Past)",
+        "text": "미안해... 미안해... 이렇게밖에...",
+        "mood": "sobbing"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "[회상] 얼굴이... 보이지 않는다. 아직."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "기억이 끊긴다.",
+        "effect": "memory_end"
+      },
+      {
+        "speaker": "Player",
+        "text": "...내가... 그 사람을...",
+        "mood": "devastated"
+      },
+      {
+        "speaker": "Player",
+        "text": "내가 죽였어...?",
+        "mood": "horror"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "'침묵의 성당의 아르카나'를 획득했다.",
+        "item_get": "arcana_cathedral"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "세 개의 아르카나. 세 개의 심장. 그리고... 세 개의 죄?",
+        "effect": "ominous_realization"
+      }
+    ]
+  },
+
+  "epilogue": {
+    "trigger": "onChapterComplete",
+    "sequence": [
+      {
+        "speaker": "Player",
+        "text": "...내가 누군가를 죽였다.",
+        "mood": "hollow"
+      },
+      {
+        "speaker": "Player",
+        "text": "지키려고... 했는데... 왜...",
+        "mood": "confused_guilt"
+      },
+      {
+        "speaker": "???",
+        "text": "세 번째를 모았군.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "Player",
+        "text": "...넌 누구야. 제발 대답해.",
+        "mood": "demanding"
+      },
+      {
+        "speaker": "???",
+        "text": "나? 난 네가 가장 잘 아는 사람이야.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "Player",
+        "text": "뭔 소리야...!",
+        "mood": "frustration"
+      },
+      {
+        "speaker": "???",
+        "text": "피의 정원으로 가. 거기서 '그녀'를 만나.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "???",
+        "text": "네가 죽인 사람... 아니, 죽이려 했던 사람을.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "Player",
+        "text": "...!!",
+        "mood": "shock"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "목소리가 사라진다."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "성당 밖으로 나오자, 붉은 꽃잎이 바람에 날린다.",
+        "effect": "red_petals"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "저 멀리, 핏빛 장미로 뒤덮인 정원이 보인다."
+      },
+      {
+        "speaker": "Player",
+        "text": "...가야 해. 진실을 알아야 해.",
+        "mood": "resolution"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "Chapter 3 Complete - 침묵의 성당",
+        "effect": "chapter_end_card"
+      }
+    ]
+  }
+}

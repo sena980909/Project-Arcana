@@ -1,0 +1,404 @@
+{
+  "chapter": {
+    "id": "ch1_forgotten_grove",
+    "title": "잊혀진 숲",
+    "title_en": "The Forgotten Grove"
+  },
+
+  "prologue": {
+    "type": "monologue",
+    "trigger": "onGameStart",
+    "background": "black_fade",
+    "lines": [
+      {
+        "text": "...어둠 속에서 눈을 떴다.",
+        "delay": 2.0,
+        "effect": "fade_in"
+      },
+      {
+        "text": "이름이 기억나지 않는다. 얼굴도. 어제 무엇을 했는지도.",
+        "delay": 2.5
+      },
+      {
+        "text": "단 하나, 가슴에 새겨진 세 개의 심장만이 희미하게 빛나고 있다.",
+        "delay": 3.0,
+        "effect": "heart_glow"
+      },
+      {
+        "text": "그리고 머릿속에 울리는 목소리.",
+        "delay": 2.0
+      },
+      {
+        "text": "\"아르카나를 모아라. 그래야 돌아올 수 있다.\"",
+        "delay": 3.0,
+        "style": "whisper"
+      },
+      {
+        "text": "...돌아온다고? 어디로?",
+        "delay": 2.0
+      },
+      {
+        "text": "발밑에 죽은 잎들이 바스라진다. 앞에는 안개에 잠긴 숲이 보인다.",
+        "delay": 3.0,
+        "effect": "fade_to_gameplay"
+      }
+    ]
+  },
+
+  "npc_ash_merchant": {
+    "id": "npc_001",
+    "name": "재의 상인",
+    "name_en": "Ash Merchant",
+    "portrait": "npc_ash_merchant",
+
+    "dialogues": {
+      "first_encounter": {
+        "trigger": "onFirstMeet",
+        "location": "grove_entrance",
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "...또 한 명이로군.",
+            "mood": "hollow",
+            "sfx": "voice_raspy"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "세 개의 심장을 가진 자. 이 숲에 발을 들인 건 현명하지 못했어.",
+            "mood": "hollow"
+          },
+          {
+            "speaker": "Player",
+            "text": "당신은 누구지?",
+            "mood": "neutral",
+            "hearts_variant": {
+              "3": "당신은 누구지?",
+              "2": "...넌 뭐야. 왜 이런 곳에.",
+              "1": "꺼져. 아니면 찢어버린다."
+            }
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "이름 따윈 재가 된 지 오래. 그냥 '상인'이라고 불러.",
+            "mood": "bitter"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "이 숲은 모든 것을 잊게 만들어. 이름을, 사랑했던 것을, 결국엔 자기 자신까지.",
+            "mood": "warning"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "하지만 넌 어차피 갈 거잖아. 아르카나 때문에.",
+            "mood": "knowing"
+          }
+        ],
+        "choices": [
+          {
+            "text": "아르카나가 뭔지 알려줘.",
+            "next": "explain_arcana"
+          },
+          {
+            "text": "이 숲의 끝에는 뭐가 있지?",
+            "next": "explain_boss"
+          },
+          {
+            "text": "(떠난다)",
+            "next": "leave_early"
+          }
+        ]
+      },
+
+      "explain_arcana": {
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "아르카나... 이 세계의 심장 조각이라고 할까.",
+            "mood": "thoughtful"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "네가 잃어버린 것들의 단서야. 원한다면 가져가.",
+            "mood": "tired"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "하지만 기억해. 아르카나를 가진 자는 모두 괴물이 되어있어.",
+            "mood": "dark"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "이 숲의 아르카나도... 예외가 아니야.",
+            "mood": "regret"
+          }
+        ]
+      },
+
+      "explain_boss": {
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "...이그드라.",
+            "mood": "pain"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "한때 이 숲의 심장이었던 것. 지금은 잊혀진 것들의 분노로 가득 찬 괴물.",
+            "mood": "hollow"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "내가... 아니, 됐어. 알 필요 없는 이야기야.",
+            "mood": "cut_off"
+          }
+        ]
+      },
+
+      "leave_early": {
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "...그래. 어차피 할 말은 했어.",
+            "mood": "resigned"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "죽지 마. 이 숲에서 죽으면 영원히 잊혀지거든.",
+            "mood": "warning"
+          }
+        ]
+      },
+
+      "on_player_low_health": {
+        "trigger": "onPlayerHeartsBelow2",
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "...들리기 시작했구나. 목소리가.",
+            "mood": "grim"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "심장을 잃을수록 넌 '이쪽'에 가까워져.",
+            "mood": "warning"
+          }
+        ]
+      }
+    }
+  },
+
+  "environmental_story": {
+    "abandoned_altar": {
+      "trigger": "onInteract",
+      "location": "grove_center",
+      "type": "examine",
+      "lines": [
+        {
+          "speaker": "Narrator",
+          "text": "제단에 꽃이 썩어가고 있다. 누군가 오랫동안 이곳에 제물을 바쳤던 흔적.",
+          "mood": "discovery"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "제단 아래에서 무언가 빛난다. 부서진 나뭇잎 모양의 펜던트.",
+          "mood": "item_found",
+          "item_get": "pendant_broken"
+        }
+      ]
+    },
+
+    "whispers_low_hearts": {
+      "trigger": "onPlayerHeartsEqual2",
+      "type": "hallucination",
+      "lines": [
+        {
+          "speaker": "???",
+          "text": "...돌아와...",
+          "style": "whisper_echo",
+          "sfx": "whisper_female"
+        },
+        {
+          "speaker": "???",
+          "text": "...왜 날 버렸어...",
+          "style": "whisper_echo"
+        },
+        {
+          "speaker": "Player",
+          "text": "(머리가 아프다. 누군가의 목소리가...)",
+          "mood": "disturbed"
+        }
+      ]
+    },
+
+    "whispers_critical": {
+      "trigger": "onPlayerHeartsEqual1",
+      "type": "hallucination",
+      "lines": [
+        {
+          "speaker": "???",
+          "text": "죽어. 죽어. 죽어. 죽어. 죽어.",
+          "style": "glitch_text",
+          "sfx": "static_noise"
+        },
+        {
+          "speaker": "Player",
+          "text": "닥쳐!! 내 머릿속에서 나가!!",
+          "mood": "rage"
+        }
+      ]
+    }
+  },
+
+  "boss_yggdra": {
+    "id": "boss_001",
+    "name": "이그드라",
+    "name_en": "Yggdra, Heart of the Forgotten Grove",
+    "subtitle": "잊혀진 숲의 심장",
+
+    "encounter": {
+      "trigger": "onEnterBossRoom",
+      "sequence": [
+        {
+          "speaker": "Narrator",
+          "text": "고목의 심장부. 썩은 수액이 바닥을 적시고 있다.",
+          "effect": "camera_pan_up"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그리고 그 중심에서... 무언가가 꿈틀거린다.",
+          "effect": "boss_emerge"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "...또... 왔구나...",
+          "mood": "sorrow",
+          "sfx": "voice_distorted_female"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "날... 기억하는 자는... 아무도 없는데...",
+          "mood": "crying"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "너도... 잊을 거야... 모두가 그랬으니까...",
+          "mood": "despair"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "그러니까... 여기서... 나와 함께... 썩어가자...",
+          "mood": "madness",
+          "effect": "boss_battle_start"
+        }
+      ]
+    },
+
+    "phase_transition": {
+      "trigger": "onBossHealthBelow50",
+      "sequence": [
+        {
+          "speaker": "Yggdra",
+          "text": "아파... 아파... 왜 또 나를 버려...!",
+          "mood": "pain",
+          "effect": "boss_transform"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "그 사람도... 널 버릴 거야... 모두가 그래...!",
+          "mood": "rage"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "차라리... 내가 먼저... 널 잊게 해줄게!!",
+          "mood": "fury",
+          "effect": "phase2_start"
+        }
+      ]
+    },
+
+    "defeat": {
+      "trigger": "onBossDefeated",
+      "sequence": [
+        {
+          "speaker": "Yggdra",
+          "text": "...아...",
+          "mood": "fading"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "...고마워...",
+          "mood": "peaceful"
+        },
+        {
+          "speaker": "Player",
+          "text": "...뭐라고?",
+          "mood": "confused"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "이제... 잊혀도 돼... 더 이상... 아프지 않아...",
+          "mood": "release",
+          "effect": "boss_dissolve"
+        },
+        {
+          "speaker": "Yggdra",
+          "text": "...성채에서... 그가 기다린다... 조심해...",
+          "mood": "whisper",
+          "style": "fading_voice"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "이그드라가 소멸하며 무언가를 남겼다. 영롱하게 빛나는 눈물 한 방울.",
+          "item_get": "yggdra_tear"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "'잊혀진 숲의 아르카나'를 획득했다.",
+          "item_get": "arcana_grove",
+          "effect": "arcana_obtained"
+        }
+      ]
+    }
+  },
+
+  "epilogue": {
+    "trigger": "onChapterComplete",
+    "sequence": [
+      {
+        "speaker": "Narrator",
+        "text": "숲의 안개가 걷히기 시작한다. 죽어있던 나뭇잎 사이로 희미한 빛이 스며든다.",
+        "effect": "environment_change"
+      },
+      {
+        "speaker": "Player",
+        "text": "...성채라고 했나.",
+        "mood": "thoughtful"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "주인공의 가슴에서 심장 문양이 희미하게 맥동한다. 마치 무언가를 기억해내려는 것처럼.",
+        "effect": "heart_pulse"
+      },
+      {
+        "speaker": "???",
+        "text": "잘했어. 하지만 아직 멀었어.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "Player",
+        "text": "...누구야.",
+        "mood": "alert"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "대답은 없다. 다만 저 멀리, 안개 너머로 무너진 성채의 윤곽이 보일 뿐.",
+        "effect": "fade_to_black"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "Chapter 1 Complete - 잊혀진 숲",
+        "effect": "chapter_end_card"
+      }
+    ]
+  }
+}

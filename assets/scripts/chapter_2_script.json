@@ -1,0 +1,859 @@
+{
+  "chapter": {
+    "id": "ch2_crumbling_citadel",
+    "title": "무너진 성채",
+    "title_en": "The Crumbling Citadel"
+  },
+
+  "chapter_intro": {
+    "type": "narration",
+    "trigger": "onChapterStart",
+    "background": "bg_citadel_gate",
+    "lines": [
+      {
+        "speaker": "Narrator",
+        "text": "숲을 빠져나오자, 저 멀리 폐허가 보인다.",
+        "effect": "camera_pan"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "한때는 왕국의 심장이었을 성채. 지금은 무너진 돌덩이들만 남아있다."
+      },
+      {
+        "speaker": "Player",
+        "text": "...여기가 그녀가 말한 '성채'인가.",
+        "mood": "cautious"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "가슴의 심장 문양이 희미하게 떨린다. 마치 경고하듯이.",
+        "effect": "heart_pulse"
+      },
+      {
+        "speaker": "Player",
+        "text": "'그'가 기다린다고 했지.",
+        "mood": "determined",
+        "hearts_variant": {
+          "3": "'그'가 기다린다고 했지.",
+          "2": "...누가 기다리든 상관없어. 아르카나만 있으면 돼.",
+          "1": "기다려. 곧 찾아갈 테니까."
+        }
+      }
+    ]
+  },
+
+  "npc_ash_merchant_return": {
+    "id": "npc_001_ch2",
+    "name": "재의 상인",
+    "location": "citadel_entrance_camp",
+
+    "dialogues": {
+      "reunion": {
+        "trigger": "onFirstMeet_Ch2",
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "...또 만났군.",
+            "mood": "tired"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "숲에서 살아 돌아왔다는 건, 이그드라를...",
+            "mood": "hesitant"
+          },
+          {
+            "speaker": "Player",
+            "text": "...죽였다. 아니, 해방시켰다고 해야 하나.",
+            "mood": "complex"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "......",
+            "mood": "silence",
+            "delay": 2.0
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "...그래. 그게 낫겠지. 그녀에겐.",
+            "mood": "bitter_relief"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "나 같은 겁쟁이가 해야 할 일을 네가 대신 한 거야.",
+            "mood": "self_loathing"
+          }
+        ]
+      },
+
+      "pendant_reveal": {
+        "trigger": "onShowItem_pendant_broken",
+        "condition": "hasItem:pendant_broken",
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "...!",
+            "mood": "shock",
+            "effect": "sprite_shake"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "그건... 어디서...",
+            "mood": "trembling"
+          },
+          {
+            "speaker": "Player",
+            "text": "숲의 제단에 있었다.",
+            "mood": "neutral"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "......내가 만들었어. 그 펜던트.",
+            "mood": "confession"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "나뭇잎 두 개를 새겼지. 하나는 그녀에게, 하나는 내가.",
+            "mood": "painful_memory"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "'언제까지나 함께'라고... 약속했었어.",
+            "mood": "breaking"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "그런데 난 도망쳤어. 숲이 타락하기 시작했을 때.",
+            "mood": "shame"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "무서웠거든. 그녀가 변해가는 게.",
+            "mood": "confession"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "......가져가. 그 펜던트.",
+            "mood": "resigned"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "내가 가질 자격은 없으니까.",
+            "mood": "empty"
+          }
+        ],
+        "reward": {
+          "item_upgrade": "pendant_broken → pendant_reunited",
+          "description": "재의 상인이 자신의 펜던트 절반을 건넸다. 두 조각이 하나가 되었다."
+        }
+      },
+
+      "citadel_warning": {
+        "trigger": "onAskAboutCitadel",
+        "sequence": [
+          {
+            "speaker": "Ash Merchant",
+            "text": "이 성채? ...발두르 왕의 성이었어.",
+            "mood": "grim"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "한때는 대륙에서 가장 번영한 왕국이었지.",
+            "mood": "nostalgic"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "그런데 왕비가 병에 걸렸고... 왕은 미쳐갔어.",
+            "mood": "dark"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "죽음을 정복하겠다며 금지된 것에 손을 댔지.",
+            "mood": "warning"
+          },
+          {
+            "speaker": "Ash Merchant",
+            "text": "결과는... 직접 보게 될 거야.",
+            "mood": "ominous"
+          }
+        ]
+      }
+    }
+  },
+
+  "npc_blind_knight": {
+    "id": "npc_002",
+    "name": "눈먼 기사",
+    "name_en": "The Blind Knight",
+    "portrait": "npc_blind_knight",
+    "location": "citadel_outer_courtyard",
+
+    "dialogues": {
+      "first_encounter": {
+        "trigger": "onFirstMeet",
+        "sequence": [
+          {
+            "speaker": "Blind Knight",
+            "text": "...발소리가 들린다.",
+            "mood": "alert",
+            "sfx": "armor_creak"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "살아있는 자의 발소리. 이 죽은 성채에서.",
+            "mood": "curious"
+          },
+          {
+            "speaker": "Player",
+            "text": "......당신은?",
+            "mood": "cautious"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "한때 이 왕국의 기사였던 자. 지금은 그저 죄인.",
+            "mood": "hollow"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "눈이? 스스로 찔렀다. 다시는 아무것도 보지 않기 위해.",
+            "mood": "matter_of_fact"
+          },
+          {
+            "speaker": "Player",
+            "text": "...왜?",
+            "mood": "disturbed"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "왕이 미쳐가는 것을 봤기 때문이야.",
+            "mood": "pain"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "그리고 아무것도 하지 않았기 때문이야.",
+            "mood": "guilt"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "'충성'이라는 이름으로.",
+            "mood": "bitter"
+          }
+        ],
+        "choices": [
+          {
+            "text": "왕에 대해 더 알려달라.",
+            "next": "about_king"
+          },
+          {
+            "text": "탑으로 가는 길을 알려줘.",
+            "next": "tower_direction"
+          },
+          {
+            "text": "(떠난다)",
+            "next": "leave"
+          }
+        ]
+      },
+
+      "about_king": {
+        "sequence": [
+          {
+            "speaker": "Blind Knight",
+            "text": "발두르 왕... 한때는 위대한 분이었어.",
+            "mood": "nostalgic"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "백성을 사랑했고, 정의로웠지.",
+            "mood": "admiration"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "하지만 왕비를... 엘레노어를 더 사랑했어.",
+            "mood": "dark_turn"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "그녀가 병에 걸렸을 때, 왕은 무너졌어.",
+            "mood": "sorrow"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "치료법을 찾아 대륙을 뒤졌고... 결국 금지된 비술에 손을 댔지.",
+            "mood": "ominous"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "왕비를 살리려면 대가가 필요했어.",
+            "mood": "grim"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "왕국 전체의 생명력을.",
+            "mood": "horror"
+          },
+          {
+            "speaker": "Player",
+            "text": "...그래서 이렇게 된 거군.",
+            "mood": "realization"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "아이러니하지. 왕비를 살리려다 왕비까지 죽였어.",
+            "mood": "tragic_irony"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "의식은 실패했거든. 그녀는 죽었고, 왕국은 저주받았고.",
+            "mood": "hollow"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "왕만 남았어. 미쳐버린 채로.",
+            "mood": "finality"
+          }
+        ]
+      },
+
+      "tower_direction": {
+        "sequence": [
+          {
+            "speaker": "Blind Knight",
+            "text": "탑... 왕이 있는 곳이지.",
+            "mood": "grim"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "내성을 지나 왕좌의 방을 통과해. 그 뒤에 계단이 있어.",
+            "mood": "instructive"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "하지만...",
+            "mood": "hesitant"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "왕을 죽이러 가는 거라면, 하나 알아둬.",
+            "mood": "serious"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "그분은 악인이 아니야. 단지...",
+            "mood": "conflicted"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "너무 많이 사랑했을 뿐이야.",
+            "mood": "sad"
+          }
+        ]
+      },
+
+      "leave": {
+        "sequence": [
+          {
+            "speaker": "Blind Knight",
+            "text": "...가는군. 그래.",
+            "mood": "resigned"
+          },
+          {
+            "speaker": "Blind Knight",
+            "text": "내가 하지 못한 일을... 네가 해줬으면 좋겠어.",
+            "mood": "quiet_hope"
+          }
+        ]
+      }
+    }
+  },
+
+  "environmental_story": {
+    "throne_room_murals": {
+      "trigger": "onEnterThroneRoom",
+      "location": "citadel_throne",
+      "type": "examine_sequence",
+      "murals": [
+        {
+          "id": "mural_1",
+          "description": "첫 번째 벽화: 젊은 왕과 아름다운 여인이 손을 잡고 있다. 둘 다 행복해 보인다.",
+          "player_thought": "(한때는 행복했던 모양이군.)"
+        },
+        {
+          "id": "mural_2",
+          "description": "두 번째 벽화: 왕이 침대에 누운 여인 옆에서 기도하고 있다. 여인의 얼굴은 창백하다.",
+          "player_thought": "(병에 걸린 거군. 왕비가.)"
+        },
+        {
+          "id": "mural_3",
+          "description": "세 번째 벽화: 왕이 어둠 속에서 무언가와 거래하는 모습. 그림자가 왕을 둘러싸고 있다.",
+          "player_thought": "(금지된 의식... 이게 그 장면인가.)"
+        },
+        {
+          "id": "mural_4",
+          "description": "네 번째 벽화: 대부분이 긁혀서 알아볼 수 없다. 피가 묻어있는 것 같기도 하다.",
+          "player_thought": "(누가 일부러 지운 건가? 아니면... 왕 본인이?)"
+        }
+      ]
+    },
+
+    "crown_shard": {
+      "trigger": "onInteract_throne",
+      "type": "item_discovery",
+      "lines": [
+        {
+          "speaker": "Narrator",
+          "text": "왕좌 앞에 무언가 반짝인다. 깨진 왕관의 조각.",
+          "mood": "discovery"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "한때는 왕의 권위를 상징했을 것이다. 지금은 그저 금속 쪼가리.",
+          "item_get": "crown_shard"
+        }
+      ]
+    },
+
+    "queen_ghost_encounter": {
+      "trigger": "onPlayerHeartsEqual1",
+      "location": "citadel_inner",
+      "type": "hallucination_special",
+      "lines": [
+        {
+          "speaker": "Narrator",
+          "text": "...갑자기 공기가 차가워진다.",
+          "effect": "temperature_drop"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "복도 끝에 희미한 형체가 서 있다. 아름다운 여인. 반투명한.",
+          "effect": "ghost_appear"
+        },
+        {
+          "speaker": "Queen's Ghost",
+          "text": "...당신은...",
+          "mood": "recognition",
+          "sfx": "whisper_ethereal"
+        },
+        {
+          "speaker": "Player",
+          "text": "...뭐야. 환각인가.",
+          "mood": "disturbed"
+        },
+        {
+          "speaker": "Queen's Ghost",
+          "text": "...누군가를 사랑한 적 있나요?",
+          "mood": "melancholic"
+        },
+        {
+          "speaker": "Queen's Ghost",
+          "text": "그 사람을 위해서라면 세상을 불태울 수 있을 만큼?",
+          "mood": "intense"
+        },
+        {
+          "speaker": "Player",
+          "text": "...기억이 안 나.",
+          "mood": "frustrated"
+        },
+        {
+          "speaker": "Queen's Ghost",
+          "text": "...그렇군요. 아직은.",
+          "mood": "knowing"
+        },
+        {
+          "speaker": "Queen's Ghost",
+          "text": "언젠가 기억나면... 용서해주세요. 그 사람을.",
+          "mood": "plea",
+          "effect": "ghost_fade"
+        },
+        {
+          "speaker": "Player",
+          "text": "...뭔 소리야. 잠깐, 기다려...!",
+          "mood": "confusion"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "여인은 사라졌다. 처음부터 없었던 것처럼."
+        }
+      ]
+    },
+
+    "betrayal_hallucination": {
+      "trigger": "onPlayerHeartsEqual2",
+      "type": "hallucination",
+      "lines": [
+        {
+          "speaker": "???",
+          "text": "...믿지 마...",
+          "style": "whisper_echo"
+        },
+        {
+          "speaker": "???",
+          "text": "...모두 널 버려...",
+          "style": "whisper_echo"
+        },
+        {
+          "speaker": "???",
+          "text": "...네 친구도... 연인도... 결국엔...",
+          "style": "whisper_echo"
+        },
+        {
+          "speaker": "Player",
+          "text": "(머릿속이 어지럽다. 누구 목소리지...)",
+          "mood": "disoriented"
+        }
+      ]
+    }
+  },
+
+  "boss_baldur": {
+    "id": "boss_002",
+    "name": "발두르",
+    "name_en": "Baldur, The Fallen King",
+    "subtitle": "몰락한 왕",
+
+    "encounter": {
+      "trigger": "onEnterBossRoom",
+      "sequence": [
+        {
+          "speaker": "Narrator",
+          "text": "탑 정상. 금지된 제단이 있는 방.",
+          "effect": "camera_reveal"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "벽에는 아름다운 여인의 초상화가 걸려있다. 수백 개의 촛불이 그 앞을 비추고 있다.",
+          "effect": "show_portrait"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그리고 그 앞에... 한 남자가 무릎 꿇고 있다."
+        },
+        {
+          "speaker": "Baldur",
+          "text": "...엘레노어.",
+          "mood": "mourning"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "오늘도 당신을 보러 왔소.",
+          "mood": "tender"
+        },
+        {
+          "speaker": "Player",
+          "text": "......",
+          "mood": "silent_observation"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "...손님인가.",
+          "mood": "turning",
+          "effect": "boss_turn_around"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "남자가 일어선다. 한때 왕관이었을 것이 머리에 박혀있다. 눈에서 검은 눈물이 흐른다."
+        },
+        {
+          "speaker": "Baldur",
+          "text": "또 왔군. 영웅인 척하는 자가.",
+          "mood": "weary"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "날 처단하러 왔나? 이 미친 폭군을?",
+          "mood": "mocking"
+        },
+        {
+          "speaker": "Player",
+          "text": "아르카나가 필요하다.",
+          "mood": "direct"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "아르카나... 하.",
+          "mood": "bitter_laugh"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "내가 뭘 했는지 아나?",
+          "mood": "confrontational"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "...사랑했다. 그게 전부야.",
+          "mood": "raw_emotion"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "세상이 그녀를 빼앗아 갔어. 그래서 세상을 멈췄지.",
+          "mood": "justification"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "넌 이해 못 해. 아직 기억하지 못하니까.",
+          "mood": "knowing"
+        },
+        {
+          "speaker": "Player",
+          "text": "...뭘 알아.",
+          "mood": "defensive"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "네 눈. 나와 같은 눈이야.",
+          "mood": "recognition"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "무언가를 잃어버린 자의 눈.",
+          "mood": "insight"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "하지만 상관없어. 어차피 넌 여기서 끝이니까.",
+          "mood": "transition_to_battle"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "엘레노어... 조금만 기다려줘.",
+          "mood": "tender_to_portrait"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "이 불청객을 처리하고 갈게.",
+          "mood": "cold",
+          "effect": "boss_battle_start"
+        }
+      ]
+    },
+
+    "phase_transition_1": {
+      "trigger": "onBossHealthBelow60",
+      "sequence": [
+        {
+          "speaker": "Baldur",
+          "text": "...강하군.",
+          "mood": "impressed"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "하지만 이 정도로는 안 돼!",
+          "mood": "rage",
+          "effect": "boss_power_up"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "난 왕이야! 왕국을 지배한 자야!",
+          "mood": "desperate_pride"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "...아니. 그녀를 지키지 못한 무능한 자지.",
+          "mood": "self_loathing"
+        }
+      ]
+    },
+
+    "phase_transition_2": {
+      "trigger": "onBossHealthBelow30",
+      "sequence": [
+        {
+          "speaker": "Baldur",
+          "text": "...엘레노어...",
+          "mood": "breaking",
+          "effect": "boss_desperation"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "왜... 왜 난 아무것도 지킬 수 없는 거지...!",
+          "mood": "despair"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "당신도... 왕국도... 아무것도...!",
+          "mood": "screaming"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "왕이 자신의 가슴을 찢는다. 피가 솟구치며 어둠이 퍼져나간다.",
+          "effect": "phase3_transformation"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "그래... 다 부숴버리겠어...",
+          "mood": "madness"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "날 포함해서.",
+          "mood": "suicidal_rage"
+        }
+      ]
+    },
+
+    "defeat": {
+      "trigger": "onBossDefeated",
+      "sequence": [
+        {
+          "speaker": "Baldur",
+          "text": "...끝났군.",
+          "mood": "relief"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "왕이 무릎을 꿇는다. 박혀있던 왕관이 떨어진다."
+        },
+        {
+          "speaker": "Baldur",
+          "text": "...고맙다.",
+          "mood": "genuine_gratitude"
+        },
+        {
+          "speaker": "Player",
+          "text": "...뭐라고?",
+          "mood": "confused"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "이제야... 그녀에게 갈 수 있겠군.",
+          "mood": "peaceful"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "오래 기다렸을 텐데...",
+          "mood": "longing"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "......",
+          "mood": "pause"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "하지만 넌 조심해.",
+          "mood": "warning"
+        },
+        {
+          "speaker": "Player",
+          "text": "......",
+          "mood": "listening"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "넌 나와 같아.",
+          "mood": "certainty"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "네가 지키려는 것이... 널 파멸시킬 거다.",
+          "mood": "prophecy"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "나처럼.",
+          "mood": "resignation"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "기억이 돌아오면... 알게 될 거야...",
+          "mood": "fading"
+        },
+        {
+          "speaker": "Baldur",
+          "text": "네가 무엇을 했는지...",
+          "mood": "cryptic",
+          "effect": "boss_dissolve"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "왕이 재가 되어 흩어진다. 초상화 앞으로, 엘레노어에게로."
+        },
+        {
+          "speaker": "Narrator",
+          "text": "그 자리에 무언가 남아있다. 영롱하게 빛나는 결정체.",
+          "item_get": "arcana_citadel"
+        },
+        {
+          "speaker": "Narrator",
+          "text": "'무너진 성채의 아르카나'를 획득했다.",
+          "effect": "arcana_obtained"
+        }
+      ]
+    }
+  },
+
+  "epilogue": {
+    "trigger": "onChapterComplete",
+    "sequence": [
+      {
+        "speaker": "Player",
+        "text": "...내가 지키려는 것이 날 파멸시킨다...",
+        "mood": "troubled"
+      },
+      {
+        "speaker": "Player",
+        "text": "내가 뭘 지키려 했던 거지?",
+        "mood": "questioning"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "가슴의 심장 문양이 강하게 빛난다. 희미한 기억의 조각이 스쳐 지나간다."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "누군가의 웃는 얼굴. 뻗은 손. 그리고-",
+        "effect": "memory_flash"
+      },
+      {
+        "speaker": "Player",
+        "text": "...!",
+        "mood": "pain",
+        "effect": "memory_interrupt"
+      },
+      {
+        "speaker": "Player",
+        "text": "...아직 안 돼. 기억나지 않아.",
+        "mood": "frustration"
+      },
+      {
+        "speaker": "???",
+        "text": "두 개를 모았군.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "Player",
+        "text": "...또 너야. 정체가 뭐지.",
+        "mood": "demanding"
+      },
+      {
+        "speaker": "???",
+        "text": "다음은 '침묵의 성당'이다.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "???",
+        "text": "거기서... 네 첫 번째 기억을 되찾을 수 있을 거다.",
+        "style": "whisper_male"
+      },
+      {
+        "speaker": "Player",
+        "text": "기다려. 대답해-",
+        "mood": "urgent"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "목소리는 사라졌다.",
+        "effect": "silence"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "저 멀리, 안개 너머로 첨탑들이 보인다. 버려진 성당.",
+        "effect": "fade_to_black"
+      },
+      {
+        "speaker": "Narrator",
+        "text": "Chapter 2 Complete - 무너진 성채",
+        "effect": "chapter_end_card"
+      }
+    ]
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "chapter": "ch1_forgotten_grove",
+
+  "items": {
+    "pendant_broken": {
+      "id": "item_ch1_001",
+      "name": "부서진 나뭇잎 펜던트",
+      "name_en": "Broken Leaf Pendant",
+      "type": "key_item",
+      "icon": "item_pendant_broken",
+
+      "flavor_text": {
+        "short": "누군가 소중히 여겼던 흔적이 남아있다.",
+        "full": "나뭇잎 모양으로 깎아 만든 목걸이. 반으로 갈라져 있다.\n\n뒷면에 희미하게 글자가 새겨져 있지만, 대부분 닳아서 읽을 수 없다.\n\n'...기다릴...언제까지...'\n\n이것을 만든 사람도, 받은 사람도 이제는 아무도 기억하지 못한다. 그저 숲만이 이 약속의 잔해를 품고 있을 뿐."
+      },
+
+      "lore_connection": "재의 상인이 이그드라에게 주었던 펜던트의 절반. 나머지 절반은 이그드라와 함께 소멸했다.",
+
+      "gameplay_hint": "Chapter 2에서 재의 상인에게 보여주면 추가 대화 해금"
+    },
+
+    "yggdra_tear": {
+      "id": "item_ch1_002",
+      "name": "이그드라의 눈물",
+      "name_en": "Tear of Yggdra",
+      "type": "consumable",
+      "icon": "item_tear",
+      "effect": "restore_1_heart",
+
+      "flavor_text": {
+        "short": "따뜻하다. 그리고 슬프다.",
+        "full": "잊혀진 숲의 심장이 마지막으로 흘린 눈물.\n\n만지면 희미한 온기가 느껴진다. 수백 년의 외로움과 분노 끝에 찾아온 평화의 온기.\n\n'고마워'라는 속삭임이 아직도 그 안에 맴도는 것 같다.\n\n사용하면 잃어버린 심장 하나를 되찾을 수 있다. 하지만 이것을 쓴다는 건, 그녀의 마지막 흔적마저 사라진다는 뜻이다."
+      },
+
+      "lore_connection": "이그드라의 본질이 응축된 결정체. 심장을 회복시키는 힘은 그녀가 한때 '숲을 치유하는 정령'이었기 때문.",
+
+      "use_dialogue": {
+        "trigger": "onItemUse",
+        "lines": [
+          {
+            "speaker": "Narrator",
+            "text": "눈물이 가슴의 문양에 스며든다. 심장 하나가 다시 빛나기 시작한다."
+          },
+          {
+            "speaker": "???",
+            "text": "...잊지 마...",
+            "style": "fading_whisper"
+          }
+        ]
+      }
+    },
+
+    "arcana_grove": {
+      "id": "item_ch1_003",
+      "name": "잊혀진 숲의 아르카나",
+      "name_en": "Arcana of the Forgotten Grove",
+      "type": "arcana",
+      "icon": "arcana_grove",
+      "rarity": "legendary",
+
+      "flavor_text": {
+        "short": "기억의 파편이 소용돌이친다.",
+        "full": "숲의 모든 기억이 응축된 결정체. 손에 쥐면 수많은 목소리가 들린다.\n\n웃음소리, 울음소리, 비명소리, 속삭임...\n\n이 숲에서 태어나고, 사랑하고, 잊혀진 모든 것들의 메아리.\n\n가슴의 문양이 이것에 반응한다. 마치 퍼즐 조각이 맞춰지듯, 무언가가 '완성'을 향해 다가가는 느낌.\n\n\"아르카나를 모아라. 그래야 돌아올 수 있다.\"\n\n그 목소리의 의미를 조금은 알 것 같다."
+      },
+
+      "lore_connection": "전체 스토리에서 모아야 할 핵심 아이템 중 첫 번째. 총 7개의 아르카나가 존재하며, 모두 모으면 주인공의 정체가 밝혀진다.",
+
+      "passive_effect": {
+        "name": "망각 저항",
+        "description": "심장을 잃어도 환각 강도가 10% 감소한다."
+      }
+    }
+  },
+
+  "common_drops": {
+    "dead_leaf": {
+      "id": "item_common_001",
+      "name": "죽은 나뭇잎",
+      "name_en": "Dead Leaf",
+      "type": "material",
+      "icon": "item_leaf_dead",
+
+      "flavor_text": {
+        "short": "바스러지기 직전의 잎.",
+        "full": "이 숲의 나무에서 떨어진 잎. 만지면 먼지처럼 부서진다.\n\n한때는 푸르렀을 것이다. 한때는 바람에 춤췄을 것이다.\n\n지금은 그저 죽음의 증거일 뿐."
+      },
+
+      "sell_price": 5,
+      "drop_from": ["슬라임", "숲 전역"]
+    },
+
+    "corrupted_sap": {
+      "id": "item_common_002",
+      "name": "부패한 수액",
+      "name_en": "Corrupted Sap",
+      "type": "material",
+      "icon": "item_sap_corrupt",
+
+      "flavor_text": {
+        "short": "검게 변색된 수액. 악취가 난다.",
+        "full": "숲의 나무에서 흘러나온 수액. 원래는 투명한 금빛이었을 것이다.\n\n지금은 썩은 내가 나는 검은 점액.\n\n이그드라의 고통이 숲 전체를 오염시킨 증거. 숲이 죽어가고 있다.\n\n아니, 어쩌면 숲은 진작에 죽었고... 이건 그 시체에서 흐르는 것일지도."
+      },
+
+      "sell_price": 12,
+      "crafting_use": "독 물약 재료",
+      "drop_from": ["고블린", "부패한 나무 오브젝트"]
+    },
+
+    "faded_memory_fragment": {
+      "id": "item_common_003",
+      "name": "희미한 기억 조각",
+      "name_en": "Faded Memory Fragment",
+      "type": "currency",
+      "icon": "item_memory_shard",
+
+      "flavor_text": {
+        "short": "누군가의 기억이 결정화된 것.",
+        "full": "손바닥 위에서 희미하게 빛나는 결정 조각.\n\n가만히 들여다보면 알 수 없는 장면이 스쳐 지나간다.\n\n누군가의 웃는 얼굴. 불타는 집. 빗속을 달리는 발.\n\n이것이 누구의 기억인지는 알 수 없다. 그 사람조차 이미 잊었을 테니.\n\n\"기억은 사라지지 않아. 단지 잊혀질 뿐이야.\""
+      },
+
+      "use": "상점 화폐 / 스킬 강화 재료",
+      "drop_from": ["모든 적", "숲 전역 오브젝트"]
+    }
+  }
+}

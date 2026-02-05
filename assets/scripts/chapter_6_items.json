@@ -1,0 +1,240 @@
+{
+  "chapter": "ch6_throne_of_oblivion",
+  "chapter_type": "final",
+
+  "items": {
+    "third_heart": {
+      "id": "item_ch6_001",
+      "name": "미래의 심장",
+      "name_en": "Heart of the Future",
+      "type": "key_item",
+      "icon": "item_heart_future",
+      "obtained": "세 번째 심장 시험 통과 후",
+
+      "flavor_text": {
+        "short": "리리아나를 구하겠다는 의지.",
+        "full": "어떤 대가를 치르더라도 그녀를 구하겠다는 각오.\n\n과거를 기억하고,\n현재를 받아들이고,\n미래를 선택한다.\n\n세 개의 심장이 완성되었다.\n\n이제 남은 건 실행뿐.\n\n'미래의 심장'은 의지의 결정체.\n포기하지 않는 한, 이 심장은 뛰고 있다."
+      },
+
+      "lore_connection": "세 개의 심장 중 세 번째. 의지의 증표",
+
+      "passive_effect": {
+        "name": "불굴의 의지",
+        "description": "HP가 0이 되어도 한 번 1로 살아남는다. 모든 디버프 저항 50%."
+      }
+    },
+
+    "arcana_oblivion": {
+      "id": "item_ch6_002",
+      "name": "망각의 아르카나",
+      "name_en": "Arcana of Oblivion",
+      "type": "arcana",
+      "icon": "arcana_oblivion",
+      "rarity": "mythic",
+
+      "flavor_text": {
+        "short": "잊혀진 모든 것들의 결정체.",
+        "full": "망각의 옥좌에서 응축된 최고위 결정체.\n\n손에 쥐면 수많은 목소리가 들린다.\n잊혀진 자들의 속삭임.\n\n'기억해줘...'\n'내 이름은...'\n'사랑했어...'\n\n슬프지만, 힘이 된다.\n잊혀진 것들의 사랑이 응축되어 있으니까.\n\n기억하는 것. 그것이 가장 큰 힘이다.\n그리고 때로는... 가장 큰 사랑이다."
+      },
+
+      "lore_connection": "여섯 번째이자 마지막 아르카나. 시리즈 완결의 상징",
+
+      "passive_effect": {
+        "name": "기억의 힘",
+        "description": "모든 스탯 15% 증가. 보스전에서 추가 20% 피해."
+      }
+    },
+
+    "complete_heart_set": {
+      "id": "item_ch6_003",
+      "name": "완성된 세 개의 심장",
+      "name_en": "The Complete Three Hearts",
+      "type": "key_item",
+      "icon": "item_three_hearts",
+      "obtained": "세 심장 모두 획득 시 자동 합성",
+
+      "flavor_text": {
+        "short": "과거, 현재, 미래. 완전한 인간의 증표.",
+        "full": "세 개의 심장이 하나로 합쳐졌다.\n\n첫 번째 심장: 과거의 기억\n두 번째 심장: 현재의 자아\n세 번째 심장: 미래의 의지\n\n이것이 '완전한 인간'의 조건.\n기억하고, 받아들이고, 선택한다.\n\n아리온은 이제 완전하다.\n리리아나를 구할 자격이 있다.\n\n세 심장의 공명이 망각의 봉인을 깨울 것이다."
+      },
+
+      "lore_connection": "게임 핵심 시스템과 스토리의 완전한 통합",
+
+      "passive_effect": {
+        "name": "완전한 인간",
+        "description": "모든 스탯 30% 증가. 상태이상 면역. HP/MP 지속 회복."
+      },
+
+      "unlock_effect": "망각의 화신 전투 가능"
+    },
+
+    "guardian_eye": {
+      "id": "item_ch6_004",
+      "name": "수호자의 눈",
+      "name_en": "Guardian's Eye",
+      "type": "accessory",
+      "icon": "item_guardian_eye",
+      "obtained": "기억의 수호자 처치 후",
+
+      "flavor_text": {
+        "short": "균형을 지키던 자의 시선.",
+        "full": "기억의 수호자에게서 떨어진 눈.\n\n아직도 주변을 경계하는 것 같다.\n잊혀진 것들이 돌아오는 걸 막으려는 듯.\n\n하지만 이제 아리온의 것이 되었다.\n\n'균형을 유지하라'는 명령 대신,\n'사랑하는 이를 지켜라'는 의지가 담긴다.\n\n같은 눈이지만, 바라보는 것이 다르다."
+      },
+
+      "lore_connection": "중간 보스 드롭. 균형 vs 사랑의 대비",
+
+      "passive_effect": {
+        "name": "경계의 눈",
+        "description": "적의 공격 전조를 1초 먼저 알 수 있음"
+      }
+    },
+
+    "sages_wisdom": {
+      "id": "item_ch6_005",
+      "name": "잊혀진 현자의 지혜",
+      "name_en": "Forgotten Sage's Wisdom",
+      "type": "key_item",
+      "icon": "item_sage_wisdom",
+      "obtained": "현자와의 대화 완료 후",
+
+      "flavor_text": {
+        "short": "이름 없는 자의 마지막 가르침.",
+        "full": "현자가 남긴 지식의 조각.\n\n그는 이름이 없다. 업적도 없다.\n대가로 바쳐졌으니까.\n\n하지만 그의 지혜는 남았다.\n\n'두 가지 길이 있다.\n잊혀지거나, 다른 것을 바치거나.\n하지만 진정한 사랑이라면...\n세 번째 길을 찾을 수 있다.'\n\n그가 찾지 못한 길.\n아리온이 찾아야 할 길."
+      },
+
+      "lore_connection": "대가 시스템의 핵심 설명. 트루 엔딩 힌트",
+
+      "special_use": "트루 엔딩 힌트 아이템"
+    }
+  },
+
+  "common_drops": {
+    "forgotten_essence": {
+      "id": "item_common_ch6_001",
+      "name": "망각의 정수",
+      "name_en": "Essence of Oblivion",
+      "type": "material",
+      "icon": "item_essence_oblivion",
+
+      "flavor_text": {
+        "short": "존재했던 것의 마지막 흔적.",
+        "full": "잊혀진 자들의 길에서 발견되는 정수.\n\n무엇이었는지 알 수 없다.\n사람? 물건? 사건?\n\n이제는 그저 '무언가가 있었다'는 흔적만 남았다.\n\n슬프다.\n존재했던 것이 흔적조차 남기지 못한다는 것이."
+      },
+
+      "sell_price": 30,
+      "crafting_use": "망각 저항 장비 재료",
+      "drop_from": ["잊혀진 자들의 길", "망각의 화신"]
+    },
+
+    "void_fragment": {
+      "id": "item_common_ch6_002",
+      "name": "공허의 조각",
+      "name_en": "Fragment of Void",
+      "type": "material",
+      "icon": "item_void_frag",
+
+      "flavor_text": {
+        "short": "아무것도 없음의 결정체.",
+        "full": "망각의 화신에게서 떨어진 조각.\n\n손에 쥐면... 아무것도 느껴지지 않는다.\n무게도, 온도도, 질감도.\n\n'없음'이 형태를 가진 것.\n\n이것이 망각의 본질.\n존재했던 모든 것이 '없음'이 되는 것."
+      },
+
+      "sell_price": 25,
+      "crafting_use": "최종 장비 재료",
+      "drop_from": ["망각의 화신", "기억의 수호자"]
+    },
+
+    "tear_of_salvation": {
+      "id": "item_common_ch6_003",
+      "name": "구원의 눈물",
+      "name_en": "Tear of Salvation",
+      "type": "consumable",
+      "icon": "item_tear_salvation",
+      "effect": "full_restore",
+
+      "flavor_text": {
+        "short": "누군가를 구한 자의 눈물.",
+        "full": "망각의 옥좌 근처에서 발견되는 눈물.\n\n누구의 것일까.\n리리아나를 구하려 왔던 자들?\n아니면 구원받은 자들?\n\n마시면 모든 것이 회복된다.\n몸도, 마음도, 의지도.\n\n구원의 기쁨이 담긴 눈물.\n희망의 결정체."
+      },
+
+      "use_effect": "HP/MP 100% 회복, 모든 상태이상 해제, 쿨다운 초기화",
+      "drop_from": ["망각의 옥좌", "최종 보스 처치 후"]
+    }
+  },
+
+  "ending_rewards": {
+    "normal_ending_reward": {
+      "id": "item_ending_normal",
+      "name": "잊혀진 영웅의 검",
+      "name_en": "Sword of the Forgotten Hero",
+      "type": "weapon",
+      "icon": "item_sword_forgotten",
+      "obtained": "노말 엔딩 달성",
+
+      "flavor_text": {
+        "short": "아무도 기억하지 못하는 영웅의 무기.",
+        "full": "아리온이 사용했던 검.\n\n이제 아무도 이 검의 주인을 기억하지 못한다.\n리리아나조차도.\n\n하지만 검은 기억한다.\n주인의 용기를, 사랑을, 희생을.\n\n잊혀진 영웅의 검.\n역사에 남지 않은 구원자의 유품."
+      },
+
+      "stat_bonus": {
+        "attack": "+50%",
+        "special": "적 처치 시 '잊혀진 자의 힘' 버프 획득"
+      },
+
+      "new_game_plus": "2회차 시작 시 소지"
+    },
+
+    "true_ending_reward": {
+      "id": "item_ending_true",
+      "name": "영원의 반지",
+      "name_en": "Ring of Eternity",
+      "type": "accessory",
+      "icon": "item_ring_eternity",
+      "obtained": "트루 엔딩 달성",
+
+      "flavor_text": {
+        "short": "이번 생의 영원을 담은 반지.",
+        "full": "약속의 반지가 변화한 것.\n\n윤회의 인연을 끊고, 이번 생에 모든 것을 걸었다.\n\n안쪽에 새겨진 글씨:\n'Arion & Liliana - This Life Is Our Eternity'\n\n다음 생은 없다.\n하지만 이번 생이 있다.\n\n그거면 충분하다."
+      },
+
+      "stat_bonus": {
+        "all_stats": "+30%",
+        "special": "모든 적에게 +20% 추가 피해, 받는 피해 -20%"
+      },
+
+      "new_game_plus": "2회차 시작 시 소지"
+    }
+  },
+
+  "heart_collection_complete": {
+    "description": "세 개의 심장 최종 현황",
+
+    "hearts": {
+      "first_heart": {
+        "name": "과거의 심장",
+        "name_en": "Heart of the Past",
+        "obtained_in": "Chapter 4",
+        "meaning": "리리아나와의 기억",
+        "boss_phase": "Phase 1 저항"
+      },
+      "second_heart": {
+        "name": "현재의 심장",
+        "name_en": "Heart of the Present",
+        "obtained_in": "Chapter 5",
+        "meaning": "자기 자신의 수용",
+        "boss_phase": "Phase 2 저항"
+      },
+      "third_heart": {
+        "name": "미래의 심장",
+        "name_en": "Heart of the Future",
+        "obtained_in": "Chapter 6",
+        "meaning": "구원의 의지 증명",
+        "boss_phase": "Phase 3 돌파"
+      }
+    },
+
+    "completion_message": {
+      "kr": "세 개의 심장이 완성되었습니다.\n\n과거를 기억하고,\n현재를 받아들이고,\n미래를 선택한다.\n\n이것이 완전한 인간의 조건입니다.\n\n아리온은 이제 리리아나를 구할 자격이 있습니다.",
+      "en": "The Three Hearts are complete.\n\nRemember the past,\nAccept the present,\nChoose the future.\n\nThis is the condition of a complete human.\n\nArion is now worthy of saving Liliana."
+    }
+  }
+}

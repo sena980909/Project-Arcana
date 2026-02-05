@@ -1,0 +1,991 @@
+{
+  "version": "1.0.0",
+  "description": "Project Arcana - Level Design Configuration (Chapter 1-6 Complete)",
+
+  "tile_legend": {
+    "#": "wall",
+    ".": "floor",
+    "S": "player_spawn",
+    "B": "boss",
+    "E": "enemy_spawn",
+    "T": "treasure",
+    "~": "water_hazard",
+    "V": "vine_obstacle",
+    "Q": "quest_object",
+    "M": "npc",
+    "D": "door",
+    "L": "light_source",
+    "P": "power_core",
+    "H": "hidden_item",
+    "R": "rose_altar",
+    "F": "memory_fragment",
+    "C": "checkpoint_or_choice",
+    "W": "ending_choice"
+  },
+
+
+  "chapter_1_forest": {
+    "name": "잊혀진 숲",
+    "name_en": "The Forgotten Forest",
+    "tileset": "tileset_forest.png",
+    "bgm": "bgm_forest_mystery.mp3",
+    "ambient_sfx": "sfx_forest_ambient.mp3",
+
+    "lighting": {
+      "ambient_color": "0xFF2D4A1E",
+      "ambient_intensity": 0.6,
+      "fog_enabled": true,
+      "fog_color": "0xFF1A2F10",
+      "fog_density": 0.3
+    },
+
+    "grid": {
+      "width": 41,
+      "height": 21,
+      "tile_size": 32
+    },
+
+    "layout": [
+      "#########################################",
+      "#.....#.........#.......T#.............B#",
+      "#.###.#.###.###.#.#####.##.###########.##",
+      "#.#...#.#Q..#...#.#...#....#.........#..#",
+      "#.#.###.###.#.###.#.#.######.#######.##.#",
+      "#.#.....E...#.#...#.#........#.....#.#..#",
+      "#.#########.#.#.###.##########.###.#.#.##",
+      "#.#.......#.#.#.#Q..#........#.#Q..#.#..#",
+      "#.#.#####.#.#.#.###.#.######.#.###.#.##.#",
+      "#...#~~~#...#.#...#.#.#....#.#...#.#..#.#",
+      "#####~#~#####.###.#.#.#.##.#.###.#.##.#.#",
+      "#...#~~~#.....#...#...#.#..#...#.#..#.#.#",
+      "#.#.#####.#####.#######.#.####.#.##.#.#.#",
+      "#.#.......#...#.........#.#....#..#.#.#.#",
+      "#.#########.#.###########.#.####.##.#.#.#",
+      "#.#VVVVV#.#.#.....E.......#.#T...#..#...#",
+      "#.#V.###.#.#############.#.######.###.##",
+      "#...V.#M..#.............#.#..........#..#",
+      "###.V.#.###.###########.#.##########.##.#",
+      "#S..V.#.....#...........#..............E#",
+      "#########################################"
+    ],
+
+    "player_spawn": { "x": 1, "y": 19 },
+
+    "boss": {
+      "id": "boss_yggdra",
+      "name": "이그드라, 잊혀진 수호자",
+      "position": { "x": 39, "y": 1 },
+      "arena_radius": 4,
+      "trigger_distance": 3
+    },
+
+    "enemies": [
+      {
+        "id": "enemy_corrupted_beast",
+        "spawn_zones": [
+          { "x": 11, "y": 5, "count": 3, "wander_radius": 2 },
+          { "x": 15, "y": 15, "count": 3, "wander_radius": 3 },
+          { "x": 38, "y": 19, "count": 2, "wander_radius": 2 }
+        ],
+        "respawn_time": 60,
+        "quest_link": "q_ch1_04"
+      }
+    ],
+
+    "quest_objects": [
+      {
+        "type": "obstacle_vine",
+        "id": "vine",
+        "positions": [
+          { "x": 3, "y": 15 }, { "x": 3, "y": 16 }, { "x": 3, "y": 17 },
+          { "x": 3, "y": 18 }, { "x": 3, "y": 19 }
+        ],
+        "hp": 3,
+        "blocks_path": true,
+        "quest_link": "q_ch1_02",
+        "destroy_effect": "effect_vine_break"
+      },
+      {
+        "type": "interactable_statue",
+        "id": "ancient_statue",
+        "positions": [
+          { "x": 11, "y": 3, "lore_id": "statue_lore_1" },
+          { "x": 17, "y": 7, "lore_id": "statue_lore_2" },
+          { "x": 29, "y": 7, "lore_id": "statue_lore_3" }
+        ],
+        "interact_time": 2.0,
+        "quest_link": "q_ch1_03",
+        "glow_effect": true
+      }
+    ],
+
+    "treasures": [
+      { "x": 25, "y": 1, "contents": ["potion_hp_medium", "gold_100"], "rarity": "common" },
+      { "x": 31, "y": 15, "contents": ["material_corrupted_fang", "gold_50"], "rarity": "common" }
+    ],
+
+    "npcs": [
+      {
+        "id": "npc_ash_merchant",
+        "name": "재의 상인",
+        "position": { "x": 8, "y": 17 },
+        "quest_link": "q_side_01",
+        "shop_enabled": true,
+        "dialogue_trigger_distance": 2
+      }
+    ],
+
+    "hazards": [
+      {
+        "type": "water",
+        "positions": [
+          { "x": 5, "y": 9 }, { "x": 6, "y": 9 }, { "x": 7, "y": 9 },
+          { "x": 5, "y": 10 }, { "x": 7, "y": 10 },
+          { "x": 5, "y": 11 }, { "x": 6, "y": 11 }, { "x": 7, "y": 11 }
+        ],
+        "damage": 0,
+        "slow_effect": 0.5,
+        "blocks_path": true
+      }
+    ],
+
+    "ambient_objects": [
+      { "type": "fallen_tree", "x": 20, "y": 8 },
+      { "type": "mushroom_cluster", "x": 15, "y": 12 },
+      { "type": "fireflies", "x": 25, "y": 5, "radius": 3 }
+    ]
+  },
+
+
+  "chapter_2_cave": {
+    "name": "심연의 동굴",
+    "name_en": "Abyssal Cave",
+    "tileset": "tileset_cave.png",
+    "bgm": "bgm_cave_abyss.mp3",
+    "ambient_sfx": "sfx_cave_drip.mp3",
+
+    "lighting": {
+      "ambient_color": "0xFF0A0A15",
+      "ambient_intensity": 0.2,
+      "fog_enabled": true,
+      "fog_color": "0xFF000008",
+      "fog_density": 0.7,
+      "player_light_radius": 5,
+      "darkness_damage": true,
+      "darkness_damage_rate": 5
+    },
+
+    "grid": {
+      "width": 45,
+      "height": 25,
+      "tile_size": 32
+    },
+
+    "layout": [
+      "#############################################",
+      "#B..........#.............................###",
+      "#.##########.###.#######################.###",
+      "#.#........#...#.#.....................#...#",
+      "#.#.######.###.#.#.###################.###.#",
+      "#.#.#....#...#.#.#.#.......#.........#...#.#",
+      "#.#.#.##.###.#.#.#.#.#####.#.#######.###.#.#",
+      "#.#.#.#L...#.#.#.#.#.#...#.#.#.....#...#.#.#",
+      "#.#.#.####.#.#.#.#.#.#.#.#.#.#.###.###.#.#.#",
+      "#.#.#......#.#...#...#.#.#.#.#.#C#...#.#.#.#",
+      "#.#.########.#########.#.#.#.#.###.#.#.#.#.#",
+      "#.#..........#.........#.#.#.#.....#.#.#.#.#",
+      "#.############.#########.#.#.#######.#.#.#.#",
+      "#.#L.........#.#.........#.#.........#...#.#",
+      "#.##########.#.#.#########.###########.###.#",
+      "#..........#.#.#.#.......#...........#.#...#",
+      "##########.#.#.#.#.#####.###########.#.#.###",
+      "#T.......#.#.#.#.#.#...#.....E.....#.#.#...#",
+      "#.#######.#.#.#.#.#.#.###########.###.#.##.#",
+      "#.#.......#...#...#.#.#.........#.....#.#L.#",
+      "#.#.###########.###.#.#.#######.#######.##.#",
+      "#.#.#C........#.#...#.#.#.....#.........#..#",
+      "#.#.#.########.#.###.#.#.###.###########.#.#",
+      "#...#..........#.....#.....#.............#S#",
+      "#############################################"
+    ],
+
+    "player_spawn": { "x": 43, "y": 23 },
+
+    "boss": {
+      "id": "boss_onyx",
+      "name": "오닉스, 심연의 눈",
+      "position": { "x": 1, "y": 1 },
+      "arena_radius": 5,
+      "trigger_distance": 4,
+      "special_mechanic": "darkness_phases"
+    },
+
+    "enemies": [
+      {
+        "id": "enemy_cave_crawler",
+        "spawn_zones": [
+          { "x": 23, "y": 17, "count": 4, "wander_radius": 3 },
+          { "x": 35, "y": 5, "count": 3, "wander_radius": 2 }
+        ],
+        "respawn_time": 90,
+        "behavior": "ambush_in_dark"
+      }
+    ],
+
+    "quest_objects": [
+      {
+        "type": "gatherable_moss",
+        "id": "luminous_moss",
+        "positions": [
+          { "x": 40, "y": 19 }, { "x": 35, "y": 15 }, { "x": 28, "y": 10 },
+          { "x": 20, "y": 20 }, { "x": 15, "y": 8 }
+        ],
+        "respawn_time": 120,
+        "quest_link": "q_ch2_01",
+        "glow_radius": 2
+      },
+      {
+        "type": "gatherable_crystal",
+        "id": "crystal_shard",
+        "positions": [
+          { "x": 7, "y": 7 }, { "x": 7, "y": 13 }, { "x": 25, "y": 9 },
+          { "x": 33, "y": 21 }, { "x": 15, "y": 5 }, { "x": 20, "y": 12 },
+          { "x": 38, "y": 8 }, { "x": 30, "y": 17 }, { "x": 12, "y": 18 },
+          { "x": 5, "y": 3 }
+        ],
+        "quest_link": "q_ch2_02",
+        "glow_radius": 3,
+        "mining_time": 1.5
+      },
+      {
+        "type": "checkpoint",
+        "id": "maze_checkpoint",
+        "positions": [
+          { "x": 35, "y": 21 }, { "x": 25, "y": 15 },
+          { "x": 15, "y": 10 }, { "x": 5, "y": 5 }
+        ],
+        "quest_link": "q_ch2_03",
+        "activate_effect": "checkpoint_glow"
+      }
+    ],
+
+    "light_sources": [
+      { "x": 7, "y": 7, "radius": 4, "color": "0xFF4488FF", "flicker": true },
+      { "x": 7, "y": 13, "radius": 4, "color": "0xFF4488FF", "flicker": true },
+      { "x": 40, "y": 19, "radius": 3, "color": "0xFF88FFAA", "flicker": false }
+    ],
+
+    "treasures": [
+      { "x": 1, "y": 17, "contents": ["lantern_upgrade", "gold_200"], "rarity": "rare" }
+    ],
+
+    "npcs": [
+      {
+        "id": "npc_explorer",
+        "name": "부상당한 탐험가",
+        "position": { "x": 25, "y": 9 },
+        "quest_link": "q_side_02",
+        "escort_destination": { "x": 43, "y": 23 },
+        "hp": 50
+      }
+    ],
+
+    "special_zones": [
+      {
+        "type": "survival_zone",
+        "id": "darkness_survival",
+        "bounds": { "x1": 10, "y1": 8, "x2": 25, "y2": 18 },
+        "trigger": "all_lights_off",
+        "quest_link": "q_ch2_04",
+        "duration": 90,
+        "enemy_waves": 5
+      }
+    ]
+  },
+
+
+  "chapter_3_fortress": {
+    "name": "붉은 요새",
+    "name_en": "Crimson Fortress",
+    "tileset": "tileset_fortress.png",
+    "bgm": "bgm_fortress_war.mp3",
+    "ambient_sfx": "sfx_war_distant.mp3",
+
+    "lighting": {
+      "ambient_color": "0xFF2A1515",
+      "ambient_intensity": 0.5,
+      "fog_enabled": true,
+      "fog_color": "0xFF1A0505",
+      "fog_density": 0.2,
+      "red_tint": 0.3
+    },
+
+    "grid": {
+      "width": 50,
+      "height": 30,
+      "tile_size": 32
+    },
+
+    "layout": [
+      "##################################################",
+      "#B.................................................#",
+      "#.################################################",
+      "#.#..............................................#.#",
+      "#.#.##########################################.#.#",
+      "#.#.#........................................#.#.#",
+      "#.#.#.######################################.#.#.#",
+      "#.#.#.#....................................#.#.#.#",
+      "#.#.#.#.##################################.#.#.#.#",
+      "#.#.#.#.#P.......E........P.............#.#.#.#.#",
+      "#.#.#.#.#.##############################.#.#.#.#.#",
+      "#.#.#.#.#.#............................#.#.#.#.#.#",
+      "#.#.#.#.#.#.##########################.#.#.#.#.#.#",
+      "#.#.#.#.#.#.#......................E.#.#.#.#.#.#.#",
+      "#D#.#.#.#.#.#.######################.#.#.#.#.#D#.#",
+      "#.#.#.#.#.#.#.#..................P.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.#.#.#.##################.#.#.#.#.#.#.#.#",
+      "#.#...#.#.#.#.#.#................#.#.#.#.#...#.#.#",
+      "#.#####.#.#.#D#.#.##############.#.#D#.#.#####.#.#",
+      "#.......#.#.#.#.#.#E2..........#.#.#.#.#.......#.#",
+      "#########.#.#.#.#.#.##########.#.#.#.#.#########.#",
+      "#T........#.#.#.#.#.#........#.#.#.#.#..........T#",
+      "###########.#.#.#.#.#.######.#.#.#.#.#############",
+      "#...........#...#.#.#.#E1..#.#.#...#.............#",
+      "#.#############.#.#.#.####.#.#.#.#############.#.#",
+      "#.#.............#.#.#....#.#.#.#.............#.#.#",
+      "#.#.#############.#.######.#.#.#############.#.#.#",
+      "#.#...............#........#.#...............#...#",
+      "#.#################.########.###################.#",
+      "#S................................................#",
+      "##################################################"
+    ],
+
+    "player_spawn": { "x": 1, "y": 29 },
+
+    "boss": {
+      "id": "boss_kaiser",
+      "name": "카이저, 영원한 전쟁왕",
+      "position": { "x": 1, "y": 1 },
+      "arena_radius": 6,
+      "trigger_distance": 4,
+      "phases": 4
+    },
+
+    "elites": [
+      {
+        "id": "elite_ironclad",
+        "name": "아이언클래드",
+        "position": { "x": 11, "y": 23 },
+        "quest_link": "q_ch3_02",
+        "guards_door": "door_inner_1",
+        "drops": ["key_inner_gate"]
+      },
+      {
+        "id": "elite_phantomblade",
+        "name": "팬텀블레이드",
+        "position": { "x": 15, "y": 19 },
+        "quest_link": "q_ch3_04",
+        "guards_door": "door_throne",
+        "drops": ["key_throne_room"]
+      }
+    ],
+
+    "enemies": [
+      {
+        "id": "enemy_undead_soldier",
+        "spawn_zones": [
+          { "x": 25, "y": 9, "count": 5, "wander_radius": 4 },
+          { "x": 35, "y": 13, "count": 5, "wander_radius": 3 },
+          { "x": 20, "y": 25, "count": 5, "wander_radius": 3 }
+        ],
+        "respawn_time": 45,
+        "quest_link": "q_ch3_01"
+      }
+    ],
+
+    "quest_objects": [
+      {
+        "type": "destructible_power_core",
+        "id": "power_core",
+        "positions": [
+          { "x": 9, "y": 9 }, { "x": 29, "y": 9 },
+          { "x": 43, "y": 15 }, { "x": 15, "y": 19 }
+        ],
+        "hp": 100,
+        "hits_required": 3,
+        "proximity_damage": 5,
+        "quest_link": "q_ch3_03",
+        "destroy_effect": "power_core_explosion",
+        "on_destroy": "reduce_enemy_spawn"
+      }
+    ],
+
+    "doors": [
+      {
+        "id": "door_inner_1",
+        "position": { "x": 1, "y": 14 },
+        "required_key": "key_inner_gate",
+        "locked": true
+      },
+      {
+        "id": "door_inner_2",
+        "position": { "x": 17, "y": 18 },
+        "required_key": "key_inner_gate",
+        "locked": true
+      },
+      {
+        "id": "door_throne",
+        "position": { "x": 47, "y": 14 },
+        "required_key": "key_throne_room",
+        "locked": true
+      },
+      {
+        "id": "door_secret",
+        "position": { "x": 35, "y": 18 },
+        "required_key": null,
+        "locked": false,
+        "hidden": true
+      }
+    ],
+
+    "treasures": [
+      { "x": 1, "y": 21, "contents": ["armor_soul_plate", "gold_300"], "rarity": "rare" },
+      { "x": 48, "y": 21, "contents": ["sword_spectral", "gold_250"], "rarity": "rare" }
+    ],
+
+    "npcs": [
+      {
+        "id": "npc_fallen_soldier",
+        "name": "잊혀진 병사",
+        "position": { "x": 30, "y": 27 },
+        "quest_link": "q_side_03",
+        "non_hostile": true,
+        "gives_item": "item_soldier_pendant"
+      }
+    ],
+
+    "special_objects": [
+      {
+        "type": "memorial_stone",
+        "position": { "x": 48, "y": 29 },
+        "quest_link": "q_side_03",
+        "interact_text": "병사의 목걸이를 바치시겠습니까?"
+      }
+    ],
+
+    "ambient_objects": [
+      { "type": "burning_brazier", "positions": [{"x": 5, "y": 5}, {"x": 45, "y": 5}] },
+      { "type": "blood_pool", "positions": [{"x": 20, "y": 10}, {"x": 35, "y": 20}] },
+      { "type": "broken_weapon", "positions": [{"x": 15, "y": 15}, {"x": 40, "y": 25}] }
+    ]
+  },
+
+
+  "chapter_4_garden": {
+    "name": "피의 정원",
+    "name_en": "Blood Garden",
+    "tileset": "tileset_garden.png",
+    "bgm": "bgm_garden_sorrow.mp3",
+    "ambient_sfx": "sfx_wind_roses.mp3",
+
+    "lighting": {
+      "ambient_color": "0xFF3D1A1A",
+      "ambient_intensity": 0.5,
+      "fog_enabled": true,
+      "fog_color": "0xFF2A0808",
+      "fog_density": 0.25,
+      "blood_moon": true
+    },
+
+    "grid": {
+      "width": 51,
+      "height": 30,
+      "tile_size": 32
+    },
+
+    "layout": [
+      "###################################################",
+      "#B...............................................H#",
+      "#.###############################################.#",
+      "#.#...........................................#.#.#",
+      "#.#.#########################################.#.#.#",
+      "#.#.#~~~~~#.........#.........#.........#~~~~#.#.#",
+      "#.#.#~###~#.#######.#.#######.#.#######.#~##~#.#.#",
+      "#.#.#~#.#~#.#.....#.#.#.....#.#.#.....#.#~#.~#.#.#",
+      "#.#.#~#.#~#.#.###.#.#.#.###.#.#.#.###.#.#~#.~#.#.#",
+      "#.#.#~~~#~~#.#.R.#.#.#.#.R.#.#.#.#.R.#.#~~#~~#.#.#",
+      "#.#.#####.##.#####.#.#####.#.#####.##.######.#.#.#",
+      "#.#.......#........#.......#.......#........#.#.#",
+      "#.#.#####.#.#######.#######.#######.#.######.#.#.#",
+      "#.#.#...#.#.#.....#.#.....#.#.....#.#.#....#.#.#.#",
+      "#.#.#.#.#.#.#.###.#.#.###.#.#.###.#.#.#.##.#.#.#.#",
+      "#.#.#M#.#.#.#.#T#.#.#.#.#.#.#.#T#.#.#.#.#..#.#.#.#",
+      "#.#.###.#.#.###.###.###.###.###.###.#.####.#.#.#.#",
+      "#.#.....#.#.....#.......#.......#.....#....#...#.#",
+      "#.#######.#######.#####.#.#####.#######.######.#.#",
+      "#.#.......#.......#...#.#.#...#.......#......#.#.#",
+      "#.#.#######.#######.#.#.#.#.#.#######.######.#.#.#",
+      "#.#.#E......#E......#.#.#.#.#......E#......#.#E#.#",
+      "#.#.#.#######.#######.#.#.#.#######.######.###.#.#",
+      "#.#.#.#.....#.#.....#.#.#.#.#.....#.#....#.....#.#",
+      "#.#.#.#.###.#.#.###.#.#.#.#.#.###.#.#.##.#####.#.#",
+      "#.#...#...#...#...#...#D#...#...#...#..#.......#.#",
+      "#.#########.#####.#####.#####.#####.####.#######.#",
+      "#.............#.....#.....#.....#..............#.#",
+      "#############.###.#####.#####.###.##############.#",
+      "#S..............#.......#.......#................#",
+      "###################################################"
+    ],
+
+    "player_spawn": { "x": 1, "y": 29 },
+
+    "boss": {
+      "id": "boss_liliana_illusion",
+      "name": "리리아나의 환영",
+      "position": { "x": 1, "y": 1 },
+      "arena_radius": 6,
+      "trigger_distance": 4,
+      "special_mechanic": "forgiveness_dialogue",
+      "phases": 3
+    },
+
+    "enemies": [
+      {
+        "id": "enemy_thorn_spirit",
+        "spawn_zones": [
+          { "x": 3, "y": 21, "count": 3, "wander_radius": 2 },
+          { "x": 13, "y": 21, "count": 3, "wander_radius": 2 },
+          { "x": 45, "y": 21, "count": 2, "wander_radius": 2 },
+          { "x": 47, "y": 21, "count": 2, "wander_radius": 2 }
+        ],
+        "respawn_time": 60,
+        "quest_link": "q_ch4_01"
+      }
+    ],
+
+    "quest_objects": [
+      {
+        "type": "interactable_altar",
+        "id": "rose_altar",
+        "positions": [
+          { "x": 15, "y": 9, "lore_id": "rose_memory_1" },
+          { "x": 25, "y": 9, "lore_id": "rose_memory_2" },
+          { "x": 35, "y": 9, "lore_id": "rose_memory_3" }
+        ],
+        "interact_time": 3.0,
+        "quest_link": "q_ch4_02",
+        "trigger_memory": true,
+        "glow_effect": "blood_red"
+      },
+      {
+        "type": "gatherable_rose",
+        "id": "crimson_rose",
+        "positions": [
+          { "x": 10, "y": 5 }, { "x": 20, "y": 7 }, { "x": 30, "y": 5 },
+          { "x": 40, "y": 7 }, { "x": 25, "y": 17 }
+        ],
+        "quest_link": "q_ch4_03",
+        "damage_on_gather": 10
+      }
+    ],
+
+    "hidden_items": [
+      {
+        "id": "promise_ring",
+        "name": "약속의 반지",
+        "position": { "x": 49, "y": 1 },
+        "required_for": "true_ending",
+        "discovery_hint": "정원 끝자락, 가장 아름다운 장미가 피어있던 자리",
+        "glow_subtle": true
+      }
+    ],
+
+    "hazards": [
+      {
+        "type": "blood_pool",
+        "positions": [
+          { "x": 5, "y": 5 }, { "x": 6, "y": 5 }, { "x": 7, "y": 5 },
+          { "x": 5, "y": 6 }, { "x": 7, "y": 6 },
+          { "x": 43, "y": 5 }, { "x": 44, "y": 5 }, { "x": 45, "y": 5 },
+          { "x": 43, "y": 6 }, { "x": 45, "y": 6 }
+        ],
+        "damage": 5,
+        "slow_effect": 0.3,
+        "visual": "bubbling_blood"
+      }
+    ],
+
+    "treasures": [
+      { "x": 19, "y": 15, "contents": ["ring_thorn_guard", "gold_300"], "rarity": "rare" },
+      { "x": 31, "y": 15, "contents": ["potion_memory", "gold_200"], "rarity": "uncommon" }
+    ],
+
+    "npcs": [
+      {
+        "id": "npc_gardener_ghost",
+        "name": "정원사의 망령",
+        "position": { "x": 5, "y": 15 },
+        "quest_link": "q_side_04",
+        "dialogue_trigger": "near_roses"
+      }
+    ],
+
+    "doors": [
+      {
+        "id": "door_boss_chamber",
+        "position": { "x": 25, "y": 25 },
+        "required_key": null,
+        "condition": "3_altars_activated",
+        "locked": true
+      }
+    ],
+
+    "ambient_objects": [
+      { "type": "wilted_rose", "positions": [{"x": 8, "y": 12}, {"x": 42, "y": 12}] },
+      { "type": "rose_petals_falling", "area": {"x1": 1, "y1": 1, "x2": 50, "y2": 29} },
+      { "type": "blood_fountain", "position": {"x": 25, "y": 2} }
+    ]
+  },
+
+
+  "chapter_5_abyss": {
+    "name": "기억의 심연",
+    "name_en": "Abyss of Memory",
+    "tileset": "tileset_abyss.png",
+    "bgm": "bgm_abyss_melancholy.mp3",
+    "ambient_sfx": "sfx_whispers.mp3",
+
+    "lighting": {
+      "ambient_color": "0xFF0F0F1F",
+      "ambient_intensity": 0.3,
+      "fog_enabled": true,
+      "fog_color": "0xFF050510",
+      "fog_density": 0.5,
+      "ethereal_glow": true,
+      "memory_distortion": true
+    },
+
+    "grid": {
+      "width": 53,
+      "height": 30,
+      "tile_size": 32
+    },
+
+    "layout": [
+      "#####################################################",
+      "#.......#...........................................B#",
+      "#.#####.#.#########################################.##",
+      "#.#...#.#.#.......................................#..#",
+      "#.#.#.#.#.#.#####################################.##.#",
+      "#.#.#...#.#.#H..................................#.#..#",
+      "#.#.#####.#.#.################################.#.#.#.#",
+      "#.#.......#.#.#..............................#.#.#.#.#",
+      "#.#########.#.#.############################.#.#.#.#.#",
+      "#...........#.#.#..........................#.#.#.#.#.#",
+      "#.###########.#.#.########################.#.#.#.#.#.#",
+      "#.#...........#.#.#......................#.#.#.#.#.#.#",
+      "#.#.###########.#.#.####################.#.#.#.#.#.#.#",
+      "#.#.#C..........#.#.#..................#.#.#.#.#.#.#.#",
+      "#.#.#.###########.#.#.################.#.#.#.#.#.#.#.#",
+      "#.#.#.#...........#.#.#..............#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.###########.#.#.############.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#F..........#.#.#..........#.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.###########.#.#.########.#.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.#F..........#.#.#......#.#.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.#.###########.#.#.####.#.#.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.#.#F..........#.#.#..#.#.#.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.#.#.###########.#.#.##.#.#.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.#.#.#...........#.#....#.#.#.#.#.#.#.#.#.#.#",
+      "#.#.#.#.#.#.#.#.###########.######.#.#.#.#.#.#.#.#.#.#",
+      "#E#.#...#.#...#.............#......#...#...#...#...#.#",
+      "#.#.#####.###################.##########################",
+      "#.#.......................#.............................#",
+      "#.#######################.#############################.#",
+      "#S......................................................#",
+      "#####################################################"
+    ],
+
+    "player_spawn": { "x": 1, "y": 29 },
+
+    "boss": {
+      "id": "boss_shadow_self",
+      "name": "그림자 자아",
+      "position": { "x": 51, "y": 1 },
+      "arena_radius": 5,
+      "trigger_distance": 3,
+      "special_mechanic": "cannot_kill_must_approach",
+      "defeat_condition": "approach_and_accept",
+      "dialogue_on_approach": true
+    },
+
+    "enemies": [
+      {
+        "id": "enemy_memory_wraith",
+        "spawn_zones": [
+          { "x": 1, "y": 25, "count": 3, "wander_radius": 3 }
+        ],
+        "respawn_time": 120,
+        "behavior": "flees_from_player"
+      }
+    ],
+
+    "quest_objects": [
+      {
+        "type": "memory_fragment",
+        "id": "memory_shard",
+        "positions": [
+          { "x": 7, "y": 17, "memory_id": "memory_childhood" },
+          { "x": 7, "y": 19, "memory_id": "memory_promise" },
+          { "x": 7, "y": 21, "memory_id": "memory_tragedy" }
+        ],
+        "quest_link": "q_ch5_01",
+        "visual_effect": "floating_glow",
+        "collect_trigger_flashback": true
+      },
+      {
+        "type": "choice_room",
+        "id": "room_of_choice",
+        "position": { "x": 5, "y": 13 },
+        "quest_link": "q_ch5_02",
+        "choices": ["left_path", "right_path"],
+        "outcome": "same_destination",
+        "narrative_meaning": "fate_is_unavoidable"
+      }
+    ],
+
+    "hidden_items": [
+      {
+        "id": "first_memory_crystal",
+        "name": "최초의 기억 결정",
+        "position": { "x": 5, "y": 5 },
+        "required_for": "true_ending",
+        "discovery_hint": "심연의 가장 깊은 곳, 모든 것이 시작된 기억",
+        "glow_subtle": true,
+        "requires_all_fragments": true
+      }
+    ],
+
+    "special_zones": [
+      {
+        "type": "name_reveal_zone",
+        "id": "identity_revelation",
+        "bounds": { "x1": 45, "y1": 1, "x2": 51, "y2": 5 },
+        "trigger": "approach_boss",
+        "reveals": "protagonist_name_arion",
+        "dialogue_sequence": true
+      }
+    ],
+
+    "treasures": [],
+
+    "npcs": [],
+
+    "ambient_objects": [
+      { "type": "floating_memory", "positions": [{"x": 15, "y": 10}, {"x": 30, "y": 15}, {"x": 45, "y": 8}] },
+      { "type": "mirror_reflection", "positions": [{"x": 25, "y": 5}] },
+      { "type": "distortion_ripple", "area": {"x1": 1, "y1": 1, "x2": 52, "y2": 29} }
+    ]
+  },
+
+
+  "chapter_6_throne": {
+    "name": "망각의 옥좌",
+    "name_en": "Throne of Oblivion",
+    "tileset": "tileset_throne.png",
+    "bgm": "bgm_finale_epic.mp3",
+    "ambient_sfx": "sfx_void_hum.mp3",
+
+    "lighting": {
+      "ambient_color": "0xFF0A0515",
+      "ambient_intensity": 0.4,
+      "fog_enabled": true,
+      "fog_color": "0xFF050008",
+      "fog_density": 0.4,
+      "void_particles": true,
+      "dramatic_lighting": true
+    },
+
+    "grid": {
+      "width": 61,
+      "height": 40,
+      "tile_size": 32
+    },
+
+    "layout": [
+      "#############################################################",
+      "#B...........................................................#",
+      "#.#########################################################.#",
+      "#.#.......................................................#.#",
+      "#.#.#####################################################.#.#",
+      "#.#.#...................................................#.#.#",
+      "#.#.#.#################################################.#.#.#",
+      "#.#.#.#...............................................#.#.#.#",
+      "#.#.#.#.#############################################.#.#.#.#",
+      "#.#.#.#.#...........................................#.#.#.#.#",
+      "#.#.#.#.#.#########################################.#.#.#.#.#",
+      "#.#.#.#.#.#...........#.....L.....#...........#..#.#.#.#.#.#",
+      "#.#.#.#.#.#.#########.#.#########.#.#########.#.##.#.#.#.#.#",
+      "#.#.#.#.#.#.#.......#.#.#.......#.#.#.......#.#.#..#.#.#.#.#",
+      "#.#.#.#.#.#.#.#####.#.#.#.#####.#.#.#.#####.#.#.#.##.#.#.#.#",
+      "#.#.#.#.#.#.#.#...#.#.#.#.#.W.#.#.#.#.#...#.#.#.#.#..#.#.#.#",
+      "#.#.#.#.#.#.#.#.#.#.#.#.#.###.#.#.#.#.#.#.#.#.#.#.#.##.#.#.#",
+      "#.#.#.#.#.#.#.#.#.#.#.#.#.....#.#.#.#.#.#.#.#.#.#.#.#..#.#.#",
+      "#.#.#.#.#.#.#.#.#.#.#.#.#######.#.#.#.#.#.#.#.#.#.#.#.##.#.#",
+      "#.#.#.#.#.#.#...#...#.#.........#.#...#...#.#.#.#.#.#.#..#.#",
+      "#.#.#.#.#.#.#########.###########.#########.#.#.#.#.#.#.##.#",
+      "#.#.#.#.#.#.........#.....#.....#.........#...#.#.#.#.#.#..#",
+      "#.#.#.#.#.#########.#####.#.#####.#########.###.#.#.#.#.#.##",
+      "#.#.#.#.#...........#.....#.....#...........#...#.#.#.#.#..#",
+      "#.#.#.#.#############.###.#.###.#############.###.#.#.#.#.##",
+      "#.#.#.#...............#.#.#.#.#...............#...#.#.#.#..#",
+      "#.#.#.#################.#.#.#.#################.###.#.#.#.##",
+      "#.#.#...................#.#.#...................#...#.#.#..#",
+      "#.#.#####################D#####################.###.#.#.#.##",
+      "#.#.........#.......#.......#.......#.........#.#...#...#..#",
+      "#.#########.#.#####.#.#####.#.#####.#.#######.#.#.#######.##",
+      "#.#.........#.#...#.#.#...#.#.#...#.#.#.....#.#.#.#.......#",
+      "#.#.#########.#.#.#.#.#.#.#.#.#.#.#.#.#.###.#.#.#.#.#######",
+      "#.#.#.........#.#.#.#.#.#.#.#.#.#.#.#.#.#E#.#.#.#.#.......#",
+      "#.#.#.#########.#.#.#.#.#.#.#.#.#.#.#.#.###.#.#.#.#######.#",
+      "#.#...#.........#...#...#...#...#...#.#.....#...#.........#",
+      "#.#####.#######################################.###########",
+      "#.......#M..............#T..............#.................#",
+      "#########.##############.###############.#################.#",
+      "#S........................................................#",
+      "#############################################################"
+    ],
+
+    "player_spawn": { "x": 1, "y": 39 },
+
+    "boss": {
+      "id": "boss_avatar_of_oblivion",
+      "name": "망각의 화신",
+      "position": { "x": 1, "y": 1 },
+      "arena_radius": 8,
+      "trigger_distance": 5,
+      "phases": 4,
+      "phase_mechanics": {
+        "phase_1": { "name": "과거의 망각", "heart": "first_heart", "hp_range": "100-70%" },
+        "phase_2": { "name": "현재의 망각", "heart": "second_heart", "hp_range": "70-40%" },
+        "phase_3": { "name": "미래의 망각", "heart": "third_heart", "hp_range": "40-10%" },
+        "phase_4": { "name": "최후의 거래", "mechanic": "ending_choice", "hp_range": "10-0%" }
+      }
+    },
+
+    "enemies": [
+      {
+        "id": "enemy_void_guardian",
+        "spawn_zones": [
+          { "x": 43, "y": 33, "count": 4, "wander_radius": 3 }
+        ],
+        "respawn_time": 0,
+        "behavior": "guard_path"
+      }
+    ],
+
+    "quest_objects": [
+      {
+        "type": "liliana_seal",
+        "id": "seal_of_liliana",
+        "position": { "x": 29, "y": 11 },
+        "quest_link": "q_ch6_01",
+        "interact_trigger": "liberation_sequence",
+        "requires": "three_hearts_complete"
+      },
+      {
+        "type": "ending_choice_point",
+        "id": "thread_of_reincarnation",
+        "position": { "x": 29, "y": 15 },
+        "quest_link": "q_ch6_ending",
+        "condition_check": {
+          "normal_ending": "no_hidden_items",
+          "true_ending": "has_promise_ring_and_memory_crystal"
+        },
+        "narrative_weight": "maximum"
+      }
+    ],
+
+    "special_zones": [
+      {
+        "type": "ending_arena",
+        "id": "throne_room",
+        "bounds": { "x1": 1, "y1": 1, "x2": 10, "y2": 10 },
+        "boss_arena": true,
+        "phase_triggers": true
+      },
+      {
+        "type": "true_ending_zone",
+        "id": "choice_of_eternity",
+        "position": { "x": 29, "y": 15 },
+        "requires": ["promise_ring", "first_memory_crystal"],
+        "unlocks": "third_option"
+      }
+    ],
+
+    "treasures": [
+      { "x": 23, "y": 37, "contents": ["elixir_of_memory", "gold_500"], "rarity": "legendary" }
+    ],
+
+    "npcs": [
+      {
+        "id": "npc_forgotten_sage",
+        "name": "잊혀진 현자",
+        "position": { "x": 9, "y": 37 },
+        "quest_link": "q_ch6_02",
+        "dialogue_key": "sage_revelation",
+        "reveals_lore": true
+      }
+    ],
+
+    "doors": [
+      {
+        "id": "door_throne_chamber",
+        "position": { "x": 23, "y": 28 },
+        "required_key": null,
+        "condition": "boss_phase_4_reached",
+        "auto_open": true
+      }
+    ],
+
+    "ambient_objects": [
+      { "type": "void_throne", "position": {"x": 1, "y": 1} },
+      { "type": "floating_hearts", "positions": [{"x": 5, "y": 5}, {"x": 7, "y": 3}, {"x": 3, "y": 7}] },
+      { "type": "memory_wisps", "area": {"x1": 1, "y1": 1, "x2": 60, "y2": 39} },
+      { "type": "crumbling_pillars", "positions": [{"x": 15, "y": 10}, {"x": 45, "y": 10}, {"x": 15, "y": 30}, {"x": 45, "y": 30}] }
+    ],
+
+    "ending_data": {
+      "normal_ending": {
+        "id": "forgotten_hero",
+        "name_ko": "잊혀진 영웅",
+        "trigger": "defeat_boss_without_hidden_items",
+        "outcome": "arion_forgotten_liliana_saved"
+      },
+      "true_ending": {
+        "id": "love_of_this_life",
+        "name_ko": "이번 생의 사랑",
+        "trigger": "defeat_boss_with_both_hidden_items",
+        "outcome": "cut_thread_of_reincarnation_together"
+      }
+    }
+  },
+
+
+  "global_settings": {
+    "tile_size": 32,
+    "collision_layer": "walls",
+    "default_spawn_offset": { "x": 16, "y": 16 },
+
+    "enemy_behavior": {
+      "aggro_range": 5,
+      "chase_range": 10,
+      "return_to_spawn": true
+    },
+
+    "lighting_defaults": {
+      "player_light_radius": 8,
+      "torch_radius": 6,
+      "lantern_radius": 10
+    }
+  }
+}

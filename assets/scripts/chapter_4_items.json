@@ -1,0 +1,182 @@
+{
+  "chapter": "ch4_garden_of_blood",
+
+  "items": {
+    "memory_complete_2": {
+      "id": "item_ch4_001",
+      "name": "완전한 기억: 리리아나",
+      "name_en": "Complete Memory: Liliana",
+      "type": "key_item",
+      "icon": "item_memory_liliana",
+      "upgraded_from": "memory_fragment_1",
+
+      "flavor_text": {
+        "short": "그녀의 얼굴이 기억난다. 그녀의 목소리가.",
+        "full": "리리아나.\n\n그 이름을 부르면 가슴이 아프다. 하지만 이제 왜 아픈지 안다.\n\n사랑했다. 세상 누구보다.\n그래서 죽였다. 세상을 위해.\n그래서 아프다. 영원히.\n\n하지만 그녀는 말했다. '진짜 나는 살아있다'고.\n\n이 기억은 열쇠다. 그녀를 진짜로 구할 열쇠."
+      },
+
+      "lore_connection": "Ch1-3 기억 조각의 완성형. 주인공 과거의 핵심",
+
+      "passive_effect": {
+        "name": "사랑의 기억",
+        "description": "HP가 10% 이하로 떨어져도 한 번 더 살아남는다. (1회)"
+      }
+    },
+
+    "arcana_garden": {
+      "id": "item_ch4_002",
+      "name": "피의 정원의 아르카나",
+      "name_en": "Arcana of the Garden of Blood",
+      "type": "arcana",
+      "icon": "arcana_garden",
+      "rarity": "legendary",
+
+      "flavor_text": {
+        "short": "사랑과 원한이 뒤엉켜 있다. 하지만 결국엔 사랑이다.",
+        "full": "리리아나의 사랑, 고통, 그리고 용서가 응축된 결정체.\n\n손에 쥐면 장미 향기가 난다. 그리고 피 냄새도.\n\n아름다움과 잔인함이 공존한다. 사랑이 원래 그런 것처럼.\n\n하지만 이 결정체의 핵심은... 용서다.\n\n'알아. 알고 있었어. 처음부터.'\n\n그녀는 이미 용서했다. 오래전에.\n\n이제 남은 건 네가 너 자신을 용서하는 것뿐."
+      },
+
+      "lore_connection": "네 번째 아르카나. '세 개의 심장 = 열쇠' 복선",
+
+      "passive_effect": {
+        "name": "피어난 용서",
+        "description": "모든 상태이상 지속시간 30% 감소. 회복 아이템 효과 15% 증가."
+      }
+    },
+
+    "white_rose_preserved": {
+      "id": "item_ch4_003",
+      "name": "보존된 흰 장미",
+      "name_en": "Preserved White Rose",
+      "type": "key_item",
+      "icon": "item_rose_white",
+      "obtained": "장미 미로 첫 번째 기억 후 자동 획득",
+
+      "flavor_text": {
+        "short": "처음 만난 날의 장미. 아직 시들지 않았다.",
+        "full": "리리아나가 가장 좋아했던 흰 장미.\n\n모든 것이 시작된 날, 그녀가 울고 있던 그 자리에 피어있었다.\n\n'왜 울어요?'\n'곧 죽을 거라서요.'\n'그럼 그전까지 제가 곁에 있을게요.'\n\n그때 건넨 장미. 세월이 흘러도 시들지 않는다.\n\n그녀의 마법일까. 아니면... 사랑의 힘일까."
+      },
+
+      "lore_connection": "주인공과 리리아나의 만남. 순수했던 약속의 증표",
+
+      "special_use": "최종 챕터에서 '진짜 리리아나' 구출에 필요"
+    },
+
+    "gardener_pruning_shears": {
+      "id": "item_ch4_004",
+      "name": "정원사의 전정가위",
+      "name_en": "Gardener's Pruning Shears",
+      "type": "accessory",
+      "icon": "item_shears",
+      "obtained": "정원사의 모든 대화 완료 후",
+
+      "flavor_text": {
+        "short": "수십 년 동안 장미를 돌봤던 손길이 남아있다.",
+        "full": "정원사가 평생 사용하던 전정가위.\n\n'아가씨를 돌봤듯이 장미를 돌봤지.'\n'이제 아가씨도 가고, 장미도 시들어가고.'\n'이것도 더 이상 필요 없어.'\n\n가위 손잡이에 작은 글씨가 새겨져 있다.\n\n'리리아나 아가씨의 12번째 생일 선물 - 항상 곁에서 지키겠습니다'\n\n...지키지 못했다는 죄책감이 묻어있다.\n\n주인공도, 정원사도, 같은 무게를 지고 있다."
+      },
+
+      "lore_connection": "정원사의 평생과 헌신. '지키지 못한 자'의 동류의식",
+
+      "passive_effect": {
+        "name": "정원사의 손길",
+        "description": "가시/출혈 계열 피해 20% 감소"
+      }
+    },
+
+    "lilianas_hairpin": {
+      "id": "item_ch4_005",
+      "name": "리리아나의 머리핀",
+      "name_en": "Liliana's Hairpin",
+      "type": "key_item",
+      "icon": "item_hairpin",
+      "obtained": "보스 처치 후 자동 획득",
+
+      "flavor_text": {
+        "short": "그녀의 체온이 아직 남아있는 것 같다.",
+        "full": "리리아나가 항상 하고 다니던 장미 모양 머리핀.\n\n보스전에서 떨어진 것. 아니, 그녀가 남긴 것.\n\n'사랑해. 영원히.'\n\n마지막 말과 함께.\n\n이 머리핀을 바라보면 그녀의 얼굴이 떠오른다.\n\n웃는 얼굴. 우는 얼굴. 사랑하는 얼굴.\n\n그리고 마지막으로... 용서하는 얼굴.\n\n다시 만날 수 있을까. 진짜 그녀를."
+      },
+
+      "lore_connection": "리리아나의 유품. Ch5에서 '기억의 심연' 입장 열쇠",
+
+      "special_use": "Chapter 5 입장 필수 아이템"
+    }
+  },
+
+  "common_drops": {
+    "blood_rose_petal": {
+      "id": "item_common_ch4_001",
+      "name": "핏빛 장미 꽃잎",
+      "name_en": "Blood Rose Petal",
+      "type": "material",
+      "icon": "item_petal_blood",
+
+      "flavor_text": {
+        "short": "아름답지만 슬프다.",
+        "full": "피의 정원에서 떨어진 장미 꽃잎.\n\n원래는 흰색이었다. 리리아나가 좋아했던 순백의 장미.\n\n하지만 그녀의 피가 물들인 후로... 영원히 붉다.\n\n꽃잎을 만지면 희미하게 그녀의 목소리가 들리는 것 같다.\n\n'사랑해...'\n\n...환청일 것이다. 분명."
+      },
+
+      "sell_price": 15,
+      "crafting_use": "사랑의 물약 재료",
+      "drop_from": ["정원 전역", "장미 덤불"]
+    },
+
+    "thorn_fragment": {
+      "id": "item_common_ch4_002",
+      "name": "원한의 가시",
+      "name_en": "Thorn of Resentment",
+      "type": "material",
+      "icon": "item_thorn",
+
+      "flavor_text": {
+        "short": "찔리면 마음까지 아프다.",
+        "full": "정원의 장미에서 떨어진 가시.\n\n보통 가시와 다르다. 찔리면 피부가 아닌... 마음이 아프다.\n\n잊고 싶었던 기억이 떠오른다.\n\n후회하는 일, 미안한 사람, 하지 못한 말.\n\n리리아나의 원한이 만들어낸 가시.\n\n하지만 그 원한도... 사랑에서 비롯된 것이었다."
+      },
+
+      "sell_price": 12,
+      "crafting_use": "고통 저항 장비 재료",
+      "drop_from": ["가시의 방", "보스 리리아나"]
+    },
+
+    "tears_of_reunion": {
+      "id": "item_common_ch4_003",
+      "name": "재회의 눈물",
+      "name_en": "Tears of Reunion",
+      "type": "consumable",
+      "icon": "item_tear_reunion",
+      "effect": "restore_small_hp_mp",
+
+      "flavor_text": {
+        "short": "슬프지만, 따뜻하다.",
+        "full": "정원 여기저기서 발견되는 결정화된 눈물.\n\n누구의 눈물일까. 리리아나의? 주인공의? 아니면 둘의?\n\n결정을 깨면 따뜻한 기운이 퍼진다.\n\n슬픔이 담겨있지만... 그 슬픔은 사랑에서 온 것.\n\n사용하면 몸과 마음이 조금 치유된다.\n\n눈물도 때로는 약이 된다."
+      },
+
+      "use_effect": "HP 20%, MP 20% 회복",
+      "drop_from": ["중앙 분수 주변", "보스 리리아나"]
+    }
+  },
+
+  "secret_item": {
+    "promise_ring": {
+      "id": "item_secret_ch4_001",
+      "name": "약속의 반지",
+      "name_en": "Ring of Promise",
+      "type": "secret",
+      "icon": "item_ring_promise",
+      "obtain_condition": "장미 미로에서 모든 기억 장미를 특정 순서로 방문 (흰색→분홍→빨강→검정→핏빛)",
+
+      "flavor_text": {
+        "short": "두 사람의 영원을 담은 반지.",
+        "full": "작은 은반지. 안쪽에 두 이름이 새겨져 있다.\n\n'[주인공 이름] & Liliana'\n\n...주인공의 이름이 있다. 기억나지 않는 이름이.\n\n이 반지는 약속이었다.\n\n'영원히 함께하겠다'는.\n\n지키지 못한 약속. 아니, 지키려고 했지만 방법이 틀렸던 약속.\n\n하지만 리리아나는 말했다.\n\n'진짜 나는 살아있다'고.\n\n이 약속을... 다시 지킬 기회가 있을까."
+      },
+
+      "lore_connection": "주인공의 진짜 이름이 새겨져 있음 (하지만 플레이어에게는 [???]로 표시)",
+
+      "passive_effect": {
+        "name": "영원한 약속",
+        "description": "모든 스탯 5% 증가. 리리아나 관련 전투에서 추가 10% 증가."
+      },
+
+      "special_note": "이 아이템 소지 시 트루 엔딩 조건 충족"
+    }
+  }
+}
