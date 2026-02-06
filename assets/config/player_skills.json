@@ -1,0 +1,203 @@
+{
+  "skills": [
+    {
+      "id": "fireball",
+      "name": "파이어볼",
+      "description": "화염 구체를 발사하여 적에게 피해를 입힙니다.",
+      "type": "projectile",
+      "manaCost": 15,
+      "cooldown": 2.0,
+      "damage": 30,
+      "range": 200,
+      "projectileSpeed": 350,
+      "projectileCount": 1,
+      "spriteKey": "fireball",
+      "sfxKey": "fireball_cast"
+    },
+    {
+      "id": "ice_shard",
+      "name": "얼음 파편",
+      "description": "3개의 얼음 파편을 부채꼴로 발사합니다.",
+      "type": "projectile",
+      "manaCost": 20,
+      "cooldown": 3.0,
+      "damage": 15,
+      "range": 180,
+      "projectileSpeed": 300,
+      "projectileCount": 3,
+      "spriteKey": "ice_shard",
+      "sfxKey": "ice_cast"
+    },
+    {
+      "id": "lightning_bolt",
+      "name": "번개 화살",
+      "description": "빠른 번개를 발사하여 적을 관통합니다.",
+      "type": "projectile",
+      "manaCost": 25,
+      "cooldown": 4.0,
+      "damage": 45,
+      "range": 250,
+      "projectileSpeed": 500,
+      "projectileCount": 1,
+      "spriteKey": "lightning",
+      "sfxKey": "lightning_cast"
+    },
+    {
+      "id": "flame_wave",
+      "name": "화염 파동",
+      "description": "주변에 화염 파동을 일으켜 범위 피해를 입힙니다.",
+      "type": "area",
+      "manaCost": 30,
+      "cooldown": 5.0,
+      "damage": 40,
+      "range": 0,
+      "radius": 100,
+      "spriteKey": "flame_wave",
+      "sfxKey": "flame_wave_cast"
+    },
+    {
+      "id": "frost_nova",
+      "name": "서리 폭발",
+      "description": "주변 적을 얼려 이동 속도를 감소시킵니다.",
+      "type": "area",
+      "manaCost": 25,
+      "cooldown": 6.0,
+      "damage": 25,
+      "range": 0,
+      "radius": 80,
+      "duration": 3.0,
+      "buffEffect": {
+        "slowEnemy": 0.5
+      },
+      "spriteKey": "frost_nova",
+      "sfxKey": "frost_nova_cast"
+    },
+    {
+      "id": "battle_cry",
+      "name": "전투 함성",
+      "description": "공격력을 일시적으로 증가시킵니다.",
+      "type": "buff",
+      "manaCost": 20,
+      "cooldown": 12.0,
+      "damage": 0,
+      "duration": 5.0,
+      "buffEffect": {
+        "damage": 1.5
+      },
+      "spriteKey": "battle_cry",
+      "sfxKey": "buff_cast"
+    },
+    {
+      "id": "iron_skin",
+      "name": "강철 피부",
+      "description": "받는 피해를 일시적으로 감소시킵니다.",
+      "type": "buff",
+      "manaCost": 25,
+      "cooldown": 15.0,
+      "damage": 0,
+      "duration": 6.0,
+      "buffEffect": {
+        "defense": 0.5
+      },
+      "spriteKey": "iron_skin",
+      "sfxKey": "buff_cast"
+    },
+    {
+      "id": "quick_step",
+      "name": "빠른 발걸음",
+      "description": "이동 속도를 일시적으로 증가시킵니다.",
+      "type": "buff",
+      "manaCost": 15,
+      "cooldown": 8.0,
+      "damage": 0,
+      "duration": 4.0,
+      "buffEffect": {
+        "speed": 1.5
+      },
+      "spriteKey": "quick_step",
+      "sfxKey": "buff_cast"
+    },
+    {
+      "id": "shadow_dash",
+      "name": "그림자 질주",
+      "description": "짧은 거리를 빠르게 이동하며 적을 관통합니다.",
+      "type": "dash",
+      "manaCost": 20,
+      "cooldown": 4.0,
+      "damage": 20,
+      "range": 150,
+      "spriteKey": "shadow_dash",
+      "sfxKey": "dash_cast"
+    },
+    {
+      "id": "arcane_missiles",
+      "name": "비전 미사일",
+      "description": "5개의 추적 미사일을 발사합니다.",
+      "type": "projectile",
+      "manaCost": 35,
+      "cooldown": 6.0,
+      "damage": 12,
+      "range": 200,
+      "projectileSpeed": 250,
+      "projectileCount": 5,
+      "spriteKey": "arcane_missile",
+      "sfxKey": "arcane_cast"
+    }
+  ],
+  "ultimates": [
+    {
+      "id": "courage_ultimate",
+      "name": "용기의 불꽃",
+      "description": "용기의 심장의 힘으로 거대한 화염 폭발을 일으킵니다.",
+      "heartType": "courage",
+      "damage": 150,
+      "radius": 200,
+      "effect": {
+        "burn": true,
+        "burnDamage": 10,
+        "burnDuration": 3.0
+      }
+    },
+    {
+      "id": "wisdom_ultimate",
+      "name": "지혜의 빛",
+      "description": "지혜의 심장의 힘으로 시간을 잠시 멈춥니다.",
+      "heartType": "wisdom",
+      "damage": 0,
+      "radius": 300,
+      "duration": 3.0,
+      "effect": {
+        "timeStop": true,
+        "manaRegen": 50
+      }
+    },
+    {
+      "id": "love_ultimate",
+      "name": "사랑의 치유",
+      "description": "사랑의 심장의 힘으로 HP를 완전 회복합니다.",
+      "heartType": "love",
+      "damage": 0,
+      "radius": 0,
+      "effect": {
+        "fullHeal": true,
+        "shield": 50,
+        "shieldDuration": 5.0
+      }
+    },
+    {
+      "id": "unified_ultimate",
+      "name": "세 심장의 조화",
+      "description": "세 심장의 힘을 하나로 모아 궁극의 힘을 발휘합니다.",
+      "heartType": "unified",
+      "damage": 300,
+      "radius": 250,
+      "effect": {
+        "heal": 100,
+        "damageBoost": 2.0,
+        "damageBoostDuration": 5.0,
+        "invincible": true,
+        "invincibleDuration": 2.0
+      }
+    }
+  ]
+}

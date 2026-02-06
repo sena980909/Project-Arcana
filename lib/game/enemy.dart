@@ -1,0 +1,452 @@
+/// Arcana: The Three Hearts - 적 컴포넌트
+library;
+
+import 'dart:math';
+
+import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+
+import 'player.dart';
+import 'components/effects/telegraph_component.dart';
+import '../utils/game_logger.dart';
+import '../data/models/monster_data.dart';
+import '../data/repositories/config_repository.dart';
+
+/// 적 사망 콜백
+typedef EnemyDeathCallback = void Function(Enemy enemy);
+
+/// 적 공격 적중 콜백
+typedef AttackHitCallback = void Function(double damage);
+
+/// 적 컴포넌트
+class Enemy extends PositionComponent {
+  Enemy({
+    required Vector2 position,
+    required this.assetPath,
+    required this.enemyType,
+    required this.player,
+    this.onDeath,
+    this.onAttackHit,
+    this.monsterData,
+  }) : super(
+          position: position,
+          size: Vector2(32, 32),
+          anchor: Anchor.center,
+        );
+
+  final String assetPath;
+  final String enemyType;
+  final Player player;
+  final EnemyDeathCallback? onDeath;
+  final AttackHitCallback? onAttackHit;
+  final MonsterData? monsterData;
+
+  // 스탯
+  late double hp;
+  late double maxHp;
+  late double speed;
+  late double attackDamage;
+  late double detectionRange;
+  late double attackRange;
+  late List<AttackPattern> attackPatterns;
+
+  // 상태
+  bool isDead = false;
+
+  // AI 상태
+  Vector2 _moveDirection = Vector2.zero();
+  double _actionTimer = 0;
+  bool _isChasing = false;
+
+  // 공격 상태
+  bool _isAttacking = false;
+  double _attackCooldownTimer = 0;
+  int _currentAttackIndex = 0;
+  TelegraphComponent? _currentTelegraph;
+
+  // 애니메이션
+  SpriteAnimation? _idleAnimation;
+  SpriteAnimation? _runAnimation;
+  SpriteAnimationComponent? _animationComponent;
+  bool _facingRight = true;
+
+  // 이펙트 타이머
+  double _hitFlashTimer = 0;
+  double _deathTimer = 0;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    _setupStats();
+    await _loadAnimations();
+
+    _animationComponent = SpriteAnimationComponent(
+      animation: _idleAnimation,
+      size: Vector2(32, 32),
+      anchor: Anchor.center,
+    );
+    add(_animationComponent!);
+  }
+
+  void _setupStats() {
+    // ConfigRepository에서 데이터 가져오기 시도
+    final data = monsterData ?? ConfigRepository.instance.getMonster(enemyType);
+
+    if (data != null) {
+      maxHp = data.hp;
+      speed = data.speed;
+      attackDamage = data.damage;
+      detectionRange = data.detectionRange;
+      attackRange = data.attackRange;
+      attackPatterns = data.attackPatterns;
+    } else {
+      // 기본값 (호환성 유지)
+      switch (enemyType) {
+        case 'goblin':
+          maxHp = 30;
+          speed = 50;
+          attackDamage = 5;
+          detectionRange = 120;
+          attackRange = 25;
+        case 'skelet':
+          maxHp = 40;
+          speed = 40;
+          attackDamage = 8;
+          detectionRange = 150;
+          attackRange = 30;
+        case 'orc_warrior':
+          maxHp = 60;
+          speed = 35;
+          attackDamage = 12;
+          detectionRange = 100;
+          attackRange = 35;
+        case 'imp':
+          maxHp = 25;
+          speed = 70;
+          attackDamage = 4;
+          detectionRange = 180;
+          attackRange = 20;
+        default:
+          maxHp = 30;
+          speed = 45;
+          attackDamage = 5;
+          detectionRange = 120;
+          attackRange = 25;
+      }
+
+      // 기본 공격 패턴 생성
+      attackPatterns = [
+        AttackPattern(
+          name: 'basic_attack',
+          damage: attackDamage,
+          range: attackRange,
+          telegraphDuration: 0.5,
+          attackDuration: 0.2,
+          cooldown: 2.0,
+          shape: 'arc',
+          angle: 90,
+        ),
+      ];
+    }
+    hp = maxHp;
+  }
+
+  Future<void> _loadAnimations() async {
+    _idleAnimation = await _loadAnimation('${enemyType}_idle_anim', 4, 0.15);
+    _runAnimation = await _loadAnimation('${enemyType}_run_anim', 4, 0.1);
+  }
+
+  Future<SpriteAnimation> _loadAnimation(
+    String baseName,
+    int frameCount,
+    double stepTime,
+  ) async {
+    final sprites = <Sprite>[];
+    for (int i = 0; i < frameCount; i++) {
+      try {
+        final sprite = await Sprite.load('${assetPath}${baseName}_f$i.png');
+        sprites.add(sprite);
+      } catch (e) {
+        try {
+          final fallback = await Sprite.load(
+              '${assetPath}${enemyType}_idle_anim_f${i % 4}.png');
+          sprites.add(fallback);
+        } catch (e2) {
+          try {
+            final fallback =
+                await Sprite.load('${assetPath}goblin_idle_anim_f${i % 4}.png');
+            sprites.add(fallback);
+          } catch (e3) {
+            // 무시
+          }
+        }
+      }
+    }
+    if (sprites.isEmpty) {
+      sprites.add(await Sprite.load('${assetPath}goblin_idle_anim_f0.png'));
+    }
+    return SpriteAnimation.spriteList(sprites, stepTime: stepTime);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (isDead) {
+      _deathTimer += dt;
+      if (_deathTimer >= 0.3) {
+        removeFromParent();
+      }
+      return;
+    }
+
+    // 피격 플래시
+    if (_hitFlashTimer > 0) {
+      _hitFlashTimer -= dt;
+      if (_hitFlashTimer <= 0) {
+        _animationComponent?.paint.color = Colors.white;
+      }
+    }
+
+    // 공격 쿨다운
+    if (_attackCooldownTimer > 0) {
+      _attackCooldownTimer -= dt;
+    }
+
+    _updateAI(dt);
+
+    // 공격 중이 아닐 때만 이동
+    if (!_isAttacking) {
+      _updateMovement(dt);
+    }
+
+    _updateAnimation();
+  }
+
+  void _updateAI(double dt) {
+    _actionTimer -= dt;
+    if (_actionTimer > 0 && !_isChasing) return;
+
+    final toPlayer = player.position - position;
+    final distance = toPlayer.length;
+
+    if (distance < detectionRange) {
+      _isChasing = true;
+
+      // 공격 범위 내에서 쿨다운이 끝났으면 공격
+      if (distance <= attackRange && _attackCooldownTimer <= 0 && !_isAttacking) {
+        _startAttack();
+      } else if (distance > attackRange * 0.8) {
+        // 공격 범위 밖이면 추적
+        _moveDirection = toPlayer.normalized();
+        _facingRight = _moveDirection.x > 0;
+      } else {
+        // 공격 범위 내면 정지
+        _moveDirection = Vector2.zero();
+      }
+    } else {
+      _isChasing = false;
+      // 랜덤 배회 (확률 낮춤)
+      if (Random().nextDouble() < 0.2) {
+        final angle = Random().nextDouble() * 2 * pi;
+        _moveDirection = Vector2(cos(angle), sin(angle));
+        _facingRight = _moveDirection.x > 0;
+      } else {
+        _moveDirection = Vector2.zero();
+      }
+    }
+
+    _actionTimer = _isChasing ? 0.1 : 1.5;
+  }
+
+  /// 공격 시작
+  void _startAttack() {
+    if (_isAttacking || attackPatterns.isEmpty) return;
+
+    _isAttacking = true;
+    _moveDirection = Vector2.zero();
+
+    // 공격 패턴 선택
+    final pattern = attackPatterns[_currentAttackIndex % attackPatterns.length];
+    _currentAttackIndex++;
+
+    // 플레이어 방향 계산
+    final toPlayer = player.position - position;
+    final direction = atan2(toPlayer.y, toPlayer.x);
+
+    // 텔레그래프 생성
+    _createTelegraph(pattern, direction);
+  }
+
+  /// 텔레그래프 생성
+  void _createTelegraph(AttackPattern pattern, double direction) {
+    TelegraphComponent telegraph;
+
+    switch (pattern.shape) {
+      case 'circle':
+        telegraph = TelegraphFactory.circle(
+          radius: pattern.range,
+          duration: pattern.telegraphDuration,
+          onComplete: () => _executeAttack(pattern, direction),
+        );
+      case 'rectangle':
+        telegraph = TelegraphFactory.rectangle(
+          width: pattern.width > 0 ? pattern.width : pattern.range,
+          height: pattern.height > 0 ? pattern.height : 30,
+          duration: pattern.telegraphDuration,
+          direction: direction,
+          onComplete: () => _executeAttack(pattern, direction),
+        );
+      case 'arc':
+      default:
+        telegraph = TelegraphFactory.arc(
+          radius: pattern.range,
+          angle: pattern.angle > 0 ? pattern.angle : 90,
+          duration: pattern.telegraphDuration,
+          direction: direction,
+          onComplete: () => _executeAttack(pattern, direction),
+        );
+    }
+
+    telegraph.position = position.clone();
+    parent?.add(telegraph);
+    _currentTelegraph = telegraph;
+  }
+
+  /// 공격 실행
+  void _executeAttack(AttackPattern pattern, double direction) {
+    _currentTelegraph = null;
+
+    // 플레이어와의 거리/방향 체크
+    final toPlayer = player.position - position;
+    final distance = toPlayer.length;
+
+    bool hitPlayer = false;
+
+    switch (pattern.shape) {
+      case 'circle':
+        // 원형: 범위 내 체크
+        hitPlayer = distance <= pattern.range;
+      case 'rectangle':
+        // 사각형: 방향과 범위 체크
+        final playerDir = atan2(toPlayer.y, toPlayer.x);
+        final angleDiff = (playerDir - direction).abs();
+        final normalizedAngle = angleDiff > pi ? 2 * pi - angleDiff : angleDiff;
+        final width = pattern.width > 0 ? pattern.width : pattern.range;
+        final height = pattern.height > 0 ? pattern.height : 30;
+
+        // 간단한 사각형 충돌 체크
+        final along = toPlayer.x * cos(direction) + toPlayer.y * sin(direction);
+        final perp = (-toPlayer.x * sin(direction) + toPlayer.y * cos(direction)).abs();
+
+        hitPlayer = along > 0 && along < width && perp < height / 2;
+      case 'arc':
+      default:
+        // 호: 범위와 각도 체크
+        if (distance <= pattern.range) {
+          final playerDir = atan2(toPlayer.y, toPlayer.x);
+          final angleDiff = (playerDir - direction).abs();
+          final normalizedAngle = angleDiff > pi ? 2 * pi - angleDiff : angleDiff;
+          final halfAngle = (pattern.angle > 0 ? pattern.angle : 90) * pi / 360;
+          hitPlayer = normalizedAngle <= halfAngle;
+        }
+    }
+
+    // 피격 처리
+    if (hitPlayer) {
+      // 플레이어가 무적이 아닌 경우에만 데미지
+      if (!player.isInvulnerable) {
+        onAttackHit?.call(pattern.damage);
+        GameLogger.instance.log('COMBAT', '$enemyType의 ${pattern.name} 공격 적중! 데미지: ${pattern.damage}');
+      } else {
+        GameLogger.instance.log('COMBAT', '$enemyType의 ${pattern.name} 공격 회피됨 (무적)');
+      }
+    }
+
+    // 공격 후 쿨다운
+    _attackCooldownTimer = pattern.cooldown;
+    _isAttacking = false;
+  }
+
+  void _updateMovement(double dt) {
+    if (_moveDirection.length > 0) {
+      position += _moveDirection * speed * dt;
+    }
+    _animationComponent?.scale.x = _facingRight ? 1 : -1;
+  }
+
+  void _updateAnimation() {
+    if (_animationComponent == null) return;
+
+    if (_isAttacking) {
+      // 공격 중에는 idle 애니메이션 (공격 전용 없음)
+      _animationComponent!.animation = _idleAnimation;
+    } else {
+      _animationComponent!.animation =
+          _moveDirection.length > 0 ? _runAnimation : _idleAnimation;
+    }
+  }
+
+  void takeDamage(double damage) {
+    if (isDead) return;
+
+    hp -= damage;
+    _hitFlashTimer = 0.1;
+    _animationComponent?.paint.color = Colors.red;
+
+    // 로그
+    GameLogger.instance.logEnemyHit(enemyType, damage, hp);
+
+    // 넉백
+    final knockbackDir = (position - player.position).normalized();
+    position += knockbackDir * 15;
+
+    if (hp <= 0) {
+      _die();
+    }
+  }
+
+  void _die() {
+    isDead = true;
+
+    // 진행 중인 텔레그래프 제거
+    _currentTelegraph?.removeFromParent();
+    _currentTelegraph = null;
+
+    GameLogger.instance.logEnemyDeath(enemyType, position.x, position.y, remainingHp: hp);
+    onDeath?.call(this);
+    _animationComponent?.paint.color = Colors.grey;
+    _deathTimer = 0;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    // HP 바
+    if (hp < maxHp && !isDead) {
+      final hpRatio = hp / maxHp;
+      const barWidth = 30.0;
+      const barHeight = 4.0;
+
+      canvas.drawRect(
+        Rect.fromLTWH(-barWidth / 2, -22, barWidth, barHeight),
+        Paint()..color = Colors.grey.shade800,
+      );
+
+      canvas.drawRect(
+        Rect.fromLTWH(-barWidth / 2, -22, barWidth * hpRatio, barHeight),
+        Paint()..color = hpRatio > 0.3 ? Colors.green : Colors.red,
+      );
+    }
+
+    // 공격 중 표시 (디버그)
+    if (_isAttacking) {
+      canvas.drawCircle(
+        const Offset(0, -28),
+        3,
+        Paint()..color = Colors.orange,
+      );
+    }
+  }
+}

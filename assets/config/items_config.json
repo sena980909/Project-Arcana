@@ -1,0 +1,268 @@
+{
+  "items": [
+    {
+      "id": "health_potion",
+      "name": "HP 포션",
+      "description": "HP를 30 회복합니다.",
+      "type": "consumable",
+      "price": 50,
+      "sellPrice": 25,
+      "stackable": true,
+      "maxStack": 20,
+      "effect": {
+        "heal": 30
+      },
+      "spriteKey": "potion_red",
+      "rarity": "common"
+    },
+    {
+      "id": "mana_potion",
+      "name": "MP 포션",
+      "description": "MP를 30 회복합니다.",
+      "type": "consumable",
+      "price": 50,
+      "sellPrice": 25,
+      "stackable": true,
+      "maxStack": 20,
+      "effect": {
+        "mana": 30
+      },
+      "spriteKey": "potion_blue",
+      "rarity": "common"
+    },
+    {
+      "id": "health_potion_large",
+      "name": "대형 HP 포션",
+      "description": "HP를 70 회복합니다.",
+      "type": "consumable",
+      "price": 100,
+      "sellPrice": 50,
+      "stackable": true,
+      "maxStack": 10,
+      "effect": {
+        "heal": 70
+      },
+      "spriteKey": "potion_red_large",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "mana_potion_large",
+      "name": "대형 MP 포션",
+      "description": "MP를 70 회복합니다.",
+      "type": "consumable",
+      "price": 100,
+      "sellPrice": 50,
+      "stackable": true,
+      "maxStack": 10,
+      "effect": {
+        "mana": 70
+      },
+      "spriteKey": "potion_blue_large",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "full_restore",
+      "name": "완전 회복 물약",
+      "description": "HP와 MP를 모두 회복합니다.",
+      "type": "consumable",
+      "price": 300,
+      "sellPrice": 150,
+      "stackable": true,
+      "maxStack": 5,
+      "effect": {
+        "healPercent": 100,
+        "manaPercent": 100
+      },
+      "spriteKey": "potion_rainbow",
+      "rarity": "rare"
+    },
+    {
+      "id": "iron_sword",
+      "name": "철제 검",
+      "description": "기본적인 철제 검입니다.",
+      "type": "equipment",
+      "price": 200,
+      "sellPrice": 100,
+      "stackable": false,
+      "equipSlot": "weapon",
+      "stats": {
+        "damage": 10
+      },
+      "spriteKey": "weapon_regular_sword",
+      "rarity": "common"
+    },
+    {
+      "id": "steel_sword",
+      "name": "강철 검",
+      "description": "강화된 강철로 만든 검입니다.",
+      "type": "equipment",
+      "price": 500,
+      "sellPrice": 250,
+      "stackable": false,
+      "equipSlot": "weapon",
+      "stats": {
+        "damage": 20
+      },
+      "spriteKey": "weapon_knight_sword",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "fire_sword",
+      "name": "화염검",
+      "description": "화염의 힘이 깃든 검입니다.",
+      "type": "equipment",
+      "price": 1000,
+      "sellPrice": 500,
+      "stackable": false,
+      "equipSlot": "weapon",
+      "stats": {
+        "damage": 30,
+        "fireDamage": 10
+      },
+      "spriteKey": "weapon_lavish_sword",
+      "rarity": "rare"
+    },
+    {
+      "id": "leather_armor",
+      "name": "가죽 갑옷",
+      "description": "기본적인 가죽 갑옷입니다.",
+      "type": "equipment",
+      "price": 150,
+      "sellPrice": 75,
+      "stackable": false,
+      "equipSlot": "armor",
+      "stats": {
+        "defense": 5,
+        "maxHp": 10
+      },
+      "spriteKey": "armor_leather",
+      "rarity": "common"
+    },
+    {
+      "id": "chain_armor",
+      "name": "사슬 갑옷",
+      "description": "단단한 사슬로 만든 갑옷입니다.",
+      "type": "equipment",
+      "price": 400,
+      "sellPrice": 200,
+      "stackable": false,
+      "equipSlot": "armor",
+      "stats": {
+        "defense": 12,
+        "maxHp": 20
+      },
+      "spriteKey": "armor_chain",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "plate_armor",
+      "name": "판금 갑옷",
+      "description": "무거운 판금 갑옷입니다.",
+      "type": "equipment",
+      "price": 800,
+      "sellPrice": 400,
+      "stackable": false,
+      "equipSlot": "armor",
+      "stats": {
+        "defense": 25,
+        "maxHp": 30,
+        "speed": -10
+      },
+      "spriteKey": "armor_plate",
+      "rarity": "rare"
+    },
+    {
+      "id": "speed_ring",
+      "name": "속도의 반지",
+      "description": "이동 속도를 증가시키는 반지입니다.",
+      "type": "equipment",
+      "price": 300,
+      "sellPrice": 150,
+      "stackable": false,
+      "equipSlot": "accessory1",
+      "stats": {
+        "speed": 20
+      },
+      "spriteKey": "ring_speed",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "power_ring",
+      "name": "힘의 반지",
+      "description": "공격력을 증가시키는 반지입니다.",
+      "type": "equipment",
+      "price": 400,
+      "sellPrice": 200,
+      "stackable": false,
+      "equipSlot": "accessory1",
+      "stats": {
+        "damage": 8
+      },
+      "spriteKey": "ring_power",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "mana_crystal",
+      "name": "마나 수정",
+      "description": "최대 마나를 증가시키는 수정입니다.",
+      "type": "equipment",
+      "price": 350,
+      "sellPrice": 175,
+      "stackable": false,
+      "equipSlot": "accessory2",
+      "stats": {
+        "maxMana": 30,
+        "manaRegen": 1
+      },
+      "spriteKey": "crystal_blue",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "monster_fang",
+      "name": "몬스터 이빨",
+      "description": "몬스터에서 얻은 날카로운 이빨입니다.",
+      "type": "material",
+      "price": 0,
+      "sellPrice": 10,
+      "stackable": true,
+      "maxStack": 99,
+      "spriteKey": "material_fang",
+      "rarity": "common"
+    },
+    {
+      "id": "magic_essence",
+      "name": "마법 정수",
+      "description": "마법적 에너지가 응축된 정수입니다.",
+      "type": "material",
+      "price": 0,
+      "sellPrice": 25,
+      "stackable": true,
+      "maxStack": 99,
+      "spriteKey": "material_essence",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "boss_heart",
+      "name": "보스의 심장",
+      "description": "강력한 보스에서 얻은 심장입니다.",
+      "type": "material",
+      "price": 0,
+      "sellPrice": 100,
+      "stackable": true,
+      "maxStack": 10,
+      "spriteKey": "material_heart",
+      "rarity": "rare"
+    },
+    {
+      "id": "forest_key",
+      "name": "숲의 열쇠",
+      "description": "잊혀진 숲 깊은 곳으로 가는 열쇠입니다.",
+      "type": "key",
+      "price": 0,
+      "sellPrice": 0,
+      "stackable": false,
+      "spriteKey": "key_green",
+      "rarity": "rare"
+    }
+  ]
+}
