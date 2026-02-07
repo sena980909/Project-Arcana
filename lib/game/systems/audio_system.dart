@@ -1,7 +1,7 @@
 /// Arcana: The Three Hearts - 오디오 시스템
 library;
 
-import 'package:flame_audio/flame_audio.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 
 /// BGM 타입
@@ -31,6 +31,10 @@ class AudioSystem {
 
   String? _currentBgm;
 
+  // 오디오 플레이어
+  final AudioPlayer _bgmPlayer = AudioPlayer();
+  final AudioPlayer _sfxPlayer = AudioPlayer();
+
   /// BGM 파일 매핑 (assets/bgm 폴더 기준)
   static const Map<BgmType, String> _bgmFiles = {
     BgmType.mainTitle: 'bgm/Main Title.mp3',
@@ -49,8 +53,10 @@ class AudioSystem {
     if (_isInitialized) return;
 
     try {
-      // Flame Audio 초기화 - BGM 프리로드
-      FlameAudio.bgm.initialize();
+      // BGM 플레이어 설정 - 루프
+      await _bgmPlayer.setReleaseMode(ReleaseMode.loop);
+      await _bgmPlayer.setVolume(_bgmVolume);
+
       _isInitialized = true;
       debugPrint('AudioSystem 초기화 완료');
     } catch (e) {
@@ -73,7 +79,9 @@ class AudioSystem {
 
     try {
       await stopBgm();
-      await FlameAudio.bgm.play(filename, volume: _bgmVolume);
+      // AssetSource로 재생 (assets/ 폴더 기준)
+      await _bgmPlayer.play(AssetSource(filename));
+      await _bgmPlayer.setVolume(_bgmVolume);
       _currentBgm = filename;
       debugPrint('BGM 재생: $filename');
     } catch (e) {
@@ -129,7 +137,7 @@ class AudioSystem {
   /// BGM 정지
   Future<void> stopBgm() async {
     try {
-      await FlameAudio.bgm.stop();
+      await _bgmPlayer.stop();
       _currentBgm = null;
     } catch (e) {
       debugPrint('BGM 정지 실패: $e');
@@ -139,7 +147,7 @@ class AudioSystem {
   /// BGM 일시정지
   Future<void> pauseBgm() async {
     try {
-      await FlameAudio.bgm.pause();
+      await _bgmPlayer.pause();
     } catch (e) {
       debugPrint('BGM 일시정지 실패: $e');
     }
@@ -148,7 +156,7 @@ class AudioSystem {
   /// BGM 재개
   Future<void> resumeBgm() async {
     try {
-      await FlameAudio.bgm.resume();
+      await _bgmPlayer.resume();
     } catch (e) {
       debugPrint('BGM 재개 실패: $e');
     }
@@ -159,26 +167,33 @@ class AudioSystem {
     if (!_sfxEnabled || !_isInitialized) return;
 
     try {
-      await FlameAudio.play(filename, volume: _sfxVolume);
+      await _sfxPlayer.play(AssetSource('sfx/$filename'));
+      await _sfxPlayer.setVolume(_sfxVolume);
     } catch (e) {
-      debugPrint('SFX 재생 실패: $e');
+      // SFX 파일 없으면 무시 (효과음 추가 전까지)
+      debugPrint('SFX 재생 실패 (파일 없음): $filename');
     }
   }
 
   /// 공격 SFX
   Future<void> playAttackSfx([int combo = 0]) async {
-    final sfxFiles = ['sfx_attack1.mp3', 'sfx_attack2.mp3', 'sfx_attack3.mp3'];
+    final sfxFiles = ['attack1.wav', 'attack2.wav', 'attack3.wav'];
     await playSfx(sfxFiles[combo % sfxFiles.length]);
   }
 
-  /// 피격 SFX
+  /// 피격 SFX (플레이어)
   Future<void> playHitSfx() async {
-    await playSfx('sfx_hit.mp3');
+    await playSfx('player_hurt.wav');
+  }
+
+  /// 적 피격 SFX
+  Future<void> playEnemyHitSfx() async {
+    await playSfx('hit1.wav');
   }
 
   /// 대시 SFX
   Future<void> playDashSfx() async {
-    await playSfx('sfx_dash.mp3');
+    await playSfx('swish-1.wav');
   }
 
   /// 스킬 SFX
@@ -214,7 +229,7 @@ class AudioSystem {
 
   /// 적 사망 SFX
   Future<void> playEnemyDeathSfx() async {
-    await playSfx('sfx_enemy_death.mp3');
+    await playSfx('enemy_hurt.wav');
   }
 
   /// 레벨업 SFX
@@ -231,11 +246,7 @@ class AudioSystem {
   void setBgmVolume(double volume) {
     _bgmVolume = volume.clamp(0.0, 1.0);
     // 현재 재생 중인 BGM에 적용
-    try {
-      FlameAudio.bgm.audioPlayer.setVolume(_bgmVolume);
-    } catch (e) {
-      // 무시
-    }
+    _bgmPlayer.setVolume(_bgmVolume);
   }
 
   /// SFX 볼륨 설정
@@ -265,7 +276,8 @@ class AudioSystem {
   /// 리소스 해제
   Future<void> dispose() async {
     await stopBgm();
-    FlameAudio.audioCache.clearAll();
+    await _bgmPlayer.dispose();
+    await _sfxPlayer.dispose();
     _isInitialized = false;
   }
 }

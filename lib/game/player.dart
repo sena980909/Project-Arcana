@@ -7,6 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 import 'enemy.dart';
+import 'systems/audio_system.dart';
 import '../utils/game_logger.dart';
 
 /// HP 변경 콜백
@@ -48,13 +49,26 @@ class Player extends PositionComponent with HasGameRef {
   SpriteAnimation? _runAnimation;
   SpriteAnimationComponent? _animationComponent;
 
+  // 무기 스프라이트
+  Sprite? _swordSprite;
+
+  // 검기 이펙트
+  double _slashEffectTimer = 0;
+  static const double _slashEffectDuration = 0.25;
+  int _currentSlashCombo = 0;
+
+  // 피격 이펙트
+  double _hitEffectTimer = 0;
+  static const double _hitEffectDuration = 0.3;
+  Vector2 _hitKnockback = Vector2.zero();
+
   // 공격 상태
   bool isAttacking = false;
   double _attackTimer = 0;
-  static const double _attackDuration = 0.25;
+  static const double _attackDuration = 0.2; // 더 빠른 공격
   int _comboCount = 0;
   double _comboTimer = 0;
-  static const double _comboWindow = 0.4;
+  static const double _comboWindow = 0.5; // 콤보 윈도우 확장
 
   // 대시 상태
   bool _isDashing = false;
@@ -81,7 +95,10 @@ class Player extends PositionComponent with HasGameRef {
 
   // 공격 이펙트 (직접 렌더링)
   double _attackEffectTimer = 0;
-  static const double _attackEffectDuration = 0.2;
+  static const double _attackEffectDuration = 0.3;
+
+  // 공격 중 이동 속도 배율
+  static const double _attackMoveSpeedMultiplier = 0.7;
 
   /// 무적 상태 여부 (외부에서 확인용)
   bool get isInvulnerable => _isInvulnerable;
@@ -100,6 +117,13 @@ class Player extends PositionComponent with HasGameRef {
       anchor: Anchor.center,
     );
     add(_animationComponent!);
+
+    // 무기 스프라이트 로드
+    try {
+      _swordSprite = await Sprite.load('${assetPath}weapon_knight_sword.png');
+    } catch (e) {
+      debugPrint('무기 스프라이트 로드 실패: $e');
+    }
 
     // HP 초기값 전달
     onHpChanged?.call(hp, maxHp);
@@ -143,6 +167,16 @@ class Player extends PositionComponent with HasGameRef {
         isAttacking = false;
         _comboTimer = _comboWindow;
       }
+    }
+
+    // 검기 이펙트 타이머
+    if (_slashEffectTimer > 0) {
+      _slashEffectTimer -= dt;
+    }
+
+    // 피격 이펙트 타이머
+    if (_hitEffectTimer > 0) {
+      _hitEffectTimer -= dt;
     }
 
     // 공격 이펙트 타이머
@@ -212,10 +246,13 @@ class Player extends PositionComponent with HasGameRef {
   void _updateMovement(double dt) {
     if (_isDashing) {
       position += _dashDirection * _dashSpeed * dt;
-    } else if (!isAttacking && moveDirection.length > 0) {
+    } else if (moveDirection.length > 0) {
       final normalized = moveDirection.normalized();
-      position += normalized * speed * dt;
-      if (normalized.x != 0) {
+      // 공격 중에도 이동 가능 (속도 감소)
+      final currentSpeed = isAttacking ? speed * _attackMoveSpeedMultiplier : speed;
+      position += normalized * currentSpeed * dt;
+      // 공격 중이 아닐 때만 방향 전환
+      if (!isAttacking && normalized.x != 0) {
         _facingRight = normalized.x > 0;
       }
     }
@@ -235,7 +272,10 @@ class Player extends PositionComponent with HasGameRef {
 
   /// 공격 (적 리스트를 받아서 데미지 처리, 적중 수 반환)
   int attack(List<Enemy> enemies) {
-    if (isAttacking || _isDashing) return 0;
+    if (_isDashing) return 0;
+
+    // 공격 중이라도 콤보 윈도우 내면 다음 공격 가능
+    if (isAttacking && _attackTimer > _attackDuration * 0.3) return 0;
 
     isAttacking = true;
     _attackTimer = _attackDuration;
@@ -244,16 +284,15 @@ class Player extends PositionComponent with HasGameRef {
     // 공격 이펙트 타이머 시작
     _attackEffectTimer = _attackEffectDuration;
 
-    // 공격 색상 이펙트
-    _effectColor = Colors.white;
-    _effectTimer = 0.05;
+    // 공격 효과음
+    AudioSystem.instance.playAttackSfx(_comboCount);
 
-    // 공격 방향으로 살짝 이동 (런지)
-    final lungeDir = Vector2(_facingRight ? 1 : -1, 0);
-    position += lungeDir * 8;
+    // 검기 이펙트 시작
+    _slashEffectTimer = _slashEffectDuration;
+    _currentSlashCombo = _comboCount;
 
     // 범위 내 적에게 데미지 (리스트 복사본 사용)
-    final damage = attackDamage + (_comboCount * 5);
+    final damage = attackDamage + (_comboCount * 8); // 콤보 데미지 증가
     int hitCount = 0;
 
     for (final enemy in [...enemies]) {
@@ -262,8 +301,9 @@ class Player extends PositionComponent with HasGameRef {
       final toEnemy = enemy.position - position;
       final distance = toEnemy.length;
 
-      // 거리 체크
-      if (distance > attackRange) continue;
+      // 거리 체크 - 콤보에 따라 범위 증가
+      final currentRange = attackRange + (_comboCount * 10);
+      if (distance > currentRange) continue;
 
       // 방향 체크 (플레이어가 바라보는 방향의 적만)
       final dot = toEnemy.x * (_facingRight ? 1 : -1);
@@ -271,6 +311,9 @@ class Player extends PositionComponent with HasGameRef {
 
       enemy.takeDamage(damage);
       hitCount++;
+
+      // 적 피격 효과음
+      AudioSystem.instance.playEnemyHitSfx();
     }
 
     // 공격 로그
@@ -286,6 +329,9 @@ class Player extends PositionComponent with HasGameRef {
     _isDashing = true;
     _dashTimer = _dashDuration;
     _dashCooldownTimer = _dashCooldown;
+
+    // 대시 효과음
+    AudioSystem.instance.playDashSfx();
 
     if (moveDirection.length > 0) {
       _dashDirection = moveDirection.normalized();
@@ -321,12 +367,17 @@ class Player extends PositionComponent with HasGameRef {
     hp = (hp - damage).clamp(0, maxHp);
     onHpChanged?.call(hp, maxHp);
 
+    // 피격 효과음
+    AudioSystem.instance.playHitSfx();
+
     // 로그
     GameLogger.instance.logPlayerHit(damage, hp);
 
     _isInvulnerable = true;
     _invulnerableTimer = _invulnerableDuration;
 
+    // 피격 이펙트
+    _hitEffectTimer = _hitEffectDuration;
     _effectColor = Colors.red.withAlpha(200);
     _effectTimer = 0.15;
   }
@@ -360,66 +411,143 @@ class Player extends PositionComponent with HasGameRef {
 
   @override
   void render(Canvas canvas) {
+    // 피격 이펙트 (캐릭터 뒤에)
+    if (_hitEffectTimer > 0) {
+      _renderHitEffect(canvas);
+    }
+
     super.render(canvas);
 
-    // 공격 이펙트 렌더링
-    if (_attackEffectTimer > 0) {
-      final progress = 1.0 - (_attackEffectTimer / _attackEffectDuration);
-      final alpha = ((1 - progress) * 200).toInt();
-
-      // 콤보에 따른 색상
-      final colors = [
-        Colors.white.withAlpha(alpha),
-        Colors.yellow.withAlpha(alpha),
-        Colors.orange.withAlpha(alpha),
-      ];
-      final color = colors[_comboCount % 3];
-
-      final paint = Paint()
-        ..color = color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 3;
-
-      // 슬래시 효과 위치
-      final offsetX = _facingRight ? 25.0 : -25.0;
-
-      // 슬래시 호
-      final rect = Rect.fromCenter(
-        center: Offset(offsetX, 0),
-        width: 40 * (0.8 + progress * 0.4),
-        height: 30 * (0.8 + progress * 0.4),
-      );
-
-      final startAngle = _facingRight ? -pi / 3 : pi * 2 / 3;
-      final sweepAngle = (_facingRight ? 1 : -1) * pi * 2 / 3;
-      canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
-
-      // 슬래시 라인
-      final linePaint = Paint()
-        ..color = color
-        ..strokeWidth = 2
-        ..strokeCap = StrokeCap.round;
-
-      final lineLength = 20.0 + progress * 10;
-      final lineAngle = _facingRight
-          ? -pi / 6 + (_comboCount * pi / 8)
-          : pi + pi / 6 - (_comboCount * pi / 8);
-
-      canvas.drawLine(
-        Offset(offsetX, 0),
-        Offset(offsetX + cos(lineAngle) * lineLength, sin(lineAngle) * lineLength),
-        linePaint,
-      );
+    // 검 항상 렌더링
+    if (_swordSprite != null) {
+      _renderSword(canvas);
     }
 
-    // 완벽 회피 윈도우 표시 (디버그)
-    if (_perfectDodgeWindow > 0 && !_perfectDodgeTriggered) {
-      final indicatorPaint = Paint()
-        ..color = Colors.cyan.withAlpha(150)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2;
-
-      canvas.drawCircle(Offset.zero, 20, indicatorPaint);
+    // 검기 이펙트 (검 앞에)
+    if (_slashEffectTimer > 0) {
+      _renderSlashEffect(canvas);
     }
+  }
+
+  /// 검기(슬래시) 이펙트 렌더링
+  void _renderSlashEffect(Canvas canvas) {
+    final progress = 1.0 - (_slashEffectTimer / _slashEffectDuration);
+    final alpha = ((1 - progress) * 200).toInt().clamp(0, 255);
+
+    final direction = _facingRight ? 1.0 : -1.0;
+    final offsetX = direction * 30;
+
+    // 콤보별 다른 검기 패턴
+    final slashColor = _currentSlashCombo == 2
+        ? Colors.orange.withAlpha(alpha)
+        : Colors.white.withAlpha(alpha);
+
+    final paint = Paint()
+      ..color = slashColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3 + (_currentSlashCombo * 1.5)
+      ..strokeCap = StrokeCap.round;
+
+    // 검기 크기 (콤보에 따라 커짐)
+    final size = 30.0 + (_currentSlashCombo * 15) + (progress * 20);
+
+    // 검기 호 그리기
+    final rect = Rect.fromCenter(
+      center: Offset(offsetX, 0),
+      width: size,
+      height: size * 0.6,
+    );
+
+    // 콤보별 다른 각도
+    double startAngle;
+    double sweepAngle;
+    if (_currentSlashCombo == 0) {
+      startAngle = _facingRight ? -pi / 3 : pi * 2 / 3;
+      sweepAngle = direction * pi * 0.7;
+    } else if (_currentSlashCombo == 1) {
+      startAngle = _facingRight ? pi / 3 : pi - pi / 3;
+      sweepAngle = direction * -pi * 0.7;
+    } else {
+      startAngle = _facingRight ? -pi / 2 : pi / 2;
+      sweepAngle = direction * pi;
+    }
+
+    canvas.drawArc(rect, startAngle, sweepAngle * (0.3 + progress * 0.7), false, paint);
+
+    // 글로우 효과
+    final glowPaint = Paint()
+      ..color = slashColor.withAlpha((alpha * 0.4).toInt())
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 8 + (_currentSlashCombo * 2)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+    canvas.drawArc(rect, startAngle, sweepAngle * (0.3 + progress * 0.7), false, glowPaint);
+  }
+
+  /// 피격 이펙트 렌더링
+  void _renderHitEffect(Canvas canvas) {
+    final progress = 1.0 - (_hitEffectTimer / _hitEffectDuration);
+    final alpha = ((1 - progress) * 150).toInt().clamp(0, 150);
+
+    // 빨간 원형 충격파
+    final wavePaint = Paint()
+      ..color = Colors.red.withAlpha(alpha)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3;
+
+    final waveRadius = 10.0 + progress * 25;
+    canvas.drawCircle(Offset.zero, waveRadius, wavePaint);
+
+    // X 모양 피격 마크
+    final markAlpha = ((1 - progress * 0.5) * 200).toInt().clamp(0, 200);
+    final markPaint = Paint()
+      ..color = Colors.red.withAlpha(markAlpha)
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round;
+
+    final markSize = 8.0 + progress * 5;
+    canvas.drawLine(
+      Offset(-markSize, -markSize),
+      Offset(markSize, markSize),
+      markPaint,
+    );
+    canvas.drawLine(
+      Offset(markSize, -markSize),
+      Offset(-markSize, markSize),
+      markPaint,
+    );
+  }
+
+  /// 검 렌더링 (항상 들고 있음)
+  void _renderSword(Canvas canvas) {
+    if (_swordSprite == null) return;
+
+    canvas.save();
+
+    // 검 위치 (플레이어 옆)
+    final direction = _facingRight ? 1.0 : -1.0;
+    final offsetX = direction * 12;
+    final offsetY = 2.0;
+
+    canvas.translate(offsetX, offsetY);
+
+    // 방향에 따라 뒤집기
+    if (!_facingRight) {
+      canvas.scale(-1, 1);
+    }
+
+    // 고정 각도 (약간 기울임)
+    canvas.rotate(pi / 6);
+
+    // 검 크기
+    final swordSize = Vector2(10.0, 24.0);
+
+    // 검 그리기
+    _swordSprite!.render(
+      canvas,
+      position: Vector2(-swordSize.x * 0.5, -swordSize.y * 0.5),
+      size: swordSize,
+    );
+
+    canvas.restore();
   }
 }
