@@ -115,14 +115,14 @@
       "isBoss": false
     },
     {
-      "id": "muddy",
+      "id": "tiny_zombie",
       "name": "슬라임",
       "hp": 20,
       "damage": 3,
       "speed": 30,
       "detectionRange": 80,
       "attackRange": 20,
-      "spritePrefix": "muddy",
+      "spritePrefix": "tiny_zombie",
       "aiType": "patrol",
       "attackPatterns": [
         {

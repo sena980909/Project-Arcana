@@ -144,7 +144,7 @@ class SpawnSystem {
   List<String> _getMonstersForChapter(int chapter) {
     switch (chapter) {
       case 1:
-        return ['goblin', 'muddy', 'skelet'];
+        return ['goblin', 'tiny_zombie', 'skelet'];
       case 2:
         return ['skelet', 'imp', 'chort'];
       case 3:

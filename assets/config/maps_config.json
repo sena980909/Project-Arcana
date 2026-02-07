@@ -32,7 +32,7 @@
       "spawnPoints": [
         {"x": 5, "y": 9, "type": "monster", "monsterId": "goblin"},
         {"x": 13, "y": 9, "type": "monster", "monsterId": "goblin"},
-        {"x": 5, "y": 15, "type": "monster", "monsterId": "muddy"},
+        {"x": 5, "y": 15, "type": "monster", "monsterId": "tiny_zombie"},
         {"x": 19, "y": 15, "type": "monster", "monsterId": "goblin"},
         {"x": 12, "y": 12, "type": "chest", "itemId": "health_potion"}
       ],
