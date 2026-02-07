@@ -1,6 +1,8 @@
 /// Arcana: The Three Hearts - 메인 게임 클래스
 library;
 
+import 'dart:ui' show Color;
+
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +14,7 @@ import 'systems/map_loader.dart';
 import 'systems/spawn_system.dart';
 import 'systems/skill_system.dart';
 import 'components/projectiles/skill_projectile.dart';
+import 'components/effects/screen_effects.dart';
 import '../utils/game_logger.dart';
 
 /// 콜백 타입 정의
@@ -78,6 +81,12 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
 
   /// 적 목록 (SpawnSystem에서 가져오기)
   List<Enemy> get enemies => _spawnSystem?.enemies.toList() ?? [];
+
+  /// 화면 플래시 색상
+  Color? get flashColor => ScreenEffects.instance.flashColor;
+
+  /// 화면 플래시 알파
+  double get flashAlpha => ScreenEffects.instance.flashAlpha;
 
   @override
   Future<void> onLoad() async {
@@ -448,8 +457,18 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
       }
     }
 
+    // 화면 효과 업데이트
+    ScreenEffects.instance.update(dt);
+
+    // 히트스톱 적용
+    final effectTimeScale = ScreenEffects.instance.timeScale;
+
     // 시간 스케일 적용
-    final scaledDt = dt * _timeScale;
+    final scaledDt = dt * _timeScale * effectTimeScale;
+
+    // 카메라 흔들림 적용
+    final shakeOffset = ScreenEffects.instance.shakeOffset;
+    camera.viewfinder.position = player.position + shakeOffset;
 
     // 플레이어 위치 저장 (충돌 롤백용)
     _playerPreviousPosition = player.position.clone();

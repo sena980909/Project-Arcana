@@ -17,6 +17,7 @@ import 'ui/hud_overlay.dart';
 import 'ui/shop_overlay.dart';
 import 'ui/inventory_overlay.dart';
 import 'ui/main_menu_overlay.dart';
+import 'game/components/effects/screen_effects.dart';
 import 'utils/game_logger.dart';
 
 void main() async {
@@ -542,6 +543,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               onUseItem: _useItem,
               onEquipItem: _equipItem,
               onUnequipItem: _unequipItem,
+            ),
+
+          // 화면 플래시 오버레이
+          if (_game != null && _game!.flashColor != null)
+            ScreenFlashOverlay(
+              color: _game!.flashColor!,
+              alpha: _game!.flashAlpha,
             ),
         ],
       ),

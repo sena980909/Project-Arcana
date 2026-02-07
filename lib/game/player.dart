@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'enemy.dart';
 import 'systems/audio_system.dart';
+import 'components/effects/screen_effects.dart';
 import '../utils/game_logger.dart';
 
 /// HP 변경 콜백
@@ -314,6 +315,11 @@ class Player extends PositionComponent with HasGameRef {
 
       // 적 피격 효과음
       AudioSystem.instance.playEnemyHitSfx();
+
+      // 3콤보 강공격 시 히트스톱 + 흔들림
+      if (_comboCount == 2) {
+        ScreenEffects.instance.onHeavyAttack();
+      }
     }
 
     // 공격 로그
@@ -370,6 +376,17 @@ class Player extends PositionComponent with HasGameRef {
     // 피격 효과음
     AudioSystem.instance.playHitSfx();
 
+    // 화면 효과
+    ScreenEffects.instance.onPlayerHit();
+
+    // 데미지 숫자 표시
+    final damageNumber = EffectFactory.createDamageNumber(
+      position: position + Vector2(0, -20),
+      damage: damage,
+      color: Colors.red,
+    );
+    parent?.add(damageNumber);
+
     // 로그
     GameLogger.instance.logPlayerHit(damage, hp);
 
@@ -390,6 +407,9 @@ class Player extends PositionComponent with HasGameRef {
     _effectColor = Colors.yellow;
     _effectTimer = 0.2;
 
+    // 화면 효과
+    ScreenEffects.instance.onPerfectDodge();
+
     // 무적 시간 연장
     _isInvulnerable = true;
     _invulnerableTimer = 0.3;
@@ -402,8 +422,18 @@ class Player extends PositionComponent with HasGameRef {
 
   /// 회복
   void heal(double amount) {
+    final actualHeal = (hp + amount).clamp(0, maxHp) - hp;
     hp = (hp + amount).clamp(0, maxHp);
     onHpChanged?.call(hp, maxHp);
+
+    // 회복 숫자 표시
+    if (actualHeal > 0) {
+      final healNumber = EffectFactory.createHealNumber(
+        position: position + Vector2(0, -20),
+        amount: actualHeal,
+      );
+      parent?.add(healNumber);
+    }
 
     _effectColor = Colors.green.withAlpha(200);
     _effectTimer = 0.2;

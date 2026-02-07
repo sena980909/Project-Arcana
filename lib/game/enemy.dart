@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'player.dart';
 import 'components/effects/telegraph_component.dart';
+import 'components/effects/screen_effects.dart';
 import '../utils/game_logger.dart';
 import '../data/models/monster_data.dart';
 import '../data/repositories/config_repository.dart';
@@ -393,6 +394,15 @@ class Enemy extends PositionComponent {
     hp -= damage;
     _hitFlashTimer = 0.1;
     _animationComponent?.paint.color = Colors.red;
+
+    // 데미지 숫자 표시
+    final isCritical = damage > attackDamage * 1.5;
+    final damageNumber = EffectFactory.createDamageNumber(
+      position: position + Vector2(0, -20),
+      damage: damage,
+      isCritical: isCritical,
+    );
+    parent?.add(damageNumber);
 
     // 로그
     GameLogger.instance.logEnemyHit(enemyType, damage, hp);
