@@ -173,12 +173,23 @@ class MapData {
   final int floor;
   final int width;
   final int height;
-  final String layout; // ASCII 맵 레이아웃
+  final List<String> layout; // ASCII 맵 레이아웃 (행별 문자열 배열)
   final List<SpawnPoint> spawnPoints;
   final List<int> playerSpawn;
   final List<int> exitPoint;
 
   factory MapData.fromJson(Map<String, dynamic> json) {
+    // layout이 배열인지 문자열인지 확인
+    List<String> layoutLines;
+    final rawLayout = json['layout'];
+    if (rawLayout is List) {
+      layoutLines = rawLayout.map((e) => e.toString()).toList();
+    } else if (rawLayout is String) {
+      layoutLines = rawLayout.split('\n');
+    } else {
+      layoutLines = [];
+    }
+
     return MapData(
       id: json['id'] as String? ?? 'unknown',
       name: json['name'] as String? ?? 'Unknown',
@@ -186,7 +197,7 @@ class MapData {
       floor: json['floor'] as int? ?? 1,
       width: json['width'] as int? ?? 20,
       height: json['height'] as int? ?? 15,
-      layout: json['layout'] as String? ?? '',
+      layout: layoutLines,
       spawnPoints: (json['spawnPoints'] as List<dynamic>?)
               ?.map((e) => SpawnPoint.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -209,7 +220,7 @@ class MapData {
         'floor': floor,
         'width': width,
         'height': height,
-        'layout': layout,
+        'layout': layout, // List<String>
         'spawnPoints': spawnPoints.map((e) => e.toJson()).toList(),
         'playerSpawn': playerSpawn,
         'exitPoint': exitPoint,

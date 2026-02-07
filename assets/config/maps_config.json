@@ -126,7 +126,7 @@
         "####################"
       ],
       "spawnPoints": [
-        {"x": 10, "y": 9, "type": "boss", "monsterId": "boss_forest_guardian"},
+        {"x": 10, "y": 9, "type": "boss", "monsterId": "boss_yggdra"},
         {"x": 12, "y": 18, "type": "chest", "itemId": "forest_key"}
       ],
       "playerSpawn": [3, 3],

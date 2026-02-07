@@ -8,12 +8,17 @@ import 'package:flutter/services.dart';
 import 'player.dart';
 import 'enemy.dart';
 import 'floor_component.dart';
+import 'systems/map_loader.dart';
+import 'systems/spawn_system.dart';
+import 'systems/skill_system.dart';
+import 'components/projectiles/skill_projectile.dart';
 import '../utils/game_logger.dart';
 
 /// 콜백 타입 정의
 typedef HpChangedCallback = void Function(double hp, double maxHp);
 typedef ValueChangedCallback<T> = void Function(T value);
 typedef VoidCallback = void Function();
+typedef FloorChangedCallback = void Function(int chapter, int floor);
 
 /// 메인 게임 클래스
 class ArcanaGame extends FlameGame with HasCollisionDetection {
@@ -24,6 +29,9 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     this.onHeartGaugeChanged,
     this.onEnemyKilled,
     this.onPerfectDodge,
+    this.onFloorChanged,
+    this.initialChapter = 1,
+    this.initialFloor = 1,
   });
 
   // 콜백
@@ -33,10 +41,25 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
   final ValueChangedCallback<int>? onHeartGaugeChanged;
   final VoidCallback? onEnemyKilled;
   final VoidCallback? onPerfectDodge;
+  final FloorChangedCallback? onFloorChanged;
+
+  // 초기 챕터/층
+  final int initialChapter;
+  final int initialFloor;
 
   // 게임 컴포넌트
   late Player player;
-  final List<Enemy> enemies = [];
+  SpawnSystem? _spawnSystem;
+  MapComponent? _mapComponent;
+  LoadedMap? _currentMap;
+  SkillSystem? _skillSystem;
+
+  // 장착된 스킬 (Q, E, R 슬롯)
+  final List<String> equippedSkills = ['fireball', 'frost_nova', 'shadow_dash'];
+
+  // 현재 챕터/층
+  int currentChapter = 1;
+  int currentFloor = 1;
 
   // 게임 상태
   int gold = 100;
@@ -53,42 +76,104 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
   static const String _assetPath =
       'itchio/0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/';
 
+  /// 적 목록 (SpawnSystem에서 가져오기)
+  List<Enemy> get enemies => _spawnSystem?.enemies.toList() ?? [];
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // 바닥 생성
-    world.add(FloorComponent());
+    currentChapter = initialChapter;
+    currentFloor = initialFloor;
 
-    // 플레이어 생성
-    player = Player(
-      position: Vector2(400, 300),
-      assetPath: _assetPath,
-      onHpChanged: (hp, maxHp) {
-        onPlayerHpChanged?.call(hp, maxHp);
-      },
-      onPerfectDodge: () {
-        _triggerPerfectDodge();
-      },
-    );
-    world.add(player);
+    // 맵 로드 시도
+    _currentMap = MapLoader.loadMapByChapterFloor(currentChapter, currentFloor);
 
-    // 적 생성
-    _spawnEnemies();
+    if (_currentMap != null) {
+      // 맵이 있으면 맵 컴포넌트 추가
+      _mapComponent = MapComponent(loadedMap: _currentMap!);
+      world.add(_mapComponent!);
+
+      // 플레이어 생성 (맵의 스폰 위치)
+      player = Player(
+        position: _currentMap!.playerSpawn.clone(),
+        assetPath: _assetPath,
+        onHpChanged: (hp, maxHp) {
+          onPlayerHpChanged?.call(hp, maxHp);
+        },
+        onPerfectDodge: () {
+          _triggerPerfectDodge();
+        },
+      );
+      world.add(player);
+
+      // 스폰 시스템으로 적 생성
+      _spawnSystem = SpawnSystem(
+        world: world,
+        player: player,
+        assetPath: _assetPath,
+        onEnemyDeath: (e) => _onEnemyDeath(e),
+        onEnemyAttackHit: (damage) => _onPlayerHitByEnemy(damage),
+      );
+      _spawnSystem!.spawnFromMap(_currentMap!, chapter: currentChapter);
+    } else {
+      // 맵이 없으면 기본 바닥 생성 (호환성)
+      world.add(FloorComponent());
+
+      // 플레이어 생성
+      player = Player(
+        position: Vector2(400, 300),
+        assetPath: _assetPath,
+        onHpChanged: (hp, maxHp) {
+          onPlayerHpChanged?.call(hp, maxHp);
+        },
+        onPerfectDodge: () {
+          _triggerPerfectDodge();
+        },
+      );
+      world.add(player);
+
+      // 기본 적 스폰
+      _spawnDefaultEnemies();
+    }
 
     // 카메라 설정
     camera.viewfinder.anchor = Anchor.center;
     camera.viewfinder.zoom = 2.5; // 2.5배 확대
     camera.follow(player);
 
+    // 스킬 시스템 초기화
+    _skillSystem = SkillSystem(
+      player: player,
+      world: world,
+      getEnemies: () => enemies,
+      onManaUsed: (amount) {
+        mana = (mana - amount).clamp(0, maxMana);
+        onManaChanged?.call(mana);
+      },
+      onCooldownStarted: (skillId, cooldown) {
+        GameLogger.instance.log('SKILL', '$skillId 쿨다운 시작: ${cooldown}초');
+      },
+    );
+
     // 초기값 전달
     onGoldChanged?.call(gold);
     onManaChanged?.call(mana);
     onHeartGaugeChanged?.call(heartGauge);
+
+    GameLogger.instance.log('GAME', '맵 로드: Ch$currentChapter F$currentFloor');
   }
 
-  /// 적 스폰
-  void _spawnEnemies() {
+  /// 기본 적 스폰 (맵 없을 때)
+  void _spawnDefaultEnemies() {
+    _spawnSystem = SpawnSystem(
+      world: world,
+      player: player,
+      assetPath: _assetPath,
+      onEnemyDeath: (e) => _onEnemyDeath(e),
+      onEnemyAttackHit: (damage) => _onPlayerHitByEnemy(damage),
+    );
+
     final spawnPositions = [
       Vector2(600, 200),
       Vector2(200, 400),
@@ -101,23 +186,61 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     for (int i = 0; i < spawnPositions.length; i++) {
       final pos = spawnPositions[i];
       final type = enemyTypes[i % enemyTypes.length];
-      final enemy = Enemy(
-        position: pos,
-        assetPath: _assetPath,
-        enemyType: type,
-        player: player,
-        onDeath: (e) => _onEnemyDeath(e),
-        onAttackHit: (damage) => _onPlayerHitByEnemy(damage),
-      );
-      enemies.add(enemy);
-      world.add(enemy);
+      _spawnSystem!.spawnEnemyAt(pos, type);
       GameLogger.instance.logEnemySpawn(type, pos.x, pos.y);
     }
   }
 
+  /// 다음 층으로 이동
+  void goToNextFloor() {
+    currentFloor++;
+
+    // 맵 로드 시도
+    final nextMap = MapLoader.loadMapByChapterFloor(currentChapter, currentFloor);
+
+    if (nextMap == null) {
+      // 다음 층 맵이 없으면 다음 챕터로
+      currentChapter++;
+      currentFloor = 1;
+
+      final chapterMap = MapLoader.loadMapByChapterFloor(currentChapter, currentFloor);
+      if (chapterMap == null) {
+        // 더 이상 챕터가 없으면 승리
+        GameLogger.instance.log('GAME', '게임 클리어!');
+        return;
+      }
+    }
+
+    _loadCurrentFloor();
+    onFloorChanged?.call(currentChapter, currentFloor);
+  }
+
+  /// 현재 층 로드
+  void _loadCurrentFloor() {
+    // 기존 맵 제거
+    _mapComponent?.removeFromParent();
+    _spawnSystem?.clearEnemies();
+
+    // 새 맵 로드
+    _currentMap = MapLoader.loadMapByChapterFloor(currentChapter, currentFloor);
+
+    if (_currentMap != null) {
+      _mapComponent = MapComponent(loadedMap: _currentMap!);
+      world.add(_mapComponent!);
+
+      // 플레이어 위치 이동
+      player.position = _currentMap!.playerSpawn.clone();
+
+      // 적 스폰
+      _spawnSystem?.spawnFromMap(_currentMap!, chapter: currentChapter);
+    }
+
+    GameLogger.instance.log('GAME', '층 이동: Ch$currentChapter F$currentFloor');
+  }
+
   /// 적 사망
   void _onEnemyDeath(Enemy enemy) {
-    enemies.remove(enemy);
+    // SpawnSystem이 적 목록 관리
 
     // 골드 획득
     final goldReward = 10 + enemy.maxHp ~/ 5;
@@ -137,6 +260,11 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
 
     // 적 처치 콜백
     onEnemyKilled?.call();
+
+    // 모든 적 처치 시 출구 활성화 체크
+    if (_spawnSystem != null && _spawnSystem!.aliveEnemyCount == 0) {
+      GameLogger.instance.log('GAME', '모든 적 처치! 출구 활성화');
+    }
   }
 
   /// 플레이어가 적에게 맞았을 때
@@ -250,13 +378,16 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
             key == LogicalKeyboardKey.shiftRight) {
           player.dash();
         }
-        // 스킬 (Q/W/E)
+        // 스킬 (Q/E)
         if (key == LogicalKeyboardKey.keyQ) {
           _useSkill(0);
         }
-        if (key == LogicalKeyboardKey.keyW) {
-          // W는 이동에 사용되므로 스킬 사용은 별도 조합 필요
-          // 일단 비활성화
+        if (key == LogicalKeyboardKey.keyE) {
+          _useSkill(1);
+        }
+        // 세 번째 스킬 (X)
+        if (key == LogicalKeyboardKey.keyX) {
+          _useSkill(2);
         }
         // 궁극기 (R)
         if (key == LogicalKeyboardKey.keyR) {
@@ -271,8 +402,17 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
 
   /// 스킬 사용
   void _useSkill(int slotIndex) {
-    // TODO: 스킬 시스템 구현 후 연결
-    GameLogger.instance.log('SKILL', '스킬 슬롯 $slotIndex 사용 시도');
+    if (_skillSystem == null) return;
+    if (slotIndex < 0 || slotIndex >= equippedSkills.length) return;
+
+    final skillId = equippedSkills[slotIndex];
+    final result = _skillSystem!.useSkill(skillId, mana);
+
+    if (result.success) {
+      GameLogger.instance.log('SKILL', '${result.message}');
+    } else {
+      GameLogger.instance.log('SKILL', '스킬 사용 실패: ${result.message}');
+    }
   }
 
   /// 궁극기 사용
@@ -295,6 +435,9 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
   double _lastManaCallback = 0;
   static const double _manaCallbackInterval = 0.1; // 0.1초마다만 콜백
 
+  // 플레이어 이전 위치 (충돌 시 롤백용)
+  Vector2 _playerPreviousPosition = Vector2.zero();
+
   @override
   void update(double dt) {
     // 슬로우 모션 처리
@@ -307,6 +450,9 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
 
     // 시간 스케일 적용
     final scaledDt = dt * _timeScale;
+
+    // 플레이어 위치 저장 (충돌 롤백용)
+    _playerPreviousPosition = player.position.clone();
 
     // 키보드 입력 처리
     _handleKeyboardInput();
@@ -323,5 +469,48 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     }
 
     super.update(scaledDt);
+
+    // 스킬 시스템 업데이트
+    _skillSystem?.update(scaledDt);
+
+    // 투사체 충돌 체크
+    _checkProjectileCollisions();
+
+    // 벽 충돌 체크 (맵이 있을 때만)
+    if (_mapComponent != null && _mapComponent!.isColliding(player.position, player.size)) {
+      player.position = _playerPreviousPosition;
+    }
+
+    // 출구 체크 (모든 적 처치 후)
+    if (_currentMap != null && _spawnSystem != null && _spawnSystem!.aliveEnemyCount == 0) {
+      final exitDistance = (player.position - _currentMap!.exitPoint).length;
+      if (exitDistance < 30) {
+        goToNextFloor();
+      }
+    }
+
+    // 데미지 타일 체크
+    if (_mapComponent != null) {
+      final tileDamage = _mapComponent!.getDamageAt(player.position);
+      if (tileDamage > 0) {
+        player.takeDamage(tileDamage * scaledDt);
+      }
+    }
+  }
+
+  /// 투사체 충돌 체크
+  void _checkProjectileCollisions() {
+    // 월드에서 모든 투사체 컴포넌트 찾기
+    final projectiles = world.children.whereType<SkillProjectile>().toList();
+
+    for (final projectile in projectiles) {
+      for (final enemy in enemies) {
+        if (projectile.checkCollision(enemy)) {
+          // 마나 회복 (적중 시 +5)
+          mana = (mana + 5).clamp(0, maxMana);
+          onManaChanged?.call(mana);
+        }
+      }
+    }
   }
 }

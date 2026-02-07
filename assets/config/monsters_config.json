@@ -177,6 +177,92 @@
       "isBoss": false
     },
     {
+      "id": "boss_yggdra",
+      "name": "이그드라 - 잊혀진 숲의 심장",
+      "hp": 500,
+      "damage": 25,
+      "speed": 30,
+      "detectionRange": 400,
+      "attackRange": 80,
+      "spritePrefix": "big_demon",
+      "aiType": "boss",
+      "phases": [
+        {
+          "name": "슬픔의 형태",
+          "hpThreshold": 100,
+          "speedMultiplier": 0.8,
+          "damageMultiplier": 0.9,
+          "patterns": ["tear_drop", "sorrow_wave"]
+        },
+        {
+          "name": "분노의 형태",
+          "hpThreshold": 50,
+          "speedMultiplier": 1.5,
+          "damageMultiplier": 1.3,
+          "patterns": ["thorn_rush", "root_fury", "nature_wrath"]
+        }
+      ],
+      "attackPatterns": [
+        {
+          "name": "tear_drop",
+          "damage": 15,
+          "range": 120,
+          "telegraphDuration": 0.8,
+          "attackDuration": 0.3,
+          "cooldown": 2.0,
+          "shape": "circle"
+        },
+        {
+          "name": "sorrow_wave",
+          "damage": 20,
+          "range": 100,
+          "telegraphDuration": 1.2,
+          "attackDuration": 0.4,
+          "cooldown": 3.5,
+          "shape": "arc",
+          "angle": 180
+        },
+        {
+          "name": "thorn_rush",
+          "damage": 30,
+          "range": 150,
+          "telegraphDuration": 0.5,
+          "attackDuration": 0.2,
+          "cooldown": 2.5,
+          "shape": "rectangle",
+          "width": 40,
+          "height": 150
+        },
+        {
+          "name": "root_fury",
+          "damage": 25,
+          "range": 100,
+          "telegraphDuration": 0.6,
+          "attackDuration": 0.25,
+          "cooldown": 2.0,
+          "shape": "arc",
+          "angle": 270
+        },
+        {
+          "name": "nature_wrath",
+          "damage": 40,
+          "range": 200,
+          "telegraphDuration": 2.0,
+          "attackDuration": 0.5,
+          "cooldown": 8.0,
+          "shape": "circle"
+        }
+      ],
+      "dialogues": {
+        "intro": "...너도... 날 버리러 온 거야?",
+        "phase2": "가지 마! 다들 날 떠나... 다 죽여버리겠어!",
+        "death": "...미안해... 드디어... 쉴 수 있어..."
+      },
+      "goldReward": 300,
+      "expReward": 150,
+      "isBoss": true
+    },
+    {
       "id": "boss_forest_guardian",
       "name": "숲의 수호자",
       "hp": 300,
