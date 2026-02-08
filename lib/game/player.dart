@@ -14,8 +14,8 @@ import '../utils/game_logger.dart';
 /// HP 변경 콜백
 typedef HpChangedCallback = void Function(double hp, double maxHp);
 
-/// 콜백
-typedef VoidCallback = void Function();
+/// 완벽 회피 콜백
+typedef PerfectDodgeCallback = void Function();
 
 /// 플레이어 컴포넌트
 class Player extends PositionComponent with HasGameRef {
@@ -32,7 +32,7 @@ class Player extends PositionComponent with HasGameRef {
 
   final String assetPath;
   final HpChangedCallback? onHpChanged;
-  final VoidCallback? onPerfectDodge;
+  final PerfectDodgeCallback? onPerfectDodge;
 
   // 스탯
   double hp = 100;
@@ -41,9 +41,18 @@ class Player extends PositionComponent with HasGameRef {
   double attackRange = 60;
   double attackDamage = 25;
 
+  // 버프 배율 (스킬 시스템에서 설정)
+  double buffDamageMultiplier = 1.0;
+  double buffDefenseMultiplier = 1.0;
+  double buffSpeedMultiplier = 1.0;
+
   // 이동
   Vector2 moveDirection = Vector2.zero();
   bool _facingRight = true;
+  Vector2 _lastAimDirection = Vector2(1, 0);
+
+  /// 스킬/투사체 조준 방향
+  Vector2 get aimDirection => _lastAimDirection.clone();
 
   // 애니메이션
   SpriteAnimation? _idleAnimation;
@@ -61,15 +70,16 @@ class Player extends PositionComponent with HasGameRef {
   // 피격 이펙트
   double _hitEffectTimer = 0;
   static const double _hitEffectDuration = 0.3;
-  Vector2 _hitKnockback = Vector2.zero();
 
   // 공격 상태
   bool isAttacking = false;
   double _attackTimer = 0;
-  static const double _attackDuration = 0.2; // 더 빠른 공격
+  static const double _attackDuration = 0.25;
   int _comboCount = 0;
   double _comboTimer = 0;
-  static const double _comboWindow = 0.5; // 콤보 윈도우 확장
+  static const double _comboWindow = 0.5;
+  double _attackCooldownTimer = 0;
+  static const double _attackCooldown = 0.12; // 공격 간 최소 쿨타임
 
   // 대시 상태
   bool _isDashing = false;
@@ -100,6 +110,12 @@ class Player extends PositionComponent with HasGameRef {
 
   // 공격 중 이동 속도 배율
   static const double _attackMoveSpeedMultiplier = 0.7;
+
+  // 아이들 검 흔들림
+  double _idleBobTimer = 0;
+
+  // 사망 상태
+  bool isDead = false;
 
   /// 무적 상태 여부 (외부에서 확인용)
   bool get isInvulnerable => _isInvulnerable;
@@ -161,6 +177,8 @@ class Player extends PositionComponent with HasGameRef {
   }
 
   void _updateTimers(double dt) {
+    _idleBobTimer += dt;
+
     // 공격 타이머
     if (isAttacking) {
       _attackTimer -= dt;
@@ -183,6 +201,11 @@ class Player extends PositionComponent with HasGameRef {
     // 공격 이펙트 타이머
     if (_attackEffectTimer > 0) {
       _attackEffectTimer -= dt;
+    }
+
+    // 공격 쿨타임
+    if (_attackCooldownTimer > 0) {
+      _attackCooldownTimer -= dt;
     }
 
     // 콤보 타이머
@@ -234,28 +257,45 @@ class Player extends PositionComponent with HasGameRef {
 
     // 무적 중 깜빡임
     if (_isInvulnerable && _effectTimer <= 0) {
-      final alpha = ((_invulnerableTimer * 10) % 2 < 1) ? 100 : 255;
+      final alpha = ((_invulnerableTimer * 10) % 2 < 1) ? 120 : 255;
       _animationComponent?.paint.color = Colors.white.withAlpha(alpha);
+    }
+
+    // 무적 종료 시 색상 완전 복원
+    if (!_isInvulnerable && _effectTimer <= 0 && _perfectDodgeWindow <= 0) {
+      _animationComponent?.paint.color = Colors.white;
     }
 
     // 완벽 회피 윈도우 중 이펙트
     if (_perfectDodgeWindow > 0 && !_perfectDodgeTriggered) {
       _animationComponent?.paint.color = Colors.cyan.withAlpha(200);
     }
+
+    // 사망 상태: 회색
+    if (isDead) {
+      _animationComponent?.paint.color = Colors.grey.withAlpha(150);
+    }
   }
 
   void _updateMovement(double dt) {
+    if (isDead) return;
     if (_isDashing) {
       position += _dashDirection * _dashSpeed * dt;
     } else if (moveDirection.length > 0) {
       final normalized = moveDirection.normalized();
+      // 조준 방향 업데이트 (이동 시 항상)
+      _lastAimDirection = normalized.clone();
       // 공격 중에도 이동 가능 (속도 감소)
-      final currentSpeed = isAttacking ? speed * _attackMoveSpeedMultiplier : speed;
+      final currentSpeed = (isAttacking ? speed * _attackMoveSpeedMultiplier : speed) * buffSpeedMultiplier;
       position += normalized * currentSpeed * dt;
       // 공격 중이 아닐 때만 방향 전환
       if (!isAttacking && normalized.x != 0) {
         _facingRight = normalized.x > 0;
       }
+    }
+    // 정지 시 조준 방향: 바라보는 방향 (수평)
+    if (moveDirection.length == 0 && !_isDashing) {
+      _lastAimDirection = Vector2(_facingRight ? 1 : -1, 0);
     }
     _animationComponent?.scale.x = _facingRight ? 1 : -1;
   }
@@ -273,13 +313,15 @@ class Player extends PositionComponent with HasGameRef {
 
   /// 공격 (적 리스트를 받아서 데미지 처리, 적중 수 반환)
   int attack(List<Enemy> enemies) {
-    if (_isDashing) return 0;
+    if (isDead || _isDashing) return 0;
+    if (_attackCooldownTimer > 0) return 0;
 
     // 공격 중이라도 콤보 윈도우 내면 다음 공격 가능
     if (isAttacking && _attackTimer > _attackDuration * 0.3) return 0;
 
     isAttacking = true;
     _attackTimer = _attackDuration;
+    _attackCooldownTimer = _attackCooldown;
     _comboCount = (_comboCount + 1) % 3;
 
     // 공격 이펙트 타이머 시작
@@ -293,7 +335,7 @@ class Player extends PositionComponent with HasGameRef {
     _currentSlashCombo = _comboCount;
 
     // 범위 내 적에게 데미지 (리스트 복사본 사용)
-    final damage = attackDamage + (_comboCount * 8); // 콤보 데미지 증가
+    final damage = (attackDamage + (_comboCount * 8)) * buffDamageMultiplier; // 콤보 + 버프 적용
     int hitCount = 0;
 
     for (final enemy in [...enemies]) {
@@ -330,7 +372,7 @@ class Player extends PositionComponent with HasGameRef {
 
   /// 대시
   void dash() {
-    if (_isDashing || _dashCooldownTimer > 0) return;
+    if (isDead || _isDashing || _dashCooldownTimer > 0) return;
 
     _isDashing = true;
     _dashTimer = _dashDuration;
@@ -370,7 +412,8 @@ class Player extends PositionComponent with HasGameRef {
       return;
     }
 
-    hp = (hp - damage).clamp(0, maxHp);
+    final actualDamage = damage * buffDefenseMultiplier;
+    hp = (hp - actualDamage).clamp(0, maxHp);
     onHpChanged?.call(hp, maxHp);
 
     // 피격 효과음
@@ -420,6 +463,13 @@ class Player extends PositionComponent with HasGameRef {
     GameLogger.instance.log('COMBAT', '완벽 회피 발동!');
   }
 
+  /// 환경 피해 (무적 무시, 이펙트 없음)
+  void takeEnvironmentDamage(double damage) {
+    if (hp <= 0) return;
+    hp = (hp - damage).clamp(0, maxHp);
+    onHpChanged?.call(hp, maxHp);
+  }
+
   /// 회복
   void heal(double amount) {
     final actualHeal = (hp + amount).clamp(0, maxHp) - hp;
@@ -459,58 +509,84 @@ class Player extends PositionComponent with HasGameRef {
     }
   }
 
-  /// 검기(슬래시) 이펙트 렌더링
+  /// 검기(슬래시) 이펙트 렌더링 - 호(arc) 형태 휘두르기
   void _renderSlashEffect(Canvas canvas) {
     final progress = 1.0 - (_slashEffectTimer / _slashEffectDuration);
-    final alpha = ((1 - progress) * 200).toInt().clamp(0, 255);
+    final alpha = ((1 - progress) * 220).toInt().clamp(0, 255);
 
     final direction = _facingRight ? 1.0 : -1.0;
-    final offsetX = direction * 30;
+    final centerX = direction * 18;
 
-    // 콤보별 다른 검기 패턴
-    final slashColor = _currentSlashCombo == 2
-        ? Colors.orange.withAlpha(alpha)
-        : Colors.white.withAlpha(alpha);
+    // 푸른색 검기 (3콤보는 밝은 하늘색)
+    final baseColor = _currentSlashCombo == 2
+        ? Color.fromARGB(alpha, 100, 200, 255)
+        : Color.fromARGB(alpha, 60, 140, 255);
 
-    final paint = Paint()
-      ..color = slashColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3 + (_currentSlashCombo * 1.5)
-      ..strokeCap = StrokeCap.round;
+    // 호 반지름 (콤보에 따라 커짐)
+    final arcRadius = 26.0 + (_currentSlashCombo * 10) + (progress * 8);
+    final arcWidth = 4.0 + (_currentSlashCombo * 1.5);
 
-    // 검기 크기 (콤보에 따라 커짐)
-    final size = 30.0 + (_currentSlashCombo * 15) + (progress * 20);
-
-    // 검기 호 그리기
-    final rect = Rect.fromCenter(
-      center: Offset(offsetX, 0),
-      width: size,
-      height: size * 0.6,
-    );
-
-    // 콤보별 다른 각도
+    // 콤보별 호 각도 범위 (sweep 방향)
     double startAngle;
     double sweepAngle;
+
     if (_currentSlashCombo == 0) {
-      startAngle = _facingRight ? -pi / 3 : pi * 2 / 3;
-      sweepAngle = direction * pi * 0.7;
+      // 콤보 0: 위에서 아래로 (반시계 호)
+      startAngle = _facingRight ? -pi * 0.6 : pi * 0.6;
+      sweepAngle = (_facingRight ? 1 : -1) * pi * 0.7;
     } else if (_currentSlashCombo == 1) {
-      startAngle = _facingRight ? pi / 3 : pi - pi / 3;
-      sweepAngle = direction * -pi * 0.7;
+      // 콤보 1: 아래에서 위로 (시계 호)
+      startAngle = _facingRight ? pi * 0.3 : pi * 0.7;
+      sweepAngle = (_facingRight ? -1 : 1) * pi * 0.7;
     } else {
-      startAngle = _facingRight ? -pi / 2 : pi / 2;
-      sweepAngle = direction * pi;
+      // 콤보 2 (강타): 넓은 180도 수평 휘두르기
+      startAngle = _facingRight ? -pi * 0.5 : pi * 0.5;
+      sweepAngle = (_facingRight ? 1 : -1) * pi;
     }
 
-    canvas.drawArc(rect, startAngle, sweepAngle * (0.3 + progress * 0.7), false, paint);
+    // progress에 따라 sweep 범위 확장
+    final currentSweep = sweepAngle * progress;
+
+    // 부채꼴 면적 채우기
+    final arcPath = Path();
+    final rect = Rect.fromCircle(center: Offset(centerX, 0), radius: arcRadius);
+    arcPath.moveTo(centerX, 0);
+    arcPath.arcTo(rect, startAngle, currentSweep, false);
+    arcPath.close();
+
+    final fillPaint = Paint()
+      ..color = baseColor.withAlpha((alpha * 0.5).toInt())
+      ..style = PaintingStyle.fill;
+    canvas.drawPath(arcPath, fillPaint);
+
+    // 호 외곽선 (코어 라인) - sweep 끝부분 강조
+    final corePaint = Paint()
+      ..color = Color.fromARGB(alpha, 200, 230, 255)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = arcWidth * 0.6
+      ..strokeCap = StrokeCap.round;
+
+    // 현재 sweep 위치의 끝 선분 (칼날 끝)
+    final tipAngle = startAngle + currentSweep;
+    final tipX = centerX + cos(tipAngle) * arcRadius;
+    final tipY = sin(tipAngle) * arcRadius;
+    canvas.drawLine(Offset(centerX, 0), Offset(tipX, tipY), corePaint);
+
+    // 호 궤적 (외곽 arc)
+    final arcStrokePaint = Paint()
+      ..color = baseColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = arcWidth
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(rect, startAngle, currentSweep, false, arcStrokePaint);
 
     // 글로우 효과
     final glowPaint = Paint()
-      ..color = slashColor.withAlpha((alpha * 0.4).toInt())
+      ..color = baseColor.withAlpha((alpha * 0.3).toInt())
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 8 + (_currentSlashCombo * 2)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
-    canvas.drawArc(rect, startAngle, sweepAngle * (0.3 + progress * 0.7), false, glowPaint);
+      ..strokeWidth = arcWidth + 6 + (_currentSlashCombo * 2)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
+    canvas.drawArc(rect, startAngle, currentSweep, false, glowPaint);
   }
 
   /// 피격 이펙트 렌더링
@@ -547,37 +623,113 @@ class Player extends PositionComponent with HasGameRef {
     );
   }
 
-  /// 검 렌더링 (항상 들고 있음)
+  /// 검 렌더링 (스윙 애니메이션 포함)
   void _renderSword(Canvas canvas) {
     if (_swordSprite == null) return;
 
-    canvas.save();
-
-    // 검 위치 (플레이어 옆)
     final direction = _facingRight ? 1.0 : -1.0;
-    final offsetX = direction * 12;
-    final offsetY = 2.0;
 
-    canvas.translate(offsetX, offsetY);
+    double swordAngle;
+    double handleX;
+    double handleY;
 
-    // 방향에 따라 뒤집기
+    if (isAttacking && _attackTimer > 0) {
+      final progress = 1.0 - (_attackTimer / _attackDuration);
+      final eased = _easeOutQuad(progress);
+
+      // 콤보별 다른 스윙 궤적
+      switch (_currentSlashCombo) {
+        case 1: // 1타: 가로 베기 (위→아래 대각선)
+          swordAngle = _lerpDouble(-pi / 3, pi * 3 / 4, eased);
+          handleX = direction * (8 + eased * 12);
+          handleY = -2 + eased * 4;
+        case 2: // 2타: 올려베기 (아래→위)
+          swordAngle = _lerpDouble(pi * 3 / 4, -pi / 4, eased);
+          handleX = direction * (12 - eased * 2);
+          handleY = 4 - eased * 10;
+        default: // 3타(0): 내려찍기 강타
+          final slamEased = _easeOutCubic(progress);
+          swordAngle = _lerpDouble(-pi * 2 / 3, pi / 2, slamEased);
+          handleX = direction * (6 + slamEased * 14);
+          handleY = -8 + slamEased * 16;
+      }
+
+      // 스윙 잔상 렌더링
+      _renderSwingTrail(canvas, direction, handleX, handleY, progress);
+    } else {
+      // 대기 자세: 부드러운 흔들림
+      swordAngle = pi / 5;
+      handleX = direction * 10;
+      handleY = 4 + sin(_idleBobTimer * 2.5) * 1.5;
+    }
+
+    // 검 본체 렌더링
+    canvas.save();
+    canvas.translate(handleX, handleY);
     if (!_facingRight) {
       canvas.scale(-1, 1);
     }
+    canvas.rotate(swordAngle);
 
-    // 고정 각도 (약간 기울임)
-    canvas.rotate(pi / 6);
-
-    // 검 크기
     final swordSize = Vector2(10.0, 24.0);
-
-    // 검 그리기
     _swordSprite!.render(
       canvas,
-      position: Vector2(-swordSize.x * 0.5, -swordSize.y * 0.5),
+      position: Vector2(-swordSize.x / 2, -swordSize.y),
       size: swordSize,
     );
 
     canvas.restore();
   }
+
+  /// 스윙 잔상 렌더링
+  void _renderSwingTrail(
+      Canvas canvas, double direction, double handleX, double handleY, double progress) {
+    const trailCount = 3;
+    final isHeavy = _currentSlashCombo == 0;
+    final trailColor = isHeavy ? const Color(0xFFFF8800) : const Color(0xFFCCDDFF);
+
+    for (int i = trailCount; i >= 1; i--) {
+      final trailProgress = (progress - i * 0.12).clamp(0.0, 1.0);
+      if (trailProgress <= 0) continue;
+
+      double trailAngle;
+      switch (_currentSlashCombo) {
+        case 1: // 가로 베기
+          trailAngle = _lerpDouble(-pi / 3, pi * 3 / 4, _easeOutQuad(trailProgress));
+        case 2: // 올려베기
+          trailAngle = _lerpDouble(pi * 3 / 4, -pi / 4, _easeOutQuad(trailProgress));
+        default: // 내려찍기
+          trailAngle = _lerpDouble(-pi * 2 / 3, pi / 2, _easeOutCubic(trailProgress));
+      }
+
+      final alpha = (60 - i * 15).clamp(0, 255);
+
+      canvas.save();
+      canvas.translate(handleX, handleY);
+      if (!_facingRight) canvas.scale(-1, 1);
+      canvas.rotate(trailAngle);
+
+      final bladePaint = Paint()
+        ..color = trailColor.withAlpha(alpha)
+        ..strokeWidth = 2.5
+        ..strokeCap = StrokeCap.round;
+
+      canvas.drawLine(
+        const Offset(0, 0),
+        const Offset(0, -22),
+        bladePaint,
+      );
+
+      canvas.restore();
+    }
+  }
+
+  /// 이징: 빠른 시작 → 감속
+  double _easeOutQuad(double t) => t * (2 - t);
+
+  /// 이징: 더 강한 감속 (강타용)
+  double _easeOutCubic(double t) => 1 - pow(1 - t, 3).toDouble();
+
+  /// 선형 보간
+  double _lerpDouble(double a, double b, double t) => a + (b - a) * t;
 }

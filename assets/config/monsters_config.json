@@ -3,9 +3,9 @@
     {
       "id": "goblin",
       "name": "고블린",
-      "hp": 30,
-      "damage": 5,
-      "speed": 50,
+      "hp": 80,
+      "damage": 8,
+      "speed": 55,
       "detectionRange": 120,
       "attackRange": 25,
       "spritePrefix": "goblin",
@@ -13,7 +13,7 @@
       "attackPatterns": [
         {
           "name": "slash",
-          "damage": 5,
+          "damage": 10,
           "range": 30,
           "telegraphDuration": 0.4,
           "attackDuration": 0.2,
@@ -29,9 +29,9 @@
     {
       "id": "skelet",
       "name": "스켈레톤",
-      "hp": 40,
-      "damage": 8,
-      "speed": 40,
+      "hp": 110,
+      "damage": 12,
+      "speed": 45,
       "detectionRange": 150,
       "attackRange": 30,
       "spritePrefix": "skelet",
@@ -39,11 +39,11 @@
       "attackPatterns": [
         {
           "name": "bone_strike",
-          "damage": 8,
+          "damage": 15,
           "range": 35,
           "telegraphDuration": 0.5,
           "attackDuration": 0.25,
-          "cooldown": 2.0,
+          "cooldown": 1.8,
           "shape": "rectangle",
           "width": 40,
           "height": 20
@@ -56,9 +56,9 @@
     {
       "id": "orc_warrior",
       "name": "오크 전사",
-      "hp": 60,
-      "damage": 12,
-      "speed": 35,
+      "hp": 180,
+      "damage": 18,
+      "speed": 38,
       "detectionRange": 100,
       "attackRange": 35,
       "spritePrefix": "orc_warrior",
@@ -66,7 +66,7 @@
       "attackPatterns": [
         {
           "name": "heavy_slash",
-          "damage": 12,
+          "damage": 20,
           "range": 40,
           "telegraphDuration": 0.8,
           "attackDuration": 0.3,
@@ -76,7 +76,7 @@
         },
         {
           "name": "ground_pound",
-          "damage": 15,
+          "damage": 25,
           "range": 60,
           "telegraphDuration": 1.2,
           "attackDuration": 0.4,
@@ -91,9 +91,9 @@
     {
       "id": "imp",
       "name": "임프",
-      "hp": 25,
-      "damage": 4,
-      "speed": 70,
+      "hp": 65,
+      "damage": 7,
+      "speed": 75,
       "detectionRange": 180,
       "attackRange": 80,
       "spritePrefix": "imp",
@@ -101,9 +101,9 @@
       "attackPatterns": [
         {
           "name": "fireball",
-          "damage": 6,
+          "damage": 10,
           "range": 100,
-          "telegraphDuration": 0.3,
+          "telegraphDuration": 0.6,
           "attackDuration": 0.1,
           "cooldown": 1.2,
           "shape": "circle",
@@ -117,9 +117,9 @@
     {
       "id": "tiny_zombie",
       "name": "슬라임",
-      "hp": 20,
-      "damage": 3,
-      "speed": 30,
+      "hp": 50,
+      "damage": 5,
+      "speed": 35,
       "detectionRange": 80,
       "attackRange": 20,
       "spritePrefix": "tiny_zombie",
@@ -127,9 +127,9 @@
       "attackPatterns": [
         {
           "name": "acid_spit",
-          "damage": 3,
+          "damage": 8,
           "range": 25,
-          "telegraphDuration": 0.3,
+          "telegraphDuration": 0.6,
           "attackDuration": 0.15,
           "cooldown": 1.0,
           "shape": "circle"
@@ -142,9 +142,9 @@
     {
       "id": "chort",
       "name": "악마",
-      "hp": 80,
-      "damage": 15,
-      "speed": 55,
+      "hp": 220,
+      "damage": 20,
+      "speed": 58,
       "detectionRange": 150,
       "attackRange": 40,
       "spritePrefix": "chort",
@@ -152,7 +152,7 @@
       "attackPatterns": [
         {
           "name": "claw_swipe",
-          "damage": 15,
+          "damage": 22,
           "range": 45,
           "telegraphDuration": 0.5,
           "attackDuration": 0.2,
@@ -162,7 +162,7 @@
         },
         {
           "name": "dark_charge",
-          "damage": 20,
+          "damage": 30,
           "range": 100,
           "telegraphDuration": 0.8,
           "attackDuration": 0.3,
@@ -207,7 +207,7 @@
           "name": "tear_drop",
           "damage": 15,
           "range": 120,
-          "telegraphDuration": 0.8,
+          "telegraphDuration": 1.2,
           "attackDuration": 0.3,
           "cooldown": 2.0,
           "shape": "circle"
@@ -216,7 +216,7 @@
           "name": "sorrow_wave",
           "damage": 20,
           "range": 100,
-          "telegraphDuration": 1.2,
+          "telegraphDuration": 1.5,
           "attackDuration": 0.4,
           "cooldown": 3.5,
           "shape": "arc",

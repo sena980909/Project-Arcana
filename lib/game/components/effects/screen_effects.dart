@@ -239,6 +239,138 @@ class EffectFactory {
   }
 }
 
+/// 스테이지 클리어 알림 컴포넌트
+class StageClearComponent extends PositionComponent {
+  StageClearComponent({required this.followTarget});
+
+  final PositionComponent followTarget;
+  double _elapsed = 0;
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    _elapsed += dt;
+    position = followTarget.position + Vector2(0, -50);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final fadeIn = (_elapsed / 0.3).clamp(0.0, 1.0);
+    final alpha = (fadeIn * 255).toInt();
+    final bounce = 1.0 + (1 - fadeIn) * 0.4;
+
+    canvas.save();
+    canvas.scale(bounce, bounce);
+
+    // "STAGE CLEAR!" 텍스트
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: 'STAGE CLEAR!',
+        style: TextStyle(
+          color: Colors.yellow.withAlpha(alpha),
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 2,
+          shadows: [
+            Shadow(
+              color: Colors.black.withAlpha(alpha),
+              blurRadius: 4,
+              offset: const Offset(1, 1),
+            ),
+            Shadow(
+              color: Colors.orange.withAlpha((alpha * 0.5).toInt()),
+              blurRadius: 8,
+            ),
+          ],
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    textPainter.paint(
+      canvas,
+      Offset(-textPainter.width / 2, -textPainter.height / 2),
+    );
+
+    canvas.restore();
+  }
+}
+
+/// 게임 오버 컴포넌트
+class GameOverComponent extends PositionComponent {
+  GameOverComponent({required this.followTarget});
+
+  final PositionComponent followTarget;
+  double _elapsed = 0;
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    _elapsed += dt;
+    position = followTarget.position;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final fadeIn = (_elapsed / 0.5).clamp(0.0, 1.0);
+    final alpha = (fadeIn * 255).toInt();
+
+    // 어두운 배경
+    final bgPaint = Paint()
+      ..color = Colors.black.withAlpha((alpha * 0.6).toInt());
+    canvas.drawRect(
+      const Rect.fromLTWH(-200, -150, 400, 300),
+      bgPaint,
+    );
+
+    // "GAME OVER" 텍스트
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: 'GAME OVER',
+        style: TextStyle(
+          color: Colors.red.withAlpha(alpha),
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 3,
+          shadows: [
+            Shadow(
+              color: Colors.black.withAlpha(alpha),
+              blurRadius: 6,
+              offset: const Offset(2, 2),
+            ),
+          ],
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    textPainter.paint(
+      canvas,
+      Offset(-textPainter.width / 2, -textPainter.height / 2 - 10),
+    );
+
+    // 안내 텍스트
+    if (_elapsed > 1.5) {
+      final subAlpha = ((_elapsed - 1.5) / 0.5).clamp(0.0, 1.0);
+      final subPainter = TextPainter(
+        text: TextSpan(
+          text: 'Press R to restart',
+          style: TextStyle(
+            color: Colors.white.withAlpha((subAlpha * 200).toInt()),
+            fontSize: 8,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      subPainter.layout();
+      subPainter.paint(
+        canvas,
+        Offset(-subPainter.width / 2, 10),
+      );
+    }
+  }
+}
+
 /// 화면 플래시 오버레이 위젯
 class ScreenFlashOverlay extends StatelessWidget {
   const ScreenFlashOverlay({

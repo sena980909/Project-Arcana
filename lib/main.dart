@@ -2,6 +2,7 @@
 library;
 
 import 'package:flame/game.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +15,7 @@ import 'game/arcana_game.dart';
 import 'game/systems/audio_system.dart';
 import 'providers/game_providers.dart';
 import 'ui/hud_overlay.dart';
+import 'ui/mobile_controls.dart';
 import 'ui/shop_overlay.dart';
 import 'ui/inventory_overlay.dart';
 import 'ui/main_menu_overlay.dart';
@@ -232,6 +234,11 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       onEnemyKilled: () {
         ref.read(gameStateProvider.notifier).addKill();
       },
+      onShopRequested: () {
+        if (mounted && !_isShopOpen) {
+          _openShop();
+        }
+      },
     );
   }
 
@@ -269,22 +276,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         return true;
       }
 
-      // E: 상호작용 / 상점
+      // E: 상점이 열려있으면 닫기 (게임 중에는 스킬 키로 사용)
       if (event.logicalKey == LogicalKeyboardKey.keyE) {
-        if (!_isShopOpen) {
-          _openShop();
-        }
-        return true;
-      }
-
-      // F4: 상점 토글 (디버그)
-      if (event.logicalKey == LogicalKeyboardKey.f4) {
         if (_isShopOpen) {
           _closeShop();
-        } else {
-          _openShop();
+          return true;
         }
-        return true;
+        // 게임 중에는 E키를 스킬로 사용하므로 여기서 소비하지 않음
+        return false;
       }
 
       // F1: 디버그 정보 토글
@@ -345,10 +344,21 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
     // 소비 아이템 효과 적용
     if (itemData.type == ItemType.consumable) {
-      if (itemId.contains('health') || itemId == 'potion') {
-        _game?.healPlayer(30);
-      } else if (itemId.contains('mana')) {
-        _game?.restoreMana(30);
+      // config의 effect 데이터 기반으로 효과 적용
+      final effect = itemData.effect;
+      if (effect.containsKey('heal')) {
+        _game?.healPlayer(effect['heal']!.toDouble());
+      }
+      if (effect.containsKey('mana')) {
+        _game?.restoreMana(effect['mana']!.toDouble());
+      }
+      // 이름 기반 폴백 (config에 effect가 없는 경우)
+      if (effect.isEmpty) {
+        if (itemId.contains('health') || itemId == 'potion') {
+          _game?.healPlayer(30);
+        } else if (itemId.contains('mana')) {
+          _game?.restoreMana(30);
+        }
       }
 
       // 수량 감소
@@ -391,6 +401,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       });
 
       GameLogger.instance.log('ITEM', '장비 장착: $itemId -> $slot');
+      _applyEquipmentStats();
     }
   }
 
@@ -415,6 +426,32 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     });
 
     GameLogger.instance.log('ITEM', '장비 해제: $slot');
+    _applyEquipmentStats();
+  }
+
+  /// 장비 스탯을 플레이어에 적용
+  void _applyEquipmentStats() {
+    if (_game == null) return;
+
+    // 기본 스탯
+    double bonusDamage = 0;
+    double bonusSpeed = 0;
+
+    // 모든 장비 슬롯의 스탯 합산
+    for (final entry in _equipment.entries) {
+      final itemId = entry.value;
+      if (itemId == null) continue;
+
+      final itemData = ConfigRepository.instance.getItem(itemId);
+      if (itemData == null) continue;
+
+      bonusDamage += itemData.stats['damage'] ?? 0;
+      bonusSpeed += itemData.stats['speed'] ?? 0;
+    }
+
+    // 플레이어에 적용 (기본값 + 장비 보너스)
+    _game!.player.attackDamage = 25 + bonusDamage;
+    _game!.player.speed = 150 + bonusSpeed;
   }
 
   void _addItemToInventory(String itemId, {int quantity = 1}) {
@@ -474,8 +511,24 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         };
       });
       ref.read(gameStateProvider.notifier).loadState(save.gameState);
+
+      // 게임 월드도 재초기화 (맵/적 리로드)
+      _initializeGame();
+      _applyEquipmentStats();
+
+      // 챕터별 BGM 재생
+      AudioSystem.instance.playChapterBgm(save.gameState.currentChapter);
+
       GameLogger.instance.log('SAVE', '빠른 불러오기 완료 (슬롯 $_currentSaveSlot)');
     }
+  }
+
+  /// 모바일 컨트롤 표시 여부 (터치 디바이스 감지)
+  bool _shouldShowMobileControls(BuildContext context) {
+    if (!kIsWeb) return false; // 웹 빌드에서만
+    final shortestSide = MediaQuery.of(context).size.shortestSide;
+    // 태블릿/모바일 크기이거나 터치 가능한 기기
+    return shortestSide < 900;
   }
 
   /// 메인 메뉴로 돌아가기
@@ -517,7 +570,22 @@ class _GameScreenState extends ConsumerState<GameScreen> {
             gold: _gold,
             heartGauge: _heartGauge,
             lastKey: _lastKey,
+            showNpcHint: _game?.nearbyNpc != null,
           ),
+
+          // 모바일 터치 컨트롤
+          if (_game != null && _shouldShowMobileControls(context))
+            MobileControls(
+              onDirectionChanged: (dir) => _game!.mobileDirection = dir,
+              onAttack: () => _game!.mobileAttack(),
+              onDash: () => _game!.mobileDash(),
+              onSkill: (slot) => _game!.mobileSkill(slot),
+              onUltimate: () => _game!.mobileUltimate(),
+              onRestart: () => _game!.mobileRestart(),
+              onInteract: () => _game!.mobileInteract(),
+              showInteractButton: _game!.nearbyNpc != null,
+              showRestartButton: _game!.isGameOver,
+            ),
 
           // 상점 오버레이
           if (_isShopOpen)

@@ -11,6 +11,7 @@ import '../../data/repositories/config_repository.dart';
 import '../player.dart';
 import '../enemy.dart';
 import '../components/projectiles/skill_projectile.dart';
+import 'map_loader.dart';
 
 /// 스킬 사용 결과
 class SkillResult {
@@ -99,10 +100,8 @@ class SkillSystem {
 
   /// 투사체 스킬 실행
   SkillResult _executeProjectileSkill(SkillData skill) {
-    // 플레이어가 바라보는 방향
-    final direction = player.moveDirection.length > 0
-        ? player.moveDirection.normalized()
-        : Vector2(1, 0);
+    // 플레이어가 바라보는 방향 (aimDirection 사용)
+    final direction = player.aimDirection;
 
     // 투사체 생성
     for (int i = 0; i < skill.projectileCount; i++) {
@@ -188,6 +187,9 @@ class SkillSystem {
       );
     }
 
+    // 버프 효과를 플레이어에 즉시 적용
+    _applyBuffsToPlayer();
+
     // 버프 이펙트 생성
     final buffEffect = BuffEffectComponent(
       target: player,
@@ -204,10 +206,8 @@ class SkillSystem {
 
   /// 대시 스킬 실행
   SkillResult _executeDashSkill(SkillData skill) {
-    // 플레이어가 바라보는 방향으로 대시
-    final direction = player.moveDirection.length > 0
-        ? player.moveDirection.normalized()
-        : Vector2(1, 0);
+    // 플레이어가 바라보는 방향으로 대시 (aimDirection 사용)
+    final direction = player.aimDirection;
 
     // 대시 거리만큼 이동하며 적에게 데미지
     final enemies = getEnemies();
@@ -236,8 +236,24 @@ class SkillSystem {
       }
     }
 
-    // 플레이어 이동
-    player.position = endPos;
+    // 플레이어 이동 (단계적 이동으로 벽 관통 방지)
+    // arcana_game.dart의 벽 충돌 체크가 최종 위치를 검증함
+    // 여기서는 단계적으로 이동하여 벽 뒤로 텔레포트되는 것을 방지
+    const stepSize = 16.0;
+    final totalDistance = skill.range;
+    final steps = (totalDistance / stepSize).ceil();
+    var currentPos = startPos.clone();
+
+    for (int s = 1; s <= steps; s++) {
+      final nextPos = startPos + direction * (stepSize * s).clamp(0, totalDistance);
+      // MapComponent 검색하여 벽 체크
+      final mapComponent = world.children.whereType<MapComponent>().firstOrNull;
+      if (mapComponent != null && mapComponent.isColliding(nextPos, player.size)) {
+        break; // 벽에 막히면 그 전 위치에서 정지
+      }
+      currentPos = nextPos;
+    }
+    player.position = currentPos;
 
     return SkillResult(
       success: true,
@@ -254,6 +270,29 @@ class SkillSystem {
       success: true,
       message: '${skill.name} 발동!',
     );
+  }
+
+  /// 버프 효과를 플레이어에 적용
+  void _applyBuffsToPlayer() {
+    // 기본값
+    double damageMultiplier = 1.0;
+    double defenseMultiplier = 1.0;
+    double speedMultiplier = 1.0;
+
+    for (final entry in _activeBuffs.entries) {
+      switch (entry.key) {
+        case 'damage':
+          damageMultiplier = entry.value.value; // 1.5x
+        case 'defense':
+          defenseMultiplier = entry.value.value; // 0.5 (50% 데미지 감소)
+        case 'speed':
+          speedMultiplier = entry.value.value; // 1.5x
+      }
+    }
+
+    player.buffDamageMultiplier = damageMultiplier;
+    player.buffDefenseMultiplier = defenseMultiplier;
+    player.buffSpeedMultiplier = speedMultiplier;
   }
 
   /// 쿨다운 업데이트
@@ -280,8 +319,12 @@ class SkillSystem {
         buffsToRemove.add(entry.key);
       }
     }
-    for (final key in buffsToRemove) {
-      _activeBuffs.remove(key);
+    if (buffsToRemove.isNotEmpty) {
+      for (final key in buffsToRemove) {
+        _activeBuffs.remove(key);
+      }
+      // 버프 만료 시 효과 재계산
+      _applyBuffsToPlayer();
     }
   }
 
@@ -395,12 +438,12 @@ class AreaEffectComponent extends PositionComponent {
 }
 
 /// 버프 이펙트 컴포넌트
-class BuffEffectComponent extends Component {
+class BuffEffectComponent extends PositionComponent {
   BuffEffectComponent({
     required this.target,
     required this.duration,
     this.color = Colors.blue,
-  });
+  }) : super(anchor: Anchor.center);
 
   final PositionComponent target;
   final double duration;
@@ -411,10 +454,32 @@ class BuffEffectComponent extends Component {
   @override
   void update(double dt) {
     super.update(dt);
-
     _elapsed += dt;
+    position = target.position;
     if (_elapsed >= duration) {
       removeFromParent();
     }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    final pulse = (sin(_elapsed * 4) + 1) / 2; // 0~1 펄스
+    final alpha = ((0.3 + pulse * 0.4) * 255 * (1 - _elapsed / duration)).toInt().clamp(0, 255);
+    final radius = 20.0 + pulse * 5;
+
+    // 버프 아우라 원
+    final paint = Paint()
+      ..color = color.withAlpha(alpha)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+    canvas.drawCircle(Offset.zero, radius, paint);
+
+    // 내부 글로우
+    final glowPaint = Paint()
+      ..color = color.withAlpha((alpha * 0.3).toInt())
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(Offset.zero, radius * 0.8, glowPaint);
   }
 }

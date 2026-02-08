@@ -1,10 +1,12 @@
 /// Arcana: The Three Hearts - 메인 게임 클래스
 library;
 
-import 'dart:ui' show Color;
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/material.dart' show Colors;
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
 import 'player.dart';
@@ -15,12 +17,15 @@ import 'systems/spawn_system.dart';
 import 'systems/skill_system.dart';
 import 'components/projectiles/skill_projectile.dart';
 import 'components/effects/screen_effects.dart';
+import 'components/effects/telegraph_component.dart';
+import 'components/npc_component.dart';
+import 'systems/audio_system.dart';
 import '../utils/game_logger.dart';
 
 /// 콜백 타입 정의
 typedef HpChangedCallback = void Function(double hp, double maxHp);
 typedef ValueChangedCallback<T> = void Function(T value);
-typedef VoidCallback = void Function();
+typedef GameVoidCallback = void Function();
 typedef FloorChangedCallback = void Function(int chapter, int floor);
 
 /// 메인 게임 클래스
@@ -33,6 +38,7 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     this.onEnemyKilled,
     this.onPerfectDodge,
     this.onFloorChanged,
+    this.onShopRequested,
     this.initialChapter = 1,
     this.initialFloor = 1,
   });
@@ -42,9 +48,10 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
   final ValueChangedCallback<double>? onManaChanged;
   final ValueChangedCallback<int>? onGoldChanged;
   final ValueChangedCallback<int>? onHeartGaugeChanged;
-  final VoidCallback? onEnemyKilled;
-  final VoidCallback? onPerfectDodge;
+  final GameVoidCallback? onEnemyKilled;
+  final GameVoidCallback? onPerfectDodge;
   final FloorChangedCallback? onFloorChanged;
+  final GameVoidCallback? onShopRequested;
 
   // 초기 챕터/층
   final int initialChapter;
@@ -75,12 +82,38 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
   double _slowMotionTimer = 0;
   double _timeScale = 1.0;
 
+  // 스테이지 클리어 상태
+  bool _isStageCleared = false;
+  double _stageClearTimer = 0;
+  static const double _stageClearDelay = 2.0;
+  StageClearComponent? _stageClearNotification;
+
+  // 게임 오버 상태
+  bool _isGameOver = false;
+  bool get isGameOver => _isGameOver;
+  GameOverComponent? _gameOverComponent;
+
+  // 적 스폰 여부 추적 (폴백 스테이지 클리어 검출용)
+  bool _hasSpawnedEnemies = false;
+
+  // 모바일 입력
+  Vector2 mobileDirection = Vector2.zero();
+
   // 에셋 경로
   static const String _assetPath =
       'itchio/0x72_DungeonTilesetII_v1.7/0x72_DungeonTilesetII_v1.7/frames/';
 
   /// 적 목록 (SpawnSystem에서 가져오기)
   List<Enemy> get enemies => _spawnSystem?.enemies.toList() ?? [];
+
+  /// 현재 상호작용 가능한 NPC
+  NpcComponent? get nearbyNpc {
+    final npcs = _spawnSystem?.npcs ?? [];
+    for (final npc in npcs) {
+      if (npc.isPlayerNearby) return npc;
+    }
+    return null;
+  }
 
   /// 화면 플래시 색상
   Color? get flashColor => ScreenEffects.instance.flashColor;
@@ -125,6 +158,7 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
         onEnemyAttackHit: (damage) => _onPlayerHitByEnemy(damage),
       );
       _spawnSystem!.spawnFromMap(_currentMap!, chapter: currentChapter);
+      _hasSpawnedEnemies = _spawnSystem!.enemies.isNotEmpty;
     } else {
       // 맵이 없으면 기본 바닥 생성 (호환성)
       world.add(FloorComponent());
@@ -144,6 +178,7 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
 
       // 기본 적 스폰
       _spawnDefaultEnemies();
+      _hasSpawnedEnemies = true;
     }
 
     // 카메라 설정
@@ -200,6 +235,9 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     }
   }
 
+  // 게임 클리어 상태
+  bool _isGameCleared = false;
+
   /// 다음 층으로 이동
   void goToNextFloor() {
     currentFloor++;
@@ -215,6 +253,8 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
       final chapterMap = MapLoader.loadMapByChapterFloor(currentChapter, currentFloor);
       if (chapterMap == null) {
         // 더 이상 챕터가 없으면 승리
+        _isGameCleared = true;
+        _showVictoryScreen();
         GameLogger.instance.log('GAME', '게임 클리어!');
         return;
       }
@@ -224,11 +264,28 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     onFloorChanged?.call(currentChapter, currentFloor);
   }
 
+  /// 승리 화면 표시
+  void _showVictoryScreen() {
+    final victory = _VictoryComponent(followTarget: player);
+    world.add(victory);
+    ScreenEffects.instance.flash(color: Colors.yellow.withAlpha(120), duration: 1.0);
+    AudioSystem.instance.playVictoryBgm();
+  }
+
   /// 현재 층 로드
   void _loadCurrentFloor() {
+    // 스테이지 클리어 상태 리셋
+    _isStageCleared = false;
+    _hasSpawnedEnemies = false;
+    _stageClearNotification?.removeFromParent();
+    _stageClearNotification = null;
+
     // 기존 맵 제거
     _mapComponent?.removeFromParent();
     _spawnSystem?.clearEnemies();
+
+    // 투사체, 이펙트 등 잔여 컴포넌트 제거
+    _cleanupWorldComponents();
 
     // 새 맵 로드
     _currentMap = MapLoader.loadMapByChapterFloor(currentChapter, currentFloor);
@@ -241,10 +298,30 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
       player.position = _currentMap!.playerSpawn.clone();
 
       // 적 스폰
-      _spawnSystem?.spawnFromMap(_currentMap!, chapter: currentChapter);
+      _spawnSystem!.spawnFromMap(_currentMap!, chapter: currentChapter);
+      _hasSpawnedEnemies = _spawnSystem!.enemies.isNotEmpty;
     }
 
     GameLogger.instance.log('GAME', '층 이동: Ch$currentChapter F$currentFloor');
+  }
+
+  /// 월드에서 투사체, 이펙트 등 잔여 컴포넌트 제거
+  void _cleanupWorldComponents() {
+    final toRemove = <Component>[];
+    for (final child in world.children) {
+      if (child is SkillProjectile ||
+          child is AreaEffectComponent ||
+          child is BuffEffectComponent ||
+          child is DamageNumberComponent ||
+          child is StageClearComponent ||
+          child is GameOverComponent ||
+          child is TelegraphComponent) {
+        toRemove.add(child);
+      }
+    }
+    for (final c in toRemove) {
+      c.removeFromParent();
+    }
   }
 
   /// 적 사망
@@ -270,9 +347,23 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     // 적 처치 콜백
     onEnemyKilled?.call();
 
-    // 모든 적 처치 시 출구 활성화 체크
-    if (_spawnSystem != null && _spawnSystem!.aliveEnemyCount == 0) {
-      GameLogger.instance.log('GAME', '모든 적 처치! 출구 활성화');
+    // 모든 적 처치 시 자동 스테이지 클리어
+    if (_spawnSystem != null && _spawnSystem!.aliveEnemyCount == 0 && !_isStageCleared) {
+      _isStageCleared = true;
+      _stageClearTimer = _stageClearDelay;
+
+      // 스테이지 클리어 알림
+      _stageClearNotification = StageClearComponent(followTarget: player);
+      world.add(_stageClearNotification!);
+
+      // 스테이지 클리어 보상: HP 15% 회복
+      final healAmount = player.maxHp * 0.15;
+      player.heal(healAmount);
+
+      // 화면 효과
+      ScreenEffects.instance.flash(color: Colors.yellow.withAlpha(80), duration: 0.3);
+
+      GameLogger.instance.log('GAME', '모든 적 처치! HP +${healAmount.toInt()} 회복. ${_stageClearDelay}초 후 다음 스테이지');
     }
   }
 
@@ -328,6 +419,49 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     return false;
   }
 
+  /// 게임 재시작
+  void _restartGame() {
+    _isGameOver = false;
+    _gameOverComponent?.removeFromParent();
+    _gameOverComponent = null;
+
+    // 플레이어 상태 리셋
+    player.hp = player.maxHp;
+    player.isDead = false;
+    player.onHpChanged?.call(player.hp, player.maxHp);
+
+    // 마나 리셋
+    mana = maxMana;
+    onManaChanged?.call(mana);
+
+    // 심장 게이지 리셋
+    heartGauge = 0;
+    onHeartGaugeChanged?.call(heartGauge);
+
+    // 버프 배율 리셋
+    player.buffDamageMultiplier = 1.0;
+    player.buffDefenseMultiplier = 1.0;
+    player.buffSpeedMultiplier = 1.0;
+
+    // 골드 리셋
+    gold = 100;
+    onGoldChanged?.call(gold);
+
+    // 챕터/층 리셋 (처음부터)
+    currentChapter = 1;
+    currentFloor = 1;
+
+    // 잔여 컴포넌트 정리
+    _cleanupWorldComponents();
+
+    // 처음 층 리로드
+    _loadCurrentFloor();
+    onFloorChanged?.call(currentChapter, currentFloor);
+
+    // 챕터 BGM 복원
+    AudioSystem.instance.playChapterBgm(currentChapter);
+  }
+
   /// 모든 적 처치 (디버그)
   void killAllEnemies() {
     for (final enemy in [...enemies]) {
@@ -367,6 +501,11 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
       direction.x += 1;
     }
 
+    // 모바일 조이스틱 방향 합산
+    if (mobileDirection.length > 0) {
+      direction += mobileDirection;
+    }
+
     player.moveDirection = direction;
 
     // 새로 눌린 키만 처리 (KeyDown 시뮬레이션)
@@ -401,6 +540,10 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
         // 궁극기 (R)
         if (key == LogicalKeyboardKey.keyR) {
           _useUltimate();
+        }
+        // NPC 상호작용 (F)
+        if (key == LogicalKeyboardKey.keyF) {
+          _checkNpcInteraction();
         }
       }
     }
@@ -440,6 +583,57 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     }
   }
 
+  /// 모바일 공격
+  void mobileAttack() {
+    if (_isGameOver || player.isDead) return;
+    final hitCount = player.attack(enemies);
+    if (hitCount > 0) {
+      mana = (mana + 5 * hitCount).clamp(0, maxMana);
+      onManaChanged?.call(mana);
+    }
+  }
+
+  /// 모바일 대시
+  void mobileDash() {
+    if (_isGameOver || player.isDead) return;
+    player.dash();
+  }
+
+  /// 모바일 스킬
+  void mobileSkill(int slot) {
+    if (_isGameOver || player.isDead) return;
+    _useSkill(slot);
+  }
+
+  /// 모바일 궁극기
+  void mobileUltimate() {
+    if (_isGameOver || player.isDead) return;
+    _useUltimate();
+  }
+
+  /// 모바일 재시작 (게임 오버 시)
+  void mobileRestart() {
+    if (_isGameOver) {
+      _restartGame();
+    }
+  }
+
+  /// NPC 상호작용 체크
+  void _checkNpcInteraction() {
+    final npc = nearbyNpc;
+    if (npc == null) return;
+
+    if (npc.npcType == 'merchant') {
+      onShopRequested?.call();
+    }
+  }
+
+  /// 모바일 NPC 상호작용
+  void mobileInteract() {
+    if (_isGameOver || player.isDead) return;
+    _checkNpcInteraction();
+  }
+
   // 마나 콜백 최적화용
   double _lastManaCallback = 0;
   static const double _manaCallbackInterval = 0.1; // 0.1초마다만 콜백
@@ -449,7 +643,67 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
 
   @override
   void update(double dt) {
-    // 슬로우 모션 처리
+    // 화면 효과 업데이트 (항상)
+    ScreenEffects.instance.update(dt);
+
+    // 카메라 흔들림 적용 (항상)
+    final shakeOffset = ScreenEffects.instance.shakeOffset;
+    camera.viewfinder.position = player.position + shakeOffset;
+
+    // ===== 게임 오버 처리 (최우선) =====
+    if (player.hp <= 0 && !_isGameOver) {
+      _isGameOver = true;
+      player.isDead = true;
+      _gameOverComponent = GameOverComponent(followTarget: player);
+      world.add(_gameOverComponent!);
+      ScreenEffects.instance.flash(color: Colors.red.withAlpha(120), duration: 0.5);
+      AudioSystem.instance.playGameOverBgm();
+      GameLogger.instance.log('GAME', '게임 오버!');
+    }
+
+    if (_isGameOver) {
+      // 게임 오버 중에는 R키 재시작만 처리
+      final keysPressed = HardwareKeyboard.instance.logicalKeysPressed;
+      for (final key in keysPressed) {
+        if (!_previousKeys.contains(key) && key == LogicalKeyboardKey.keyR) {
+          _restartGame();
+        }
+      }
+      _previousKeys.clear();
+      _previousKeys.addAll(keysPressed);
+      super.update(dt);
+      return;
+    }
+
+    // ===== 스테이지 클리어 자동 전환 =====
+    if (_isStageCleared) {
+      _stageClearTimer -= dt;
+      if (_stageClearTimer <= 0) {
+        _isStageCleared = false;
+        _stageClearNotification?.removeFromParent();
+        _stageClearNotification = null;
+        goToNextFloor();
+      }
+    }
+
+    // ===== 폴백: 적이 모두 죽었는데 스테이지 클리어가 안 된 경우 =====
+    if (!_isStageCleared && _spawnSystem != null) {
+      final aliveCount = _spawnSystem!.aliveEnemyCount;
+      final totalCount = _spawnSystem!.enemies.length;
+      // 적이 스폰된 적이 있고(totalCount는 alive만이므로 0이면 다 죽은 것), 모든 적이 죽었으면
+      if (aliveCount == 0 && _hasSpawnedEnemies) {
+        _isStageCleared = true;
+        _stageClearTimer = _stageClearDelay;
+
+        _stageClearNotification = StageClearComponent(followTarget: player);
+        world.add(_stageClearNotification!);
+
+        ScreenEffects.instance.flash(color: Colors.yellow.withAlpha(80), duration: 0.3);
+        GameLogger.instance.log('GAME', '(폴백) 모든 적 처치! ${_stageClearDelay}초 후 다음 스테이지');
+      }
+    }
+
+    // ===== 슬로우 모션 처리 =====
     if (_slowMotionTimer > 0) {
       _slowMotionTimer -= dt;
       if (_slowMotionTimer <= 0) {
@@ -457,18 +711,9 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
       }
     }
 
-    // 화면 효과 업데이트
-    ScreenEffects.instance.update(dt);
-
     // 히트스톱 적용
     final effectTimeScale = ScreenEffects.instance.timeScale;
-
-    // 시간 스케일 적용
     final scaledDt = dt * _timeScale * effectTimeScale;
-
-    // 카메라 흔들림 적용
-    final shakeOffset = ScreenEffects.instance.shakeOffset;
-    camera.viewfinder.position = player.position + shakeOffset;
 
     // 플레이어 위치 저장 (충돌 롤백용)
     _playerPreviousPosition = player.position.clone();
@@ -480,9 +725,9 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
     final prevMana = mana;
     mana = (mana + 2 * scaledDt).clamp(0, maxMana);
 
-    // 마나 콜백 - 일정 간격으로만 호출
+    // 마나 콜백 - 정수 단위 변경 시만 호출
     _lastManaCallback += dt;
-    if (_lastManaCallback >= _manaCallbackInterval && (mana - prevMana).abs() > 0.01) {
+    if (_lastManaCallback >= _manaCallbackInterval && mana.toInt() != prevMana.toInt()) {
       onManaChanged?.call(mana);
       _lastManaCallback = 0;
     }
@@ -500,19 +745,52 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
       player.position = _playerPreviousPosition;
     }
 
-    // 출구 체크 (모든 적 처치 후)
-    if (_currentMap != null && _spawnSystem != null && _spawnSystem!.aliveEnemyCount == 0) {
-      final exitDistance = (player.position - _currentMap!.exitPoint).length;
-      if (exitDistance < 30) {
-        goToNextFloor();
-      }
-    }
-
-    // 데미지 타일 체크
+    // 데미지 타일 체크 (환경 피해: 무적 무시, 지속 피해)
     if (_mapComponent != null) {
       final tileDamage = _mapComponent!.getDamageAt(player.position);
       if (tileDamage > 0) {
-        player.takeDamage(tileDamage * scaledDt);
+        player.takeEnvironmentDamage(tileDamage * scaledDt);
+      }
+    }
+
+    // 접촉 데미지 체크 (적과 플레이어 충돌)
+    _checkContactDamage(scaledDt);
+  }
+
+  // 접촉 데미지 쿨다운
+  double _contactDamageCooldown = 0;
+  static const double _contactDamageInterval = 0.4; // 0.4초마다 접촉 데미지
+
+  /// 적과의 접촉 데미지 체크
+  void _checkContactDamage(double dt) {
+    if (player.isInvulnerable) return;
+    if (_contactDamageCooldown > 0) {
+      _contactDamageCooldown -= dt;
+      return;
+    }
+
+    for (final enemy in enemies) {
+      if (enemy.isDead) continue;
+
+      final distance = (enemy.position - player.position).length;
+      const contactRange = 18.0; // 접촉 판정 범위
+
+      if (distance < contactRange) {
+        final contactDamage = enemy.attackDamage * 0.6; // 접촉 데미지 = 공격력의 60%
+        player.takeDamage(contactDamage);
+        _contactDamageCooldown = _contactDamageInterval;
+
+        // 넉백 (플레이어)
+        final knockDir = (player.position - enemy.position).normalized();
+        final knockPos = player.position + knockDir * 25;
+        if (_mapComponent == null || !_mapComponent!.isColliding(knockPos, player.size)) {
+          player.position = knockPos;
+        }
+
+        // 화면 흔들림 (접촉 피격 피드백)
+        ScreenEffects.instance.shake(intensity: 1.5, duration: 0.1);
+
+        break; // 프레임당 한 번만
       }
     }
   }
@@ -530,6 +808,79 @@ class ArcanaGame extends FlameGame with HasCollisionDetection {
           onManaChanged?.call(mana);
         }
       }
+    }
+  }
+}
+
+/// 승리 화면 컴포넌트
+class _VictoryComponent extends PositionComponent {
+  _VictoryComponent({required this.followTarget});
+
+  final PositionComponent followTarget;
+  double _elapsed = 0;
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    _elapsed += dt;
+    position = followTarget.position;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    final fadeIn = (_elapsed / 0.8).clamp(0.0, 1.0);
+    final alpha = (fadeIn * 255).toInt();
+
+    // 어두운 배경
+    canvas.drawRect(
+      const Rect.fromLTWH(-200, -150, 400, 300),
+      Paint()..color = Color.fromARGB((alpha * 0.5).toInt(), 0, 0, 30),
+    );
+
+    // "VICTORY!" 텍스트
+    final textPainter = TextPainter(
+      text: TextSpan(
+        text: 'VICTORY!',
+        style: TextStyle(
+          color: Color.fromARGB(alpha, 255, 215, 0),
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 4,
+          shadows: [
+            Shadow(
+              color: Color.fromARGB(alpha, 0, 0, 0),
+              blurRadius: 6,
+              offset: const Offset(2, 2),
+            ),
+          ],
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    textPainter.paint(
+      canvas,
+      Offset(-textPainter.width / 2, -textPainter.height / 2 - 10),
+    );
+
+    // 안내
+    if (_elapsed > 2.0) {
+      final subAlpha = ((_elapsed - 2.0) / 0.5).clamp(0.0, 1.0);
+      final subPainter = TextPainter(
+        text: TextSpan(
+          text: 'Congratulations!',
+          style: TextStyle(
+            color: Color.fromARGB((subAlpha * 200).toInt(), 255, 255, 255),
+            fontSize: 10,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      );
+      subPainter.layout();
+      subPainter.paint(
+        canvas,
+        Offset(-subPainter.width / 2, 15),
+      );
     }
   }
 }

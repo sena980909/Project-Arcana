@@ -17,6 +17,7 @@ class HudOverlay extends StatelessWidget {
     required this.lastKey,
     this.skillSlots,
     this.skillCooldowns,
+    this.showNpcHint = false,
     super.key,
   });
 
@@ -29,6 +30,7 @@ class HudOverlay extends StatelessWidget {
   final String lastKey;
   final SkillSlots? skillSlots;
   final Map<String, double>? skillCooldowns;
+  final bool showNpcHint;
 
   @override
   Widget build(BuildContext context) {
@@ -224,13 +226,31 @@ class HudOverlay extends StatelessWidget {
                 style: TextStyle(color: Colors.white70, fontSize: 11),
               ),
               const Text(
-                'Q/W/E: 스킬 | R: 궁극기 | E/F4: 상점',
+                'Q/E/X: 스킬 | R: 궁극기 | I: 인벤토리 | F: 대화',
                 style: TextStyle(color: Colors.white70, fontSize: 11),
               ),
               const Text(
                 'F1: 디버그 | F3: 적 처치 | F5: 저장 | F9: 불러오기',
                 style: TextStyle(color: Colors.white70, fontSize: 11),
               ),
+              if (showNpcHint)
+                Container(
+                  margin: const EdgeInsets.only(top: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.withAlpha(40),
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(color: Colors.amber.withAlpha(120)),
+                  ),
+                  child: const Text(
+                    'F: 상인과 대화',
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

@@ -2,9 +2,12 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../data/services/database_service.dart';
 import '../game/systems/audio_system.dart';
+import 'settings_overlay.dart';
 
 /// 메인 메뉴 오버레이
 class MainMenuOverlay extends StatefulWidget {
@@ -29,8 +32,10 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
   late Animation<double> _fadeAnim;
 
   bool _showLoadScreen = false;
+  bool _showSettings = false;
   List<SaveSlot?> _saveSlots = [null, null, null];
   bool _hasContinueData = false;
+  bool _bgmStarted = false;
 
   @override
   void initState() {
@@ -44,8 +49,20 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
 
     _loadSaveData();
 
-    // 메인 타이틀 BGM 재생
-    AudioSystem.instance.playMainTitleBgm();
+    // 메인 타이틀 BGM 재생 시도
+    _tryPlayBgm();
+  }
+
+  Future<void> _tryPlayBgm() async {
+    await AudioSystem.instance.playMainTitleBgm();
+    _bgmStarted = true;
+  }
+
+  /// 사용자 인터랙션 시 BGM 재시도 (브라우저 autoplay 정책 대응)
+  void _ensureBgm() {
+    if (!_bgmStarted) {
+      _tryPlayBgm();
+    }
   }
 
   Future<void> _loadSaveData() async {
@@ -64,21 +81,38 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF0a0a1a),
-            Color(0xFF1a1a2e),
-            Color(0xFF16213e),
-          ],
+    return GestureDetector(
+      onTap: _ensureBgm,
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF0a0a1a),
+              Color(0xFF1a1a2e),
+              Color(0xFF16213e),
+            ],
+          ),
         ),
-      ),
-      child: FadeTransition(
-        opacity: _fadeAnim,
-        child: _showLoadScreen ? _buildLoadScreen() : _buildMainMenu(),
+        child: FadeTransition(
+          opacity: _fadeAnim,
+          child: Stack(
+            children: [
+              _showLoadScreen ? _buildLoadScreen() : _buildMainMenu(),
+              if (_showSettings)
+                GestureDetector(
+                  onTap: () => setState(() => _showSettings = false),
+                  child: Container(
+                    color: Colors.black.withAlpha(150),
+                    child: SettingsOverlay(
+                      onClose: () => setState(() => _showSettings = false),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -107,13 +141,36 @@ class _MainMenuOverlayState extends State<MainMenuOverlay>
           const SizedBox(height: 16),
 
           _buildMenuButton('설정', () {
-            // TODO: 설정 화면
-          }, enabled: false),
+            _ensureBgm();
+            setState(() => _showSettings = true);
+          }),
           const SizedBox(height: 16),
 
           _buildMenuButton('종료', () {
-            // 앱 종료
-          }, enabled: false),
+            if (kIsWeb) {
+              // 웹: 메인 메뉴로 돌아온 상태이므로 안내 표시
+              showDialog(
+                context: context,
+                builder: (ctx) => AlertDialog(
+                  backgroundColor: const Color(0xFF1a1a2e),
+                  title: const Text('종료', style: TextStyle(color: Colors.amber)),
+                  content: const Text(
+                    '브라우저 탭을 닫아 게임을 종료할 수 있습니다.',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: const Text('확인', style: TextStyle(color: Colors.amber)),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              // 네이티브: 앱 종료
+              SystemNavigator.pop();
+            }
+          }),
         ],
       ),
     );

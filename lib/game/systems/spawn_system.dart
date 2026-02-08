@@ -10,6 +10,7 @@ import '../../data/models/monster_data.dart';
 import '../../data/repositories/config_repository.dart';
 import '../enemy.dart';
 import '../player.dart';
+import '../components/npc_component.dart';
 import 'map_loader.dart';
 
 /// 스폰 시스템
@@ -30,10 +31,14 @@ class SpawnSystem {
   final void Function(double)? onEnemyAttackHit;
 
   final List<Enemy> _enemies = [];
+  final List<NpcComponent> _npcs = [];
   final Random _random = Random();
 
   /// 스폰된 적 목록
   List<Enemy> get enemies => List.unmodifiable(_enemies);
+
+  /// NPC 목록
+  List<NpcComponent> get npcs => List.unmodifiable(_npcs);
 
   /// 맵의 스폰 포인트에서 적 생성
   void spawnFromMap(LoadedMap loadedMap, {int chapter = 1}) {
@@ -50,8 +55,7 @@ class SpawnSystem {
           // TODO: 상자 생성
           break;
         case 'npc':
-          // TODO: NPC 생성
-          break;
+          _spawnNpc(spawnPoint);
       }
     }
   }
@@ -133,6 +137,26 @@ class SpawnSystem {
     world.add(enemy);
   }
 
+  /// NPC 스폰
+  void _spawnNpc(SpawnPoint spawnPoint) {
+    final position = Vector2(
+      spawnPoint.x * MapLoader.tileSize + MapLoader.tileSize / 2,
+      spawnPoint.y * MapLoader.tileSize + MapLoader.tileSize / 2,
+    );
+
+    final npcType = spawnPoint.monsterId ?? 'merchant';
+
+    final npc = NpcComponent(
+      position: position,
+      assetPath: assetPath,
+      player: player,
+      npcType: npcType,
+    );
+
+    _npcs.add(npc);
+    world.add(npc);
+  }
+
   /// 랜덤 몬스터 ID 선택
   String _getRandomMonsterId(int chapter) {
     final monsters = _getMonstersForChapter(chapter);
@@ -181,7 +205,7 @@ class SpawnSystem {
 
   /// 챕터별 몬스터 스케일링
   MonsterData _scaleMonster(MonsterData base, int chapter) {
-    final scale = 1.0 + (chapter - 1) * 0.2;
+    final scale = 1.0 + (chapter - 1) * 0.4;
     return MonsterData(
       id: base.id,
       name: base.name,
@@ -212,7 +236,7 @@ class SpawnSystem {
 
   /// 챕터별 보스 스케일링
   MonsterData _scaleBoss(MonsterData base, int chapter) {
-    final scale = 1.0 + (chapter - 1) * 0.3;
+    final scale = 1.0 + (chapter - 1) * 0.5;
     return MonsterData(
       id: base.id,
       name: base.name,
@@ -270,6 +294,11 @@ class SpawnSystem {
       enemy.removeFromParent();
     }
     _enemies.clear();
+
+    for (final npc in _npcs) {
+      npc.removeFromParent();
+    }
+    _npcs.clear();
   }
 
   /// 모든 적 처치

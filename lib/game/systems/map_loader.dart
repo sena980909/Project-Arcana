@@ -152,6 +152,7 @@ class MapComponent extends PositionComponent {
             loadedMap.width * MapLoader.tileSize,
             loadedMap.height * MapLoader.tileSize,
           ),
+          priority: -10, // 항상 배경으로 렌더링 (다른 컴포넌트보다 먼저)
         );
 
   final LoadedMap loadedMap;
@@ -263,12 +264,16 @@ class MapComponent extends PositionComponent {
 
   /// 충돌 체크
   bool isColliding(Vector2 position, Vector2 size) {
-    // 사각형의 네 모서리 체크
+    // 충돌 히트박스를 스프라이트보다 작게 (1타일 통로 통과 가능하도록)
+    // 가로 12px, 세로 12px 히트박스 (중심 기준 ±6)
+    const double halfW = 6;
+    const double halfH = 6;
+
     final corners = [
-      position - size / 2,
-      Vector2(position.x + size.x / 2, position.y - size.y / 2),
-      Vector2(position.x - size.x / 2, position.y + size.y / 2),
-      position + size / 2,
+      Vector2(position.x - halfW, position.y - halfH),
+      Vector2(position.x + halfW, position.y - halfH),
+      Vector2(position.x - halfW, position.y + halfH),
+      Vector2(position.x + halfW, position.y + halfH),
     ];
 
     for (final corner in corners) {

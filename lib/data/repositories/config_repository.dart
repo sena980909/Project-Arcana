@@ -136,10 +136,14 @@ class ConfigRepository {
 
   /// 심장 타입으로 궁극기 가져오기
   UltimateData? getUltimateByHeart(String heartType) {
-    return _ultimatesCache?.values.firstWhere(
-      (u) => u.heartType == heartType,
-      orElse: () => _ultimatesCache!.values.first,
-    );
+    if (_ultimatesCache == null || _ultimatesCache!.isEmpty) return null;
+    try {
+      return _ultimatesCache!.values.firstWhere(
+        (u) => u.heartType == heartType,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   /// 모든 아이템 데이터
@@ -161,10 +165,14 @@ class ConfigRepository {
 
   /// 챕터와 층으로 맵 가져오기
   MapData? getMapByChapterFloor(int chapter, int floor) {
-    return _mapsCache?.values.firstWhere(
-      (m) => m.chapter == chapter && m.floor == floor,
-      orElse: () => _mapsCache!.values.first,
-    );
+    if (_mapsCache == null || _mapsCache!.isEmpty) return null;
+    try {
+      return _mapsCache!.values.firstWhere(
+        (m) => m.chapter == chapter && m.floor == floor,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   /// 챕터의 모든 맵

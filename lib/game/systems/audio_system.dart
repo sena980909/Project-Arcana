@@ -33,7 +33,11 @@ class AudioSystem {
 
   // 오디오 플레이어
   final AudioPlayer _bgmPlayer = AudioPlayer();
-  final AudioPlayer _sfxPlayer = AudioPlayer();
+
+  // SFX 풀 (동시 다중 재생용)
+  static const int _sfxPoolSize = 6;
+  final List<AudioPlayer> _sfxPool = [];
+  int _sfxPoolIndex = 0;
 
   /// BGM 파일 매핑 (assets/bgm 폴더 기준)
   static const Map<BgmType, String> _bgmFiles = {
@@ -56,6 +60,13 @@ class AudioSystem {
       // BGM 플레이어 설정 - 루프
       await _bgmPlayer.setReleaseMode(ReleaseMode.loop);
       await _bgmPlayer.setVolume(_bgmVolume);
+
+      // SFX 풀 초기화
+      for (int i = 0; i < _sfxPoolSize; i++) {
+        final player = AudioPlayer();
+        await player.setReleaseMode(ReleaseMode.release);
+        _sfxPool.add(player);
+      }
 
       _isInitialized = true;
       debugPrint('AudioSystem 초기화 완료');
@@ -162,16 +173,19 @@ class AudioSystem {
     }
   }
 
-  /// SFX 재생
+  /// SFX 재생 (풀에서 다음 플레이어 사용 → 동시 재생 가능)
   Future<void> playSfx(String filename) async {
-    if (!_sfxEnabled || !_isInitialized) return;
+    if (!_sfxEnabled || !_isInitialized || _sfxPool.isEmpty) return;
 
     try {
-      await _sfxPlayer.play(AssetSource('sfx/$filename'));
-      await _sfxPlayer.setVolume(_sfxVolume);
+      final player = _sfxPool[_sfxPoolIndex % _sfxPoolSize];
+      _sfxPoolIndex++;
+      await player.stop(); // 이전 재생 중이면 정지
+      await player.setVolume(_sfxVolume);
+      await player.play(AssetSource('sfx/$filename'));
     } catch (e) {
-      // SFX 파일 없으면 무시 (효과음 추가 전까지)
-      debugPrint('SFX 재생 실패 (파일 없음): $filename');
+      // SFX 파일 없으면 무시
+      debugPrint('SFX 재생 실패: $filename ($e)');
     }
   }
 
@@ -277,7 +291,10 @@ class AudioSystem {
   Future<void> dispose() async {
     await stopBgm();
     await _bgmPlayer.dispose();
-    await _sfxPlayer.dispose();
+    for (final player in _sfxPool) {
+      await player.dispose();
+    }
+    _sfxPool.clear();
     _isInitialized = false;
   }
 }

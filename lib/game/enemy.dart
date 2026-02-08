@@ -7,6 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 import 'player.dart';
+import 'systems/map_loader.dart';
 import 'components/effects/telegraph_component.dart';
 import 'components/effects/screen_effects.dart';
 import '../utils/game_logger.dart';
@@ -74,6 +75,9 @@ class Enemy extends PositionComponent {
   // 이펙트 타이머
   double _hitFlashTimer = 0;
   double _deathTimer = 0;
+
+  // 사망 파티클
+  final List<_DeathParticle> _deathParticles = [];
 
   @override
   Future<void> onLoad() async {
@@ -195,7 +199,39 @@ class Enemy extends PositionComponent {
 
     if (isDead) {
       _deathTimer += dt;
-      if (_deathTimer >= 0.3) {
+
+      // 파티클 업데이트
+      for (final p in _deathParticles) {
+        p.update(dt);
+      }
+
+      if (_animationComponent != null) {
+        if (_deathTimer < 0.3) {
+          // 페이즈 1 (0~0.3초): 빨간→흰 깜빡임 (3회)
+          final blinkPhase = (_deathTimer * 10).floor() % 2;
+          if (blinkPhase == 0) {
+            _animationComponent!.paint.color = Colors.red;
+          } else {
+            _animationComponent!.paint.color = Colors.white;
+          }
+        } else {
+          // 페이즈 2 (0.3~0.8초): 반투명 + 납작해짐
+          final fadeProgress = ((_deathTimer - 0.3) / 0.5).clamp(0.0, 1.0);
+          final alpha = ((1.0 - fadeProgress) * 255).toInt().clamp(0, 255);
+          _animationComponent!.paint.color = Colors.white.withAlpha(alpha);
+
+          // 납작해짐 (scaleY 축소)
+          final scaleY = 1.0 - fadeProgress * 0.7;
+          final scaleX = 1.0 + fadeProgress * 0.2; // 약간 옆으로 퍼짐
+          _animationComponent!.scale = Vector2(
+            (_facingRight ? scaleX : -scaleX),
+            scaleY,
+          );
+          // 아래로 내려감 (납작해지니 바닥 고정)
+          _animationComponent!.position.y += dt * 8;
+        }
+      }
+      if (_deathTimer >= 0.8) {
         removeFromParent();
       }
       return;
@@ -225,9 +261,6 @@ class Enemy extends PositionComponent {
   }
 
   void _updateAI(double dt) {
-    _actionTimer -= dt;
-    if (_actionTimer > 0 && !_isChasing) return;
-
     final toPlayer = player.position - position;
     final distance = toPlayer.length;
 
@@ -237,27 +270,38 @@ class Enemy extends PositionComponent {
       // 공격 범위 내에서 쿨다운이 끝났으면 공격
       if (distance <= attackRange && _attackCooldownTimer <= 0 && !_isAttacking) {
         _startAttack();
-      } else if (distance > attackRange * 0.8) {
-        // 공격 범위 밖이면 추적
-        _moveDirection = toPlayer.normalized();
-        _facingRight = _moveDirection.x > 0;
+      } else if (distance > attackRange * 0.6) {
+        // 추적: 매 프레임 플레이어 방향으로 부드럽게 추적
+        final targetDir = toPlayer.normalized();
+        // 기존 방향과 보간하여 부드러운 이동 (급격한 방향전환 방지)
+        if (_moveDirection.length > 0) {
+          _moveDirection = (_moveDirection * 0.7 + targetDir * 0.3).normalized();
+        } else {
+          _moveDirection = targetDir;
+        }
+        if (toPlayer.x.abs() > 2) {
+          _facingRight = toPlayer.x > 0;
+        }
       } else {
-        // 공격 범위 내면 정지
+        // 공격 대기: 완전 정지 대신 약간 선회
         _moveDirection = Vector2.zero();
       }
     } else {
       _isChasing = false;
-      // 랜덤 배회 (확률 낮춤)
-      if (Random().nextDouble() < 0.2) {
-        final angle = Random().nextDouble() * 2 * pi;
-        _moveDirection = Vector2(cos(angle), sin(angle));
-        _facingRight = _moveDirection.x > 0;
-      } else {
-        _moveDirection = Vector2.zero();
+
+      // 배회 AI (타이머 기반)
+      _actionTimer -= dt;
+      if (_actionTimer <= 0) {
+        if (Random().nextDouble() < 0.3) {
+          final angle = Random().nextDouble() * 2 * pi;
+          _moveDirection = Vector2(cos(angle), sin(angle));
+          _facingRight = _moveDirection.x > 0;
+        } else {
+          _moveDirection = Vector2.zero();
+        }
+        _actionTimer = 1.0 + Random().nextDouble() * 1.5;
       }
     }
-
-    _actionTimer = _isChasing ? 0.1 : 1.5;
   }
 
   /// 공격 시작
@@ -318,6 +362,12 @@ class Enemy extends PositionComponent {
   void _executeAttack(AttackPattern pattern, double direction) {
     _currentTelegraph = null;
 
+    // 죽은 상태면 공격 안 함
+    if (isDead) {
+      _isAttacking = false;
+      return;
+    }
+
     // 플레이어와의 거리/방향 체크
     final toPlayer = player.position - position;
     final distance = toPlayer.length;
@@ -367,11 +417,29 @@ class Enemy extends PositionComponent {
     // 공격 후 쿨다운
     _attackCooldownTimer = pattern.cooldown;
     _isAttacking = false;
+
+    // 공격 직후 바로 추적 재개
+    if (_isChasing) {
+      final toPlayer = player.position - position;
+      if (toPlayer.length > 0) {
+        _moveDirection = toPlayer.normalized();
+      }
+    }
   }
 
   void _updateMovement(double dt) {
     if (_moveDirection.length > 0) {
+      final previousPosition = position.clone();
       position += _moveDirection * speed * dt;
+
+      // 맵 경계 확인 (MapComponent가 있는 경우)
+      final mapComponent = parent?.children.whereType<MapComponent>().firstOrNull;
+      if (mapComponent != null) {
+        if (mapComponent.isColliding(position, size)) {
+          position = previousPosition; // 벽에 부딪히면 롤백
+          _moveDirection = Vector2.zero(); // 이동 중지
+        }
+      }
     }
     _animationComponent?.scale.x = _facingRight ? 1 : -1;
   }
@@ -407,9 +475,20 @@ class Enemy extends PositionComponent {
     // 로그
     GameLogger.instance.logEnemyHit(enemyType, damage, hp);
 
-    // 넉백
+    // 넉백 (벽 충돌 체크)
     final knockbackDir = (position - player.position).normalized();
-    position += knockbackDir * 15;
+    final knockbackPos = position + knockbackDir * 15;
+    final mapComponent = parent?.children.whereType<MapComponent>().firstOrNull;
+    if (mapComponent != null && mapComponent.isColliding(knockbackPos, size)) {
+      // 벽이면 넉백 절반만 시도
+      final halfKnockback = position + knockbackDir * 7;
+      if (!mapComponent.isColliding(halfKnockback, size)) {
+        position = halfKnockback;
+      }
+      // 둘 다 벽이면 넉백 안 함
+    } else {
+      position = knockbackPos;
+    }
 
     if (hp <= 0) {
       _die();
@@ -425,8 +504,26 @@ class Enemy extends PositionComponent {
 
     GameLogger.instance.logEnemyDeath(enemyType, position.x, position.y, remainingHp: hp);
     onDeath?.call(this);
-    _animationComponent?.paint.color = Colors.grey;
+
+    // 사망 즉시: 빨간 플래시
+    _animationComponent?.paint.color = Colors.red;
     _deathTimer = 0;
+
+    // 사망 파티클 생성 (3~5개)
+    final rng = Random();
+    final particleCount = 3 + rng.nextInt(3);
+    for (int i = 0; i < particleCount; i++) {
+      final angle = rng.nextDouble() * 2 * pi;
+      final speed = 40.0 + rng.nextDouble() * 60;
+      _deathParticles.add(_DeathParticle(
+        x: 0,
+        y: 0,
+        vx: cos(angle) * speed,
+        vy: sin(angle) * speed,
+        radius: 2.0 + rng.nextDouble() * 2,
+        life: 0.5 + rng.nextDouble() * 0.3,
+      ));
+    }
   }
 
   @override
@@ -458,5 +555,57 @@ class Enemy extends PositionComponent {
         Paint()..color = Colors.orange,
       );
     }
+
+    // 사망 파티클 렌더링
+    if (isDead) {
+      _renderDeathParticles(canvas);
+    }
+  }
+
+  /// 사망 파티클 렌더링
+  void _renderDeathParticles(Canvas canvas) {
+    for (final p in _deathParticles) {
+      if (p.life <= 0) continue;
+      final alpha = (p.life / p.maxLife * 255).toInt().clamp(0, 255);
+      canvas.drawCircle(
+        Offset(p.x, p.y),
+        p.radius * (p.life / p.maxLife),
+        Paint()..color = Color.fromARGB(alpha, 255, 100, 60),
+      );
+      // 글로우
+      canvas.drawCircle(
+        Offset(p.x, p.y),
+        p.radius * 2 * (p.life / p.maxLife),
+        Paint()
+          ..color = Color.fromARGB((alpha * 0.3).toInt(), 255, 150, 80)
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
+      );
+    }
+  }
+}
+
+/// 사망 파티클 데이터
+class _DeathParticle {
+  _DeathParticle({
+    required this.x,
+    required this.y,
+    required this.vx,
+    required this.vy,
+    required this.radius,
+    required double life,
+  }) : life = life, maxLife = life;
+
+  double x, y;
+  double vx, vy;
+  double radius;
+  double life;
+  final double maxLife;
+
+  void update(double dt) {
+    x += vx * dt;
+    y += vy * dt;
+    vx *= 0.95; // 감속
+    vy *= 0.95;
+    life -= dt;
   }
 }
